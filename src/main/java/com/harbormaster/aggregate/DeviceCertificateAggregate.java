@@ -67,9 +67,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateDeviceCertificateEvent</li>
  *      <li>DeleteDeviceCertificateEvent</li>
    *       <li>AssignDeviceToDeviceCertificateEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromDeviceCertificateEvent</li>
   *       <li>AssignGatewayToDeviceCertificateEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignGatewayFromDeviceCertificateEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -217,8 +217,8 @@ public class DeviceCertificateAggregate {
     private UUID deviceCertificateId;
     
     private String serialNumber;
-    private DateTime notBefore;
-    private DateTime notAfter;
+    private  Date notBefore;
+    private  Date notAfter;
     private String fingerprint;
     private CertificateType certificateType;
     private IoTDevice device = null;

@@ -100,7 +100,6 @@ public class FirmwareReleaseCommandRestController extends BaseSpringRestControll
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateFirmwareReleaseCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createFirmwareRelease( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class FirmwareReleaseCommandRestController extends BaseSpringRestControll
 		DeleteFirmwareReleaseCommand command = new DeleteFirmwareReleaseCommand( firmwareReleaseId );
 
     	try {
-        	FirmwareReleaseService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted FirmwareRelease with key " + command.getFirmwareReleaseId() );
         }
         catch( Throwable exc ) {

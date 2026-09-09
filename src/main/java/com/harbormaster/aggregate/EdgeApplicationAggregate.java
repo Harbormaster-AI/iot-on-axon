@@ -65,7 +65,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateEdgeApplicationEvent</li>
  *      <li>DeleteEdgeApplicationEvent</li>
    *       <li>AssignGatewayToEdgeApplicationEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignGatewayFromEdgeApplicationEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>

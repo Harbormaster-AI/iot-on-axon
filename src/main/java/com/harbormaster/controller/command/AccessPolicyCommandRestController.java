@@ -100,7 +100,6 @@ public class AccessPolicyCommandRestController extends BaseSpringRestController 
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateAccessPolicyCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createAccessPolicy( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class AccessPolicyCommandRestController extends BaseSpringRestController 
 		DeleteAccessPolicyCommand command = new DeleteAccessPolicyCommand( accessPolicyId );
 
     	try {
-        	AccessPolicyService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted AccessPolicy with key " + command.getAccessPolicyId() );
         }
         catch( Throwable exc ) {

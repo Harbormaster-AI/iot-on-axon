@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TwinChangeEvent")
 public class TwinChangeEventRestController extends BaseSpringRestController {
 
+	public TwinChangeEventRestController( TwinChangeEventService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a TwinChangeEvent.  if not key provided, calls create, otherwise calls save
      * @param		TwinChangeEvent	twinChangeEvent
@@ -94,7 +98,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TwinChangeEventService.getTwinChangeEventInstance().createTwinChangeEvent( command );
+			completableFuture = service.createTwinChangeEvent( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTwinChangeEventCommand
 			// -----------------------------------------------
-			completableFuture = TwinChangeEventService.getTwinChangeEventInstance().updateTwinChangeEvent(command);;
+			completableFuture = service.updateTwinChangeEvent(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TwinChangeEventController:update() - successfully update TwinChangeEvent - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTwinChangeEventCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TwinChangeEventService delegate = TwinChangeEventService.getTwinChangeEventInstance();
+        	TwinChangeEventService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TwinChangeEvent with key " + command.getTwinChangeEventId() );
@@ -155,7 +159,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
     	TwinChangeEvent entity = null;
 
     	try {  
-    		entity = TwinChangeEventService.getTwinChangeEventInstance().getTwinChangeEvent( new TwinChangeEventFetchOneSummary( uuid ) );   
+    		entity = service.getTwinChangeEvent( new TwinChangeEventFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TwinChangeEvent using Id " + uuid );
@@ -175,7 +179,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
         
     	try {
             // load the TwinChangeEvent
-            twinChangeEventList = TwinChangeEventService.getTwinChangeEventInstance().getAllTwinChangeEvent();
+            twinChangeEventList = service.getAllTwinChangeEvent();
             
             if ( twinChangeEventList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TwinChangeEvents" );
@@ -196,7 +200,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
 	@PutMapping("/assignTwin")
 	public void assignTwin( @RequestBody AssignTwinToTwinChangeEventCommand command ) {
 		try {
-			TwinChangeEventService.getTwinChangeEventInstance().assignTwin( command );   
+			service.assignTwin( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Twin", exc );
@@ -210,7 +214,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTwin")
 	public void unAssignTwin( @RequestBody(required=true)  UnAssignTwinFromTwinChangeEventCommand command ) {
 		try {
-			TwinChangeEventService.getTwinChangeEventInstance().unAssignTwin( command );   
+			service.unAssignTwin( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Twin", exc );
@@ -225,6 +229,7 @@ public class TwinChangeEventRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TwinChangeEvent twinChangeEvent = null;
-    private static final Logger LOGGER = Logger.getLogger(TwinChangeEventRestController.class.getName());
+	protected TwinChangeEventService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TwinChangeEventRestController.class.getName());
     
 }

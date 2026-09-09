@@ -100,7 +100,6 @@ public class DataRetentionPolicyCommandRestController extends BaseSpringRestCont
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateDataRetentionPolicyCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createDataRetentionPolicy( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class DataRetentionPolicyCommandRestController extends BaseSpringRestCont
 		DeleteDataRetentionPolicyCommand command = new DeleteDataRetentionPolicyCommand( dataRetentionPolicyId );
 
     	try {
-        	DataRetentionPolicyService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DataRetentionPolicy with key " + command.getDataRetentionPolicyId() );
         }
         catch( Throwable exc ) {

@@ -100,7 +100,6 @@ public class CommandDefinitionCommandRestController extends BaseSpringRestContro
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateCommandDefinitionCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createCommandDefinition( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class CommandDefinitionCommandRestController extends BaseSpringRestContro
 		DeleteCommandDefinitionCommand command = new DeleteCommandDefinitionCommand( commandDefinitionId );
 
     	try {
-        	CommandDefinitionService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CommandDefinition with key " + command.getCommandDefinitionId() );
         }
         catch( Throwable exc ) {

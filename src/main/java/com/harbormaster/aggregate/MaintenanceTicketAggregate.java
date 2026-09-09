@@ -67,9 +67,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateMaintenanceTicketEvent</li>
  *      <li>DeleteMaintenanceTicketEvent</li>
    *       <li>AssignDeviceToMaintenanceTicketEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromMaintenanceTicketEvent</li>
   *       <li>AssignTenantToMaintenanceTicketEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromMaintenanceTicketEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -217,8 +217,8 @@ public class MaintenanceTicketAggregate {
     private UUID maintenanceTicketId;
     
     private String ticketNumber;
-    private DateTime openedAt;
-    private DateTime closedAt;
+    private  Date openedAt;
+    private  Date closedAt;
     private MaintenancePriority priority;
     private MaintenanceStatus status;
     private IoTDevice device = null;

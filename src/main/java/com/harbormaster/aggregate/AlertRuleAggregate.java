@@ -79,7 +79,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateAlertRuleEvent</li>
  *      <li>DeleteAlertRuleEvent</li>
    *       <li>AssignTenantToAlertRuleEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromAlertRuleEvent</li>
    *       <li>AssignStreamsToAlertRuleEvent</li>
  *       <li>RemoveStreamsFromAlertRuleEvent</li>
   *       <li>AssignAlertsToAlertRuleEvent</li>

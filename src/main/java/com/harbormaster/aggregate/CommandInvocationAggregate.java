@@ -71,13 +71,13 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateCommandInvocationEvent</li>
  *      <li>DeleteCommandInvocationEvent</li>
    *       <li>AssignDeviceToCommandInvocationEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromCommandInvocationEvent</li>
   *       <li>AssignCommandDefinitionToCommandInvocationEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignCommandDefinitionFromCommandInvocationEvent</li>
   *       <li>AssignActuatorToCommandInvocationEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignActuatorFromCommandInvocationEvent</li>
   *       <li>AssignUserToCommandInvocationEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignUserFromCommandInvocationEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -287,8 +287,8 @@ public class CommandInvocationAggregate {
     private UUID commandInvocationId;
     
     private String invocationId;
-    private DateTime requestedAt;
-    private DateTime completedAt;
+    private  Date requestedAt;
+    private  Date completedAt;
     private CommandStatus status;
     private IoTDevice device = null;
     private CommandDefinition commandDefinition = null;

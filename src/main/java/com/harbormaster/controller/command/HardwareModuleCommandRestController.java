@@ -100,7 +100,6 @@ public class HardwareModuleCommandRestController extends BaseSpringRestControlle
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateHardwareModuleCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createHardwareModule( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class HardwareModuleCommandRestController extends BaseSpringRestControlle
 		DeleteHardwareModuleCommand command = new DeleteHardwareModuleCommand( hardwareModuleId );
 
     	try {
-        	HardwareModuleService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted HardwareModule with key " + command.getHardwareModuleId() );
         }
         catch( Throwable exc ) {

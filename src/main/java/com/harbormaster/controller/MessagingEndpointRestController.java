@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/MessagingEndpoint")
 public class MessagingEndpointRestController extends BaseSpringRestController {
 
+	public MessagingEndpointRestController( MessagingEndpointService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a MessagingEndpoint.  if not key provided, calls create, otherwise calls save
      * @param		MessagingEndpoint	messagingEndpoint
@@ -94,7 +98,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = MessagingEndpointService.getMessagingEndpointInstance().createMessagingEndpoint( command );
+			completableFuture = service.createMessagingEndpoint( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateMessagingEndpointCommand
 			// -----------------------------------------------
-			completableFuture = MessagingEndpointService.getMessagingEndpointInstance().updateMessagingEndpoint(command);;
+			completableFuture = service.updateMessagingEndpoint(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "MessagingEndpointController:update() - successfully update MessagingEndpoint - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteMessagingEndpointCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	MessagingEndpointService delegate = MessagingEndpointService.getMessagingEndpointInstance();
+        	MessagingEndpointService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted MessagingEndpoint with key " + command.getMessagingEndpointId() );
@@ -155,7 +159,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
     	MessagingEndpoint entity = null;
 
     	try {  
-    		entity = MessagingEndpointService.getMessagingEndpointInstance().getMessagingEndpoint( new MessagingEndpointFetchOneSummary( uuid ) );   
+    		entity = service.getMessagingEndpoint( new MessagingEndpointFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load MessagingEndpoint using Id " + uuid );
@@ -175,7 +179,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
         
     	try {
             // load the MessagingEndpoint
-            messagingEndpointList = MessagingEndpointService.getMessagingEndpointInstance().getAllMessagingEndpoint();
+            messagingEndpointList = service.getAllMessagingEndpoint();
             
             if ( messagingEndpointList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all MessagingEndpoints" );
@@ -196,7 +200,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToMessagingEndpointCommand command ) {
 		try {
-			MessagingEndpointService.getMessagingEndpointInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromMessagingEndpointCommand command ) {
 		try {
-			MessagingEndpointService.getMessagingEndpointInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 	@PutMapping("/addToStreams")
 	public void addToStreams( @RequestBody(required=true) AssignStreamsToMessagingEndpointCommand command ) {
 		try {
-			MessagingEndpointService.getMessagingEndpointInstance().addToStreams( command );   
+			service.addToStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Streams", exc );
@@ -240,7 +244,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 	public void removeFromStreams( 	@RequestBody(required=true) RemoveStreamsFromMessagingEndpointCommand command )
 	{		
 		try {
-			MessagingEndpointService.getMessagingEndpointInstance().removeFromStreams( command );
+			service.removeFromStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Streams", exc );
@@ -254,6 +258,7 @@ public class MessagingEndpointRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected MessagingEndpoint messagingEndpoint = null;
-    private static final Logger LOGGER = Logger.getLogger(MessagingEndpointRestController.class.getName());
+	protected MessagingEndpointService service = null;
+	private static final Logger LOGGER = Logger.getLogger(MessagingEndpointRestController.class.getName());
     
 }

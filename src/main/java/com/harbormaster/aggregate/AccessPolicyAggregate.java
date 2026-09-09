@@ -79,7 +79,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateAccessPolicyEvent</li>
  *      <li>DeleteAccessPolicyEvent</li>
    *       <li>AssignTenantToAccessPolicyEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromAccessPolicyEvent</li>
    *       <li>AssignApiKeysToAccessPolicyEvent</li>
  *       <li>RemoveApiKeysFromAccessPolicyEvent</li>
   *       <li>AssignUsersToAccessPolicyEvent</li>
@@ -262,7 +262,7 @@ public class AccessPolicyAggregate {
     
     private String name;
     private String scope;
-    private DateTime expiresAt;
+    private  Date expiresAt;
     private Tenant tenant = null;
     private Set<ApiKey> apiKeys = new HashSet<>();
     private Set<TenantUser> users = new HashSet<>();

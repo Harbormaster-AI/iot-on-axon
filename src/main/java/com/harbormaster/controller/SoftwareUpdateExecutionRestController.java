@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/SoftwareUpdateExecution")
 public class SoftwareUpdateExecutionRestController extends BaseSpringRestController {
 
+	public SoftwareUpdateExecutionRestController( SoftwareUpdateExecutionService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a SoftwareUpdateExecution.  if not key provided, calls create, otherwise calls save
      * @param		SoftwareUpdateExecution	softwareUpdateExecution
@@ -94,7 +98,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().createSoftwareUpdateExecution( command );
+			completableFuture = service.createSoftwareUpdateExecution( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 			// -----------------------------------------------
 			// delegate the UpdateSoftwareUpdateExecutionCommand
 			// -----------------------------------------------
-			completableFuture = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().updateSoftwareUpdateExecution(command);;
+			completableFuture = service.updateSoftwareUpdateExecution(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "SoftwareUpdateExecutionController:update() - successfully update SoftwareUpdateExecution - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteSoftwareUpdateExecutionCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	SoftwareUpdateExecutionService delegate = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance();
+        	SoftwareUpdateExecutionService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SoftwareUpdateExecution with key " + command.getSoftwareUpdateExecutionId() );
@@ -155,7 +159,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
     	SoftwareUpdateExecution entity = null;
 
     	try {  
-    		entity = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().getSoftwareUpdateExecution( new SoftwareUpdateExecutionFetchOneSummary( uuid ) );   
+    		entity = service.getSoftwareUpdateExecution( new SoftwareUpdateExecutionFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SoftwareUpdateExecution using Id " + uuid );
@@ -175,7 +179,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
         
     	try {
             // load the SoftwareUpdateExecution
-            softwareUpdateExecutionList = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().getAllSoftwareUpdateExecution();
+            softwareUpdateExecutionList = service.getAllSoftwareUpdateExecution();
             
             if ( softwareUpdateExecutionList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SoftwareUpdateExecutions" );
@@ -196,7 +200,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 	@PutMapping("/assignCampaign")
 	public void assignCampaign( @RequestBody AssignCampaignToSoftwareUpdateExecutionCommand command ) {
 		try {
-			SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().assignCampaign( command );   
+			service.assignCampaign( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Campaign", exc );
@@ -210,7 +214,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 	@PutMapping("/unAssignCampaign")
 	public void unAssignCampaign( @RequestBody(required=true)  UnAssignCampaignFromSoftwareUpdateExecutionCommand command ) {
 		try {
-			SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().unAssignCampaign( command );   
+			service.unAssignCampaign( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Campaign", exc );
@@ -224,7 +228,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToSoftwareUpdateExecutionCommand command ) {
 		try {
-			SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -238,7 +242,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromSoftwareUpdateExecutionCommand command ) {
 		try {
-			SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -253,6 +257,7 @@ public class SoftwareUpdateExecutionRestController extends BaseSpringRestControl
 // Attributes
 //************************************************************************
     protected SoftwareUpdateExecution softwareUpdateExecution = null;
-    private static final Logger LOGGER = Logger.getLogger(SoftwareUpdateExecutionRestController.class.getName());
+	protected SoftwareUpdateExecutionService service = null;
+	private static final Logger LOGGER = Logger.getLogger(SoftwareUpdateExecutionRestController.class.getName());
     
 }

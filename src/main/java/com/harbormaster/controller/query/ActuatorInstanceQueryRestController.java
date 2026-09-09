@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/ActuatorInstanceQuery")
 public class ActuatorInstanceQueryRestController extends BaseSpringRestController {
 	
+	public ActuatorInstanceQueryRestController( ActuatorInstanceService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a ActuatorInstance using a UUID
      * @param		UUID actuatorInstanceId
@@ -95,7 +99,7 @@ public class ActuatorInstanceQueryRestController extends BaseSpringRestControlle
     	ActuatorInstance entity = null;
 
     	try {  
-    		entity = ActuatorInstanceService.getActuatorInstanceInstance().getActuatorInstance( new ActuatorInstanceFetchOneSummary( actuatorInstanceId ) );
+    		entity = service.getActuatorInstance( new ActuatorInstanceFetchOneSummary( actuatorInstanceId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ActuatorInstance using Id " + actuatorInstanceId );
@@ -115,7 +119,7 @@ public class ActuatorInstanceQueryRestController extends BaseSpringRestControlle
         
     	try {
             // load the ActuatorInstance
-            actuatorInstanceList = ActuatorInstanceService.getActuatorInstanceInstance().getAllActuatorInstance();
+            actuatorInstanceList = service.getAllActuatorInstance();
             
             if ( actuatorInstanceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ActuatorInstances" );
@@ -135,6 +139,7 @@ public class ActuatorInstanceQueryRestController extends BaseSpringRestControlle
 // Attributes
 //************************************************************************
     protected ActuatorInstance actuatorInstance = null;
+    protected ActuatorInstanceService service = null;
     private static final Logger LOGGER = Logger.getLogger(ActuatorInstanceQueryRestController.class.getName());
     
 }

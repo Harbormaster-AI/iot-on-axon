@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/TelemetrySchemaQuery")
 public class TelemetrySchemaQueryRestController extends BaseSpringRestController {
 	
+	public TelemetrySchemaQueryRestController( TelemetrySchemaService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a TelemetrySchema using a UUID
      * @param		UUID telemetrySchemaId
@@ -95,7 +99,7 @@ public class TelemetrySchemaQueryRestController extends BaseSpringRestController
     	TelemetrySchema entity = null;
 
     	try {  
-    		entity = TelemetrySchemaService.getTelemetrySchemaInstance().getTelemetrySchema( new TelemetrySchemaFetchOneSummary( telemetrySchemaId ) );
+    		entity = service.getTelemetrySchema( new TelemetrySchemaFetchOneSummary( telemetrySchemaId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TelemetrySchema using Id " + telemetrySchemaId );
@@ -115,7 +119,7 @@ public class TelemetrySchemaQueryRestController extends BaseSpringRestController
         
     	try {
             // load the TelemetrySchema
-            telemetrySchemaList = TelemetrySchemaService.getTelemetrySchemaInstance().getAllTelemetrySchema();
+            telemetrySchemaList = service.getAllTelemetrySchema();
             
             if ( telemetrySchemaList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TelemetrySchemas" );
@@ -135,6 +139,7 @@ public class TelemetrySchemaQueryRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected TelemetrySchema telemetrySchema = null;
+    protected TelemetrySchemaService service = null;
     private static final Logger LOGGER = Logger.getLogger(TelemetrySchemaQueryRestController.class.getName());
     
 }

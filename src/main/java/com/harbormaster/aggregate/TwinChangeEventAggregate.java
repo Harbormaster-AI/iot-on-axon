@@ -65,7 +65,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateTwinChangeEventEvent</li>
  *      <li>DeleteTwinChangeEventEvent</li>
    *       <li>AssignTwinToTwinChangeEventEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTwinFromTwinChangeEventEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -177,7 +177,7 @@ public class TwinChangeEventAggregate {
     private UUID twinChangeEventId;
     
     private String eventId;
-    private DateTime occurredAt;
+    private  Date occurredAt;
     private TwinChangeType changeType;
     private DigitalTwin twin = null;
 

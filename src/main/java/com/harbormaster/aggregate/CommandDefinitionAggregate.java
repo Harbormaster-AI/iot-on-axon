@@ -79,7 +79,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateCommandDefinitionEvent</li>
  *      <li>DeleteCommandDefinitionEvent</li>
    *       <li>AssignDeviceModelToCommandDefinitionEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceModelFromCommandDefinitionEvent</li>
    *       <li>AssignActuatorsToCommandDefinitionEvent</li>
  *       <li>RemoveActuatorsFromCommandDefinitionEvent</li>
   *       <li>AssignCommandInvocationsToCommandDefinitionEvent</li>
@@ -265,7 +265,7 @@ public class CommandDefinitionAggregate {
     private String name;
     private Uri requestSchemaUri;
     private Uri responseSchemaUri;
-    private Integer timeoutSeconds;
+    private int timeoutSeconds;
     private DeviceModel deviceModel = null;
     private Set<ActuatorInstance> actuators = new HashSet<>();
     private Set<CommandInvocation> commandInvocations = new HashSet<>();

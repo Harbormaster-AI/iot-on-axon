@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TenantUser")
 public class TenantUserRestController extends BaseSpringRestController {
 
+	public TenantUserRestController( TenantUserService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a TenantUser.  if not key provided, calls create, otherwise calls save
      * @param		TenantUser	tenantUser
@@ -94,7 +98,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TenantUserService.getTenantUserInstance().createTenantUser( command );
+			completableFuture = service.createTenantUser( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTenantUserCommand
 			// -----------------------------------------------
-			completableFuture = TenantUserService.getTenantUserInstance().updateTenantUser(command);;
+			completableFuture = service.updateTenantUser(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TenantUserController:update() - successfully update TenantUser - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TenantUserRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTenantUserCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TenantUserService delegate = TenantUserService.getTenantUserInstance();
+        	TenantUserService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TenantUser with key " + command.getTenantUserId() );
@@ -155,7 +159,7 @@ public class TenantUserRestController extends BaseSpringRestController {
     	TenantUser entity = null;
 
     	try {  
-    		entity = TenantUserService.getTenantUserInstance().getTenantUser( new TenantUserFetchOneSummary( uuid ) );   
+    		entity = service.getTenantUser( new TenantUserFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TenantUser using Id " + uuid );
@@ -175,7 +179,7 @@ public class TenantUserRestController extends BaseSpringRestController {
         
     	try {
             // load the TenantUser
-            tenantUserList = TenantUserService.getTenantUserInstance().getAllTenantUser();
+            tenantUserList = service.getAllTenantUser();
             
             if ( tenantUserList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TenantUsers" );
@@ -196,7 +200,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToTenantUserCommand command ) {
 		try {
-			TenantUserService.getTenantUserInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromTenantUserCommand command ) {
 		try {
-			TenantUserService.getTenantUserInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 	@PutMapping("/addToCommandInvocations")
 	public void addToCommandInvocations( @RequestBody(required=true) AssignCommandInvocationsToTenantUserCommand command ) {
 		try {
-			TenantUserService.getTenantUserInstance().addToCommandInvocations( command );   
+			service.addToCommandInvocations( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set CommandInvocations", exc );
@@ -240,7 +244,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 	public void removeFromCommandInvocations( 	@RequestBody(required=true) RemoveCommandInvocationsFromTenantUserCommand command )
 	{		
 		try {
-			TenantUserService.getTenantUserInstance().removeFromCommandInvocations( command );
+			service.removeFromCommandInvocations( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set CommandInvocations", exc );
@@ -254,6 +258,7 @@ public class TenantUserRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TenantUser tenantUser = null;
-    private static final Logger LOGGER = Logger.getLogger(TenantUserRestController.class.getName());
+	protected TenantUserService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TenantUserRestController.class.getName());
     
 }

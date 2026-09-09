@@ -100,7 +100,6 @@ public class CommandInvocationCommandRestController extends BaseSpringRestContro
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateCommandInvocationCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createCommandInvocation( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class CommandInvocationCommandRestController extends BaseSpringRestContro
 		DeleteCommandInvocationCommand command = new DeleteCommandInvocationCommand( commandInvocationId );
 
     	try {
-        	CommandInvocationService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CommandInvocation with key " + command.getCommandInvocationId() );
         }
         catch( Throwable exc ) {

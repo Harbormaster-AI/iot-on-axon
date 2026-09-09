@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/IoTDeviceQuery")
 public class IoTDeviceQueryRestController extends BaseSpringRestController {
 	
+	public IoTDeviceQueryRestController( IoTDeviceService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a IoTDevice using a UUID
      * @param		UUID ioTDeviceId
@@ -95,7 +99,7 @@ public class IoTDeviceQueryRestController extends BaseSpringRestController {
     	IoTDevice entity = null;
 
     	try {  
-    		entity = IoTDeviceService.getIoTDeviceInstance().getIoTDevice( new IoTDeviceFetchOneSummary( ioTDeviceId ) );
+    		entity = service.getIoTDevice( new IoTDeviceFetchOneSummary( ioTDeviceId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load IoTDevice using Id " + ioTDeviceId );
@@ -115,7 +119,7 @@ public class IoTDeviceQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the IoTDevice
-            ioTDeviceList = IoTDeviceService.getIoTDeviceInstance().getAllIoTDevice();
+            ioTDeviceList = service.getAllIoTDevice();
             
             if ( ioTDeviceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all IoTDevices" );
@@ -135,6 +139,7 @@ public class IoTDeviceQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected IoTDevice ioTDevice = null;
+    protected IoTDeviceService service = null;
     private static final Logger LOGGER = Logger.getLogger(IoTDeviceQueryRestController.class.getName());
     
 }

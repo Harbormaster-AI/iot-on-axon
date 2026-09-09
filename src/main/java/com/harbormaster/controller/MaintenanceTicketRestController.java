@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/MaintenanceTicket")
 public class MaintenanceTicketRestController extends BaseSpringRestController {
 
+	public MaintenanceTicketRestController( MaintenanceTicketService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a MaintenanceTicket.  if not key provided, calls create, otherwise calls save
      * @param		MaintenanceTicket	maintenanceTicket
@@ -94,7 +98,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = MaintenanceTicketService.getMaintenanceTicketInstance().createMaintenanceTicket( command );
+			completableFuture = service.createMaintenanceTicket( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateMaintenanceTicketCommand
 			// -----------------------------------------------
-			completableFuture = MaintenanceTicketService.getMaintenanceTicketInstance().updateMaintenanceTicket(command);;
+			completableFuture = service.updateMaintenanceTicket(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "MaintenanceTicketController:update() - successfully update MaintenanceTicket - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteMaintenanceTicketCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	MaintenanceTicketService delegate = MaintenanceTicketService.getMaintenanceTicketInstance();
+        	MaintenanceTicketService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted MaintenanceTicket with key " + command.getMaintenanceTicketId() );
@@ -155,7 +159,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
     	MaintenanceTicket entity = null;
 
     	try {  
-    		entity = MaintenanceTicketService.getMaintenanceTicketInstance().getMaintenanceTicket( new MaintenanceTicketFetchOneSummary( uuid ) );   
+    		entity = service.getMaintenanceTicket( new MaintenanceTicketFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load MaintenanceTicket using Id " + uuid );
@@ -175,7 +179,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
         
     	try {
             // load the MaintenanceTicket
-            maintenanceTicketList = MaintenanceTicketService.getMaintenanceTicketInstance().getAllMaintenanceTicket();
+            maintenanceTicketList = service.getAllMaintenanceTicket();
             
             if ( maintenanceTicketList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all MaintenanceTickets" );
@@ -196,7 +200,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToMaintenanceTicketCommand command ) {
 		try {
-			MaintenanceTicketService.getMaintenanceTicketInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromMaintenanceTicketCommand command ) {
 		try {
-			MaintenanceTicketService.getMaintenanceTicketInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToMaintenanceTicketCommand command ) {
 		try {
-			MaintenanceTicketService.getMaintenanceTicketInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -238,7 +242,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromMaintenanceTicketCommand command ) {
 		try {
-			MaintenanceTicketService.getMaintenanceTicketInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -253,6 +257,7 @@ public class MaintenanceTicketRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected MaintenanceTicket maintenanceTicket = null;
-    private static final Logger LOGGER = Logger.getLogger(MaintenanceTicketRestController.class.getName());
+	protected MaintenanceTicketService service = null;
+	private static final Logger LOGGER = Logger.getLogger(MaintenanceTicketRestController.class.getName());
     
 }

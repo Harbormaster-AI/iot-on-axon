@@ -100,7 +100,6 @@ public class ConnectivityPlanCommandRestController extends BaseSpringRestControl
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateConnectivityPlanCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createConnectivityPlan( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class ConnectivityPlanCommandRestController extends BaseSpringRestControl
 		DeleteConnectivityPlanCommand command = new DeleteConnectivityPlanCommand( connectivityPlanId );
 
     	try {
-        	ConnectivityPlanService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ConnectivityPlan with key " + command.getConnectivityPlanId() );
         }
         catch( Throwable exc ) {

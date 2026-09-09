@@ -100,7 +100,6 @@ public class SoftwareUpdateExecutionCommandRestController extends BaseSpringRest
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateSoftwareUpdateExecutionCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createSoftwareUpdateExecution( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class SoftwareUpdateExecutionCommandRestController extends BaseSpringRest
 		DeleteSoftwareUpdateExecutionCommand command = new DeleteSoftwareUpdateExecutionCommand( softwareUpdateExecutionId );
 
     	try {
-        	SoftwareUpdateExecutionService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SoftwareUpdateExecution with key " + command.getSoftwareUpdateExecutionId() );
         }
         catch( Throwable exc ) {

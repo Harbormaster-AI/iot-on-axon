@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/AlertRule")
 public class AlertRuleRestController extends BaseSpringRestController {
 
+	public AlertRuleRestController( AlertRuleService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a AlertRule.  if not key provided, calls create, otherwise calls save
      * @param		AlertRule	alertRule
@@ -94,7 +98,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = AlertRuleService.getAlertRuleInstance().createAlertRule( command );
+			completableFuture = service.createAlertRule( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateAlertRuleCommand
 			// -----------------------------------------------
-			completableFuture = AlertRuleService.getAlertRuleInstance().updateAlertRule(command);;
+			completableFuture = service.updateAlertRule(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AlertRuleController:update() - successfully update AlertRule - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteAlertRuleCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	AlertRuleService delegate = AlertRuleService.getAlertRuleInstance();
+        	AlertRuleService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted AlertRule with key " + command.getAlertRuleId() );
@@ -155,7 +159,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
     	AlertRule entity = null;
 
     	try {  
-    		entity = AlertRuleService.getAlertRuleInstance().getAlertRule( new AlertRuleFetchOneSummary( uuid ) );   
+    		entity = service.getAlertRule( new AlertRuleFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AlertRule using Id " + uuid );
@@ -175,7 +179,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
         
     	try {
             // load the AlertRule
-            alertRuleList = AlertRuleService.getAlertRuleInstance().getAllAlertRule();
+            alertRuleList = service.getAllAlertRule();
             
             if ( alertRuleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AlertRules" );
@@ -196,7 +200,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToAlertRuleCommand command ) {
 		try {
-			AlertRuleService.getAlertRuleInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromAlertRuleCommand command ) {
 		try {
-			AlertRuleService.getAlertRuleInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	@PutMapping("/addToStreams")
 	public void addToStreams( @RequestBody(required=true) AssignStreamsToAlertRuleCommand command ) {
 		try {
-			AlertRuleService.getAlertRuleInstance().addToStreams( command );   
+			service.addToStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Streams", exc );
@@ -240,7 +244,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	public void removeFromStreams( 	@RequestBody(required=true) RemoveStreamsFromAlertRuleCommand command )
 	{		
 		try {
-			AlertRuleService.getAlertRuleInstance().removeFromStreams( command );
+			service.removeFromStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Streams", exc );
@@ -254,7 +258,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	@PutMapping("/addToAlerts")
 	public void addToAlerts( @RequestBody(required=true) AssignAlertsToAlertRuleCommand command ) {
 		try {
-			AlertRuleService.getAlertRuleInstance().addToAlerts( command );   
+			service.addToAlerts( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Alerts", exc );
@@ -269,7 +273,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 	public void removeFromAlerts( 	@RequestBody(required=true) RemoveAlertsFromAlertRuleCommand command )
 	{		
 		try {
-			AlertRuleService.getAlertRuleInstance().removeFromAlerts( command );
+			service.removeFromAlerts( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Alerts", exc );
@@ -283,6 +287,7 @@ public class AlertRuleRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected AlertRule alertRule = null;
-    private static final Logger LOGGER = Logger.getLogger(AlertRuleRestController.class.getName());
+	protected AlertRuleService service = null;
+	private static final Logger LOGGER = Logger.getLogger(AlertRuleRestController.class.getName());
     
 }

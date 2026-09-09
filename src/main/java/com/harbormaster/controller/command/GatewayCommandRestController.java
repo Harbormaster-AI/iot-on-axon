@@ -100,7 +100,6 @@ public class GatewayCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateGatewayCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createGateway( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class GatewayCommandRestController extends BaseSpringRestController {
 		DeleteGatewayCommand command = new DeleteGatewayCommand( gatewayId );
 
     	try {
-        	GatewayService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Gateway with key " + command.getGatewayId() );
         }
         catch( Throwable exc ) {

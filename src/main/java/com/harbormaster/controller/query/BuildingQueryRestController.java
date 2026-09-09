@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/BuildingQuery")
 public class BuildingQueryRestController extends BaseSpringRestController {
 	
+	public BuildingQueryRestController( BuildingService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Building using a UUID
      * @param		UUID buildingId
@@ -95,7 +99,7 @@ public class BuildingQueryRestController extends BaseSpringRestController {
     	Building entity = null;
 
     	try {  
-    		entity = BuildingService.getBuildingInstance().getBuilding( new BuildingFetchOneSummary( buildingId ) );
+    		entity = service.getBuilding( new BuildingFetchOneSummary( buildingId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Building using Id " + buildingId );
@@ -115,7 +119,7 @@ public class BuildingQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Building
-            buildingList = BuildingService.getBuildingInstance().getAllBuilding();
+            buildingList = service.getAllBuilding();
             
             if ( buildingList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Buildings" );
@@ -135,6 +139,7 @@ public class BuildingQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Building building = null;
+    protected BuildingService service = null;
     private static final Logger LOGGER = Logger.getLogger(BuildingQueryRestController.class.getName());
     
 }

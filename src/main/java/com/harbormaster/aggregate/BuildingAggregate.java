@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateBuildingEvent</li>
  *      <li>DeleteBuildingEvent</li>
    *       <li>AssignSiteToBuildingEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSiteFromBuildingEvent</li>
    *       <li>AssignFloorsToBuildingEvent</li>
  *       <li>RemoveFloorsFromBuildingEvent</li>
   *        </ul>

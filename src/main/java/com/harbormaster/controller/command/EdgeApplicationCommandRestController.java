@@ -100,7 +100,6 @@ public class EdgeApplicationCommandRestController extends BaseSpringRestControll
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateEdgeApplicationCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createEdgeApplication( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class EdgeApplicationCommandRestController extends BaseSpringRestControll
 		DeleteEdgeApplicationCommand command = new DeleteEdgeApplicationCommand( edgeApplicationId );
 
     	try {
-        	EdgeApplicationService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted EdgeApplication with key " + command.getEdgeApplicationId() );
         }
         catch( Throwable exc ) {

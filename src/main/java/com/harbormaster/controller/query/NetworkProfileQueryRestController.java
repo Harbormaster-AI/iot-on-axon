@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/NetworkProfileQuery")
 public class NetworkProfileQueryRestController extends BaseSpringRestController {
 	
+	public NetworkProfileQueryRestController( NetworkProfileService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a NetworkProfile using a UUID
      * @param		UUID networkProfileId
@@ -95,7 +99,7 @@ public class NetworkProfileQueryRestController extends BaseSpringRestController 
     	NetworkProfile entity = null;
 
     	try {  
-    		entity = NetworkProfileService.getNetworkProfileInstance().getNetworkProfile( new NetworkProfileFetchOneSummary( networkProfileId ) );
+    		entity = service.getNetworkProfile( new NetworkProfileFetchOneSummary( networkProfileId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load NetworkProfile using Id " + networkProfileId );
@@ -115,7 +119,7 @@ public class NetworkProfileQueryRestController extends BaseSpringRestController 
         
     	try {
             // load the NetworkProfile
-            networkProfileList = NetworkProfileService.getNetworkProfileInstance().getAllNetworkProfile();
+            networkProfileList = service.getAllNetworkProfile();
             
             if ( networkProfileList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all NetworkProfiles" );
@@ -135,6 +139,7 @@ public class NetworkProfileQueryRestController extends BaseSpringRestController 
 // Attributes
 //************************************************************************
     protected NetworkProfile networkProfile = null;
+    protected NetworkProfileService service = null;
     private static final Logger LOGGER = Logger.getLogger(NetworkProfileQueryRestController.class.getName());
     
 }

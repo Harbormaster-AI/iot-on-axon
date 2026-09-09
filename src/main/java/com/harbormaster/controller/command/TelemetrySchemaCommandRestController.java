@@ -100,7 +100,6 @@ public class TelemetrySchemaCommandRestController extends BaseSpringRestControll
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateTelemetrySchemaCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createTelemetrySchema( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class TelemetrySchemaCommandRestController extends BaseSpringRestControll
 		DeleteTelemetrySchemaCommand command = new DeleteTelemetrySchemaCommand( telemetrySchemaId );
 
     	try {
-        	TelemetrySchemaService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TelemetrySchema with key " + command.getTelemetrySchemaId() );
         }
         catch( Throwable exc ) {

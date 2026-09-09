@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/FloorQuery")
 public class FloorQueryRestController extends BaseSpringRestController {
 	
+	public FloorQueryRestController( FloorService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Floor using a UUID
      * @param		UUID floorId
@@ -95,7 +99,7 @@ public class FloorQueryRestController extends BaseSpringRestController {
     	Floor entity = null;
 
     	try {  
-    		entity = FloorService.getFloorInstance().getFloor( new FloorFetchOneSummary( floorId ) );
+    		entity = service.getFloor( new FloorFetchOneSummary( floorId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Floor using Id " + floorId );
@@ -115,7 +119,7 @@ public class FloorQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Floor
-            floorList = FloorService.getFloorInstance().getAllFloor();
+            floorList = service.getAllFloor();
             
             if ( floorList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Floors" );
@@ -135,6 +139,7 @@ public class FloorQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Floor floor = null;
+    protected FloorService service = null;
     private static final Logger LOGGER = Logger.getLogger(FloorQueryRestController.class.getName());
     
 }

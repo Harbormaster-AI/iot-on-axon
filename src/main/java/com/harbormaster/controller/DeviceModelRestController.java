@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DeviceModel")
 public class DeviceModelRestController extends BaseSpringRestController {
 
+	public DeviceModelRestController( DeviceModelService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DeviceModel.  if not key provided, calls create, otherwise calls save
      * @param		DeviceModel	deviceModel
@@ -94,7 +98,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DeviceModelService.getDeviceModelInstance().createDeviceModel( command );
+			completableFuture = service.createDeviceModel( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDeviceModelCommand
 			// -----------------------------------------------
-			completableFuture = DeviceModelService.getDeviceModelInstance().updateDeviceModel(command);;
+			completableFuture = service.updateDeviceModel(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DeviceModelController:update() - successfully update DeviceModel - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDeviceModelCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DeviceModelService delegate = DeviceModelService.getDeviceModelInstance();
+        	DeviceModelService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceModel with key " + command.getDeviceModelId() );
@@ -155,7 +159,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
     	DeviceModel entity = null;
 
     	try {  
-    		entity = DeviceModelService.getDeviceModelInstance().getDeviceModel( new DeviceModelFetchOneSummary( uuid ) );   
+    		entity = service.getDeviceModel( new DeviceModelFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceModel using Id " + uuid );
@@ -175,7 +179,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceModel
-            deviceModelList = DeviceModelService.getDeviceModelInstance().getAllDeviceModel();
+            deviceModelList = service.getAllDeviceModel();
             
             if ( deviceModelList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceModels" );
@@ -196,7 +200,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/assignVendor")
 	public void assignVendor( @RequestBody AssignVendorToDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().assignVendor( command );   
+			service.assignVendor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Vendor", exc );
@@ -210,7 +214,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignVendor")
 	public void unAssignVendor( @RequestBody(required=true)  UnAssignVendorFromDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().unAssignVendor( command );   
+			service.unAssignVendor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Vendor", exc );
@@ -224,7 +228,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/assignTwinTemplate")
 	public void assignTwinTemplate( @RequestBody AssignTwinTemplateToDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().assignTwinTemplate( command );   
+			service.assignTwinTemplate( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign TwinTemplate", exc );
@@ -238,7 +242,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTwinTemplate")
 	public void unAssignTwinTemplate( @RequestBody(required=true)  UnAssignTwinTemplateFromDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().unAssignTwinTemplate( command );   
+			service.unAssignTwinTemplate( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign TwinTemplate", exc );
@@ -253,7 +257,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/addToHardwareModules")
 	public void addToHardwareModules( @RequestBody(required=true) AssignHardwareModulesToDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().addToHardwareModules( command );   
+			service.addToHardwareModules( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set HardwareModules", exc );
@@ -268,7 +272,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	public void removeFromHardwareModules( 	@RequestBody(required=true) RemoveHardwareModulesFromDeviceModelCommand command )
 	{		
 		try {
-			DeviceModelService.getDeviceModelInstance().removeFromHardwareModules( command );
+			service.removeFromHardwareModules( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set HardwareModules", exc );
@@ -282,7 +286,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/addToFirmwareReleases")
 	public void addToFirmwareReleases( @RequestBody(required=true) AssignFirmwareReleasesToDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().addToFirmwareReleases( command );   
+			service.addToFirmwareReleases( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set FirmwareReleases", exc );
@@ -297,7 +301,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	public void removeFromFirmwareReleases( 	@RequestBody(required=true) RemoveFirmwareReleasesFromDeviceModelCommand command )
 	{		
 		try {
-			DeviceModelService.getDeviceModelInstance().removeFromFirmwareReleases( command );
+			service.removeFromFirmwareReleases( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set FirmwareReleases", exc );
@@ -311,7 +315,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	@PutMapping("/addToCommandDefinitions")
 	public void addToCommandDefinitions( @RequestBody(required=true) AssignCommandDefinitionsToDeviceModelCommand command ) {
 		try {
-			DeviceModelService.getDeviceModelInstance().addToCommandDefinitions( command );   
+			service.addToCommandDefinitions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set CommandDefinitions", exc );
@@ -326,7 +330,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 	public void removeFromCommandDefinitions( 	@RequestBody(required=true) RemoveCommandDefinitionsFromDeviceModelCommand command )
 	{		
 		try {
-			DeviceModelService.getDeviceModelInstance().removeFromCommandDefinitions( command );
+			service.removeFromCommandDefinitions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set CommandDefinitions", exc );
@@ -340,6 +344,7 @@ public class DeviceModelRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceModel deviceModel = null;
-    private static final Logger LOGGER = Logger.getLogger(DeviceModelRestController.class.getName());
+	protected DeviceModelService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DeviceModelRestController.class.getName());
     
 }

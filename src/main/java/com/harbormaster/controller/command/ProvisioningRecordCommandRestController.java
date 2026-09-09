@@ -100,7 +100,6 @@ public class ProvisioningRecordCommandRestController extends BaseSpringRestContr
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateProvisioningRecordCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createProvisioningRecord( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class ProvisioningRecordCommandRestController extends BaseSpringRestContr
 		DeleteProvisioningRecordCommand command = new DeleteProvisioningRecordCommand( provisioningRecordId );
 
     	try {
-        	ProvisioningRecordService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ProvisioningRecord with key " + command.getProvisioningRecordId() );
         }
         catch( Throwable exc ) {

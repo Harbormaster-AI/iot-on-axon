@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/MaintenanceTicketQuery")
 public class MaintenanceTicketQueryRestController extends BaseSpringRestController {
 	
+	public MaintenanceTicketQueryRestController( MaintenanceTicketService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a MaintenanceTicket using a UUID
      * @param		UUID maintenanceTicketId
@@ -95,7 +99,7 @@ public class MaintenanceTicketQueryRestController extends BaseSpringRestControll
     	MaintenanceTicket entity = null;
 
     	try {  
-    		entity = MaintenanceTicketService.getMaintenanceTicketInstance().getMaintenanceTicket( new MaintenanceTicketFetchOneSummary( maintenanceTicketId ) );
+    		entity = service.getMaintenanceTicket( new MaintenanceTicketFetchOneSummary( maintenanceTicketId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load MaintenanceTicket using Id " + maintenanceTicketId );
@@ -115,7 +119,7 @@ public class MaintenanceTicketQueryRestController extends BaseSpringRestControll
         
     	try {
             // load the MaintenanceTicket
-            maintenanceTicketList = MaintenanceTicketService.getMaintenanceTicketInstance().getAllMaintenanceTicket();
+            maintenanceTicketList = service.getAllMaintenanceTicket();
             
             if ( maintenanceTicketList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all MaintenanceTickets" );
@@ -135,6 +139,7 @@ public class MaintenanceTicketQueryRestController extends BaseSpringRestControll
 // Attributes
 //************************************************************************
     protected MaintenanceTicket maintenanceTicket = null;
+    protected MaintenanceTicketService service = null;
     private static final Logger LOGGER = Logger.getLogger(MaintenanceTicketQueryRestController.class.getName());
     
 }

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ConnectivityPlan")
 public class ConnectivityPlanRestController extends BaseSpringRestController {
 
+	public ConnectivityPlanRestController( ConnectivityPlanService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a ConnectivityPlan.  if not key provided, calls create, otherwise calls save
      * @param		ConnectivityPlan	connectivityPlan
@@ -94,7 +98,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = ConnectivityPlanService.getConnectivityPlanInstance().createConnectivityPlan( command );
+			completableFuture = service.createConnectivityPlan( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateConnectivityPlanCommand
 			// -----------------------------------------------
-			completableFuture = ConnectivityPlanService.getConnectivityPlanInstance().updateConnectivityPlan(command);;
+			completableFuture = service.updateConnectivityPlan(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ConnectivityPlanController:update() - successfully update ConnectivityPlan - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteConnectivityPlanCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	ConnectivityPlanService delegate = ConnectivityPlanService.getConnectivityPlanInstance();
+        	ConnectivityPlanService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ConnectivityPlan with key " + command.getConnectivityPlanId() );
@@ -155,7 +159,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
     	ConnectivityPlan entity = null;
 
     	try {  
-    		entity = ConnectivityPlanService.getConnectivityPlanInstance().getConnectivityPlan( new ConnectivityPlanFetchOneSummary( uuid ) );   
+    		entity = service.getConnectivityPlan( new ConnectivityPlanFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ConnectivityPlan using Id " + uuid );
@@ -175,7 +179,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
         
     	try {
             // load the ConnectivityPlan
-            connectivityPlanList = ConnectivityPlanService.getConnectivityPlanInstance().getAllConnectivityPlan();
+            connectivityPlanList = service.getAllConnectivityPlan();
             
             if ( connectivityPlanList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ConnectivityPlans" );
@@ -196,7 +200,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToConnectivityPlanCommand command ) {
 		try {
-			ConnectivityPlanService.getConnectivityPlanInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromConnectivityPlanCommand command ) {
 		try {
-			ConnectivityPlanService.getConnectivityPlanInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 	@PutMapping("/addToSimCards")
 	public void addToSimCards( @RequestBody(required=true) AssignSimCardsToConnectivityPlanCommand command ) {
 		try {
-			ConnectivityPlanService.getConnectivityPlanInstance().addToSimCards( command );   
+			service.addToSimCards( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set SimCards", exc );
@@ -240,7 +244,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 	public void removeFromSimCards( 	@RequestBody(required=true) RemoveSimCardsFromConnectivityPlanCommand command )
 	{		
 		try {
-			ConnectivityPlanService.getConnectivityPlanInstance().removeFromSimCards( command );
+			service.removeFromSimCards( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set SimCards", exc );
@@ -254,6 +258,7 @@ public class ConnectivityPlanRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ConnectivityPlan connectivityPlan = null;
-    private static final Logger LOGGER = Logger.getLogger(ConnectivityPlanRestController.class.getName());
+	protected ConnectivityPlanService service = null;
+	private static final Logger LOGGER = Logger.getLogger(ConnectivityPlanRestController.class.getName());
     
 }

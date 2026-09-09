@@ -65,7 +65,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateHardwareModuleEvent</li>
  *      <li>DeleteHardwareModuleEvent</li>
    *       <li>AssignVendorToHardwareModuleEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignVendorFromHardwareModuleEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>

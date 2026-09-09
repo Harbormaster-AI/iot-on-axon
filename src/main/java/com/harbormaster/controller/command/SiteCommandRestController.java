@@ -100,7 +100,6 @@ public class SiteCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateSiteCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createSite( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class SiteCommandRestController extends BaseSpringRestController {
 		DeleteSiteCommand command = new DeleteSiteCommand( siteId );
 
     	try {
-        	SiteService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Site with key " + command.getSiteId() );
         }
         catch( Throwable exc ) {

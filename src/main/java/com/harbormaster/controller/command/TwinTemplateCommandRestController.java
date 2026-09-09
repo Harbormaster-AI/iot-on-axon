@@ -100,7 +100,6 @@ public class TwinTemplateCommandRestController extends BaseSpringRestController 
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateTwinTemplateCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createTwinTemplate( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class TwinTemplateCommandRestController extends BaseSpringRestController 
 		DeleteTwinTemplateCommand command = new DeleteTwinTemplateCommand( twinTemplateId );
 
     	try {
-        	TwinTemplateService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TwinTemplate with key " + command.getTwinTemplateId() );
         }
         catch( Throwable exc ) {

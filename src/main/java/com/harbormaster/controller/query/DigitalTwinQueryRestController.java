@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DigitalTwinQuery")
 public class DigitalTwinQueryRestController extends BaseSpringRestController {
 	
+	public DigitalTwinQueryRestController( DigitalTwinService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DigitalTwin using a UUID
      * @param		UUID digitalTwinId
@@ -95,7 +99,7 @@ public class DigitalTwinQueryRestController extends BaseSpringRestController {
     	DigitalTwin entity = null;
 
     	try {  
-    		entity = DigitalTwinService.getDigitalTwinInstance().getDigitalTwin( new DigitalTwinFetchOneSummary( digitalTwinId ) );
+    		entity = service.getDigitalTwin( new DigitalTwinFetchOneSummary( digitalTwinId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DigitalTwin using Id " + digitalTwinId );
@@ -115,7 +119,7 @@ public class DigitalTwinQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the DigitalTwin
-            digitalTwinList = DigitalTwinService.getDigitalTwinInstance().getAllDigitalTwin();
+            digitalTwinList = service.getAllDigitalTwin();
             
             if ( digitalTwinList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DigitalTwins" );
@@ -135,6 +139,7 @@ public class DigitalTwinQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DigitalTwin digitalTwin = null;
+    protected DigitalTwinService service = null;
     private static final Logger LOGGER = Logger.getLogger(DigitalTwinQueryRestController.class.getName());
     
 }

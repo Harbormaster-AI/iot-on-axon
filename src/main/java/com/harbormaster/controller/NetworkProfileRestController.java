@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/NetworkProfile")
 public class NetworkProfileRestController extends BaseSpringRestController {
 
+	public NetworkProfileRestController( NetworkProfileService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a NetworkProfile.  if not key provided, calls create, otherwise calls save
      * @param		NetworkProfile	networkProfile
@@ -94,7 +98,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = NetworkProfileService.getNetworkProfileInstance().createNetworkProfile( command );
+			completableFuture = service.createNetworkProfile( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateNetworkProfileCommand
 			// -----------------------------------------------
-			completableFuture = NetworkProfileService.getNetworkProfileInstance().updateNetworkProfile(command);;
+			completableFuture = service.updateNetworkProfile(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "NetworkProfileController:update() - successfully update NetworkProfile - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteNetworkProfileCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	NetworkProfileService delegate = NetworkProfileService.getNetworkProfileInstance();
+        	NetworkProfileService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted NetworkProfile with key " + command.getNetworkProfileId() );
@@ -155,7 +159,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
     	NetworkProfile entity = null;
 
     	try {  
-    		entity = NetworkProfileService.getNetworkProfileInstance().getNetworkProfile( new NetworkProfileFetchOneSummary( uuid ) );   
+    		entity = service.getNetworkProfile( new NetworkProfileFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load NetworkProfile using Id " + uuid );
@@ -175,7 +179,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
         
     	try {
             // load the NetworkProfile
-            networkProfileList = NetworkProfileService.getNetworkProfileInstance().getAllNetworkProfile();
+            networkProfileList = service.getAllNetworkProfile();
             
             if ( networkProfileList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all NetworkProfiles" );
@@ -196,7 +200,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/assignGateway")
 	public void assignGateway( @RequestBody AssignGatewayToNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().assignGateway( command );   
+			service.assignGateway( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Gateway", exc );
@@ -238,7 +242,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignGateway")
 	public void unAssignGateway( @RequestBody(required=true)  UnAssignGatewayFromNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().unAssignGateway( command );   
+			service.unAssignGateway( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Gateway", exc );
@@ -252,7 +256,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/assignSimCard")
 	public void assignSimCard( @RequestBody AssignSimCardToNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().assignSimCard( command );   
+			service.assignSimCard( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign SimCard", exc );
@@ -266,7 +270,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSimCard")
 	public void unAssignSimCard( @RequestBody(required=true)  UnAssignSimCardFromNetworkProfileCommand command ) {
 		try {
-			NetworkProfileService.getNetworkProfileInstance().unAssignSimCard( command );   
+			service.unAssignSimCard( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign SimCard", exc );
@@ -281,6 +285,7 @@ public class NetworkProfileRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected NetworkProfile networkProfile = null;
-    private static final Logger LOGGER = Logger.getLogger(NetworkProfileRestController.class.getName());
+	protected NetworkProfileService service = null;
+	private static final Logger LOGGER = Logger.getLogger(NetworkProfileRestController.class.getName());
     
 }

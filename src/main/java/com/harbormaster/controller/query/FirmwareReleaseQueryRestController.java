@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/FirmwareReleaseQuery")
 public class FirmwareReleaseQueryRestController extends BaseSpringRestController {
 	
+	public FirmwareReleaseQueryRestController( FirmwareReleaseService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a FirmwareRelease using a UUID
      * @param		UUID firmwareReleaseId
@@ -95,7 +99,7 @@ public class FirmwareReleaseQueryRestController extends BaseSpringRestController
     	FirmwareRelease entity = null;
 
     	try {  
-    		entity = FirmwareReleaseService.getFirmwareReleaseInstance().getFirmwareRelease( new FirmwareReleaseFetchOneSummary( firmwareReleaseId ) );
+    		entity = service.getFirmwareRelease( new FirmwareReleaseFetchOneSummary( firmwareReleaseId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load FirmwareRelease using Id " + firmwareReleaseId );
@@ -115,7 +119,7 @@ public class FirmwareReleaseQueryRestController extends BaseSpringRestController
         
     	try {
             // load the FirmwareRelease
-            firmwareReleaseList = FirmwareReleaseService.getFirmwareReleaseInstance().getAllFirmwareRelease();
+            firmwareReleaseList = service.getAllFirmwareRelease();
             
             if ( firmwareReleaseList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all FirmwareReleases" );
@@ -135,6 +139,7 @@ public class FirmwareReleaseQueryRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected FirmwareRelease firmwareRelease = null;
+    protected FirmwareReleaseService service = null;
     private static final Logger LOGGER = Logger.getLogger(FirmwareReleaseQueryRestController.class.getName());
     
 }

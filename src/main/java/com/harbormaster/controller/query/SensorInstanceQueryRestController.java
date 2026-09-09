@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/SensorInstanceQuery")
 public class SensorInstanceQueryRestController extends BaseSpringRestController {
 	
+	public SensorInstanceQueryRestController( SensorInstanceService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a SensorInstance using a UUID
      * @param		UUID sensorInstanceId
@@ -95,7 +99,7 @@ public class SensorInstanceQueryRestController extends BaseSpringRestController 
     	SensorInstance entity = null;
 
     	try {  
-    		entity = SensorInstanceService.getSensorInstanceInstance().getSensorInstance( new SensorInstanceFetchOneSummary( sensorInstanceId ) );
+    		entity = service.getSensorInstance( new SensorInstanceFetchOneSummary( sensorInstanceId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SensorInstance using Id " + sensorInstanceId );
@@ -115,7 +119,7 @@ public class SensorInstanceQueryRestController extends BaseSpringRestController 
         
     	try {
             // load the SensorInstance
-            sensorInstanceList = SensorInstanceService.getSensorInstanceInstance().getAllSensorInstance();
+            sensorInstanceList = service.getAllSensorInstance();
             
             if ( sensorInstanceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SensorInstances" );
@@ -135,6 +139,7 @@ public class SensorInstanceQueryRestController extends BaseSpringRestController 
 // Attributes
 //************************************************************************
     protected SensorInstance sensorInstance = null;
+    protected SensorInstanceService service = null;
     private static final Logger LOGGER = Logger.getLogger(SensorInstanceQueryRestController.class.getName());
     
 }

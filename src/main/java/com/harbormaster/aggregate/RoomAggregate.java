@@ -79,7 +79,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateRoomEvent</li>
  *      <li>DeleteRoomEvent</li>
    *       <li>AssignFloorToRoomEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignFloorFromRoomEvent</li>
    *       <li>AssignDevicesToRoomEvent</li>
  *       <li>RemoveDevicesFromRoomEvent</li>
   *       <li>AssignGatewaysToRoomEvent</li>

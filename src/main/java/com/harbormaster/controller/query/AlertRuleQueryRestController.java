@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/AlertRuleQuery")
 public class AlertRuleQueryRestController extends BaseSpringRestController {
 	
+	public AlertRuleQueryRestController( AlertRuleService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a AlertRule using a UUID
      * @param		UUID alertRuleId
@@ -95,7 +99,7 @@ public class AlertRuleQueryRestController extends BaseSpringRestController {
     	AlertRule entity = null;
 
     	try {  
-    		entity = AlertRuleService.getAlertRuleInstance().getAlertRule( new AlertRuleFetchOneSummary( alertRuleId ) );
+    		entity = service.getAlertRule( new AlertRuleFetchOneSummary( alertRuleId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AlertRule using Id " + alertRuleId );
@@ -115,7 +119,7 @@ public class AlertRuleQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the AlertRule
-            alertRuleList = AlertRuleService.getAlertRuleInstance().getAllAlertRule();
+            alertRuleList = service.getAllAlertRule();
             
             if ( alertRuleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AlertRules" );
@@ -135,6 +139,7 @@ public class AlertRuleQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected AlertRule alertRule = null;
+    protected AlertRuleService service = null;
     private static final Logger LOGGER = Logger.getLogger(AlertRuleQueryRestController.class.getName());
     
 }

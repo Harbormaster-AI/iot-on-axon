@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DigitalTwin")
 public class DigitalTwinRestController extends BaseSpringRestController {
 
+	public DigitalTwinRestController( DigitalTwinService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DigitalTwin.  if not key provided, calls create, otherwise calls save
      * @param		DigitalTwin	digitalTwin
@@ -94,7 +98,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DigitalTwinService.getDigitalTwinInstance().createDigitalTwin( command );
+			completableFuture = service.createDigitalTwin( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDigitalTwinCommand
 			// -----------------------------------------------
-			completableFuture = DigitalTwinService.getDigitalTwinInstance().updateDigitalTwin(command);;
+			completableFuture = service.updateDigitalTwin(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DigitalTwinController:update() - successfully update DigitalTwin - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDigitalTwinCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DigitalTwinService delegate = DigitalTwinService.getDigitalTwinInstance();
+        	DigitalTwinService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DigitalTwin with key " + command.getDigitalTwinId() );
@@ -155,7 +159,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
     	DigitalTwin entity = null;
 
     	try {  
-    		entity = DigitalTwinService.getDigitalTwinInstance().getDigitalTwin( new DigitalTwinFetchOneSummary( uuid ) );   
+    		entity = service.getDigitalTwin( new DigitalTwinFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DigitalTwin using Id " + uuid );
@@ -175,7 +179,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
         
     	try {
             // load the DigitalTwin
-            digitalTwinList = DigitalTwinService.getDigitalTwinInstance().getAllDigitalTwin();
+            digitalTwinList = service.getAllDigitalTwin();
             
             if ( digitalTwinList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DigitalTwins" );
@@ -196,7 +200,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/assignGateway")
 	public void assignGateway( @RequestBody AssignGatewayToDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().assignGateway( command );   
+			service.assignGateway( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Gateway", exc );
@@ -238,7 +242,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignGateway")
 	public void unAssignGateway( @RequestBody(required=true)  UnAssignGatewayFromDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().unAssignGateway( command );   
+			service.unAssignGateway( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Gateway", exc );
@@ -252,7 +256,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/assignTemplate")
 	public void assignTemplate( @RequestBody AssignTemplateToDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().assignTemplate( command );   
+			service.assignTemplate( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Template", exc );
@@ -266,7 +270,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTemplate")
 	public void unAssignTemplate( @RequestBody(required=true)  UnAssignTemplateFromDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().unAssignTemplate( command );   
+			service.unAssignTemplate( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Template", exc );
@@ -281,7 +285,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	@PutMapping("/addToChangeEvents")
 	public void addToChangeEvents( @RequestBody(required=true) AssignChangeEventsToDigitalTwinCommand command ) {
 		try {
-			DigitalTwinService.getDigitalTwinInstance().addToChangeEvents( command );   
+			service.addToChangeEvents( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set ChangeEvents", exc );
@@ -296,7 +300,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 	public void removeFromChangeEvents( 	@RequestBody(required=true) RemoveChangeEventsFromDigitalTwinCommand command )
 	{		
 		try {
-			DigitalTwinService.getDigitalTwinInstance().removeFromChangeEvents( command );
+			service.removeFromChangeEvents( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set ChangeEvents", exc );
@@ -310,6 +314,7 @@ public class DigitalTwinRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DigitalTwin digitalTwin = null;
-    private static final Logger LOGGER = Logger.getLogger(DigitalTwinRestController.class.getName());
+	protected DigitalTwinService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DigitalTwinRestController.class.getName());
     
 }

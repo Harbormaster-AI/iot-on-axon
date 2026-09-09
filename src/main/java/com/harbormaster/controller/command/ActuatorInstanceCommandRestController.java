@@ -100,7 +100,6 @@ public class ActuatorInstanceCommandRestController extends BaseSpringRestControl
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateActuatorInstanceCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createActuatorInstance( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class ActuatorInstanceCommandRestController extends BaseSpringRestControl
 		DeleteActuatorInstanceCommand command = new DeleteActuatorInstanceCommand( actuatorInstanceId );
 
     	try {
-        	ActuatorInstanceService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ActuatorInstance with key " + command.getActuatorInstanceId() );
         }
         catch( Throwable exc ) {

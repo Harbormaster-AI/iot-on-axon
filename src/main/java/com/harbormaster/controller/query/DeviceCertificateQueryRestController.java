@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DeviceCertificateQuery")
 public class DeviceCertificateQueryRestController extends BaseSpringRestController {
 	
+	public DeviceCertificateQueryRestController( DeviceCertificateService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DeviceCertificate using a UUID
      * @param		UUID deviceCertificateId
@@ -95,7 +99,7 @@ public class DeviceCertificateQueryRestController extends BaseSpringRestControll
     	DeviceCertificate entity = null;
 
     	try {  
-    		entity = DeviceCertificateService.getDeviceCertificateInstance().getDeviceCertificate( new DeviceCertificateFetchOneSummary( deviceCertificateId ) );
+    		entity = service.getDeviceCertificate( new DeviceCertificateFetchOneSummary( deviceCertificateId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceCertificate using Id " + deviceCertificateId );
@@ -115,7 +119,7 @@ public class DeviceCertificateQueryRestController extends BaseSpringRestControll
         
     	try {
             // load the DeviceCertificate
-            deviceCertificateList = DeviceCertificateService.getDeviceCertificateInstance().getAllDeviceCertificate();
+            deviceCertificateList = service.getAllDeviceCertificate();
             
             if ( deviceCertificateList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceCertificates" );
@@ -135,6 +139,7 @@ public class DeviceCertificateQueryRestController extends BaseSpringRestControll
 // Attributes
 //************************************************************************
     protected DeviceCertificate deviceCertificate = null;
+    protected DeviceCertificateService service = null;
     private static final Logger LOGGER = Logger.getLogger(DeviceCertificateQueryRestController.class.getName());
     
 }

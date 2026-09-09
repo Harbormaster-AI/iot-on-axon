@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/MessagingEndpointQuery")
 public class MessagingEndpointQueryRestController extends BaseSpringRestController {
 	
+	public MessagingEndpointQueryRestController( MessagingEndpointService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a MessagingEndpoint using a UUID
      * @param		UUID messagingEndpointId
@@ -95,7 +99,7 @@ public class MessagingEndpointQueryRestController extends BaseSpringRestControll
     	MessagingEndpoint entity = null;
 
     	try {  
-    		entity = MessagingEndpointService.getMessagingEndpointInstance().getMessagingEndpoint( new MessagingEndpointFetchOneSummary( messagingEndpointId ) );
+    		entity = service.getMessagingEndpoint( new MessagingEndpointFetchOneSummary( messagingEndpointId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load MessagingEndpoint using Id " + messagingEndpointId );
@@ -115,7 +119,7 @@ public class MessagingEndpointQueryRestController extends BaseSpringRestControll
         
     	try {
             // load the MessagingEndpoint
-            messagingEndpointList = MessagingEndpointService.getMessagingEndpointInstance().getAllMessagingEndpoint();
+            messagingEndpointList = service.getAllMessagingEndpoint();
             
             if ( messagingEndpointList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all MessagingEndpoints" );
@@ -135,6 +139,7 @@ public class MessagingEndpointQueryRestController extends BaseSpringRestControll
 // Attributes
 //************************************************************************
     protected MessagingEndpoint messagingEndpoint = null;
+    protected MessagingEndpointService service = null;
     private static final Logger LOGGER = Logger.getLogger(MessagingEndpointQueryRestController.class.getName());
     
 }

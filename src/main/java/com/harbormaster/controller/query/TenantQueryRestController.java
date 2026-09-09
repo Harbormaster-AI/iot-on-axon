@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/TenantQuery")
 public class TenantQueryRestController extends BaseSpringRestController {
 	
+	public TenantQueryRestController( TenantService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Tenant using a UUID
      * @param		UUID tenantId
@@ -95,7 +99,7 @@ public class TenantQueryRestController extends BaseSpringRestController {
     	Tenant entity = null;
 
     	try {  
-    		entity = TenantService.getTenantInstance().getTenant( new TenantFetchOneSummary( tenantId ) );
+    		entity = service.getTenant( new TenantFetchOneSummary( tenantId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Tenant using Id " + tenantId );
@@ -115,7 +119,7 @@ public class TenantQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Tenant
-            tenantList = TenantService.getTenantInstance().getAllTenant();
+            tenantList = service.getAllTenant();
             
             if ( tenantList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Tenants" );
@@ -135,6 +139,7 @@ public class TenantQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Tenant tenant = null;
+    protected TenantService service = null;
     private static final Logger LOGGER = Logger.getLogger(TenantQueryRestController.class.getName());
     
 }

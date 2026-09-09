@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateActuatorInstanceEvent</li>
  *      <li>DeleteActuatorInstanceEvent</li>
    *       <li>AssignDeviceToActuatorInstanceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromActuatorInstanceEvent</li>
    *       <li>AssignSupportedCommandsToActuatorInstanceEvent</li>
  *       <li>RemoveSupportedCommandsFromActuatorInstanceEvent</li>
   *        </ul>

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/SensorInstance")
 public class SensorInstanceRestController extends BaseSpringRestController {
 
+	public SensorInstanceRestController( SensorInstanceService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a SensorInstance.  if not key provided, calls create, otherwise calls save
      * @param		SensorInstance	sensorInstance
@@ -94,7 +98,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = SensorInstanceService.getSensorInstanceInstance().createSensorInstance( command );
+			completableFuture = service.createSensorInstance( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateSensorInstanceCommand
 			// -----------------------------------------------
-			completableFuture = SensorInstanceService.getSensorInstanceInstance().updateSensorInstance(command);;
+			completableFuture = service.updateSensorInstance(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "SensorInstanceController:update() - successfully update SensorInstance - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteSensorInstanceCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	SensorInstanceService delegate = SensorInstanceService.getSensorInstanceInstance();
+        	SensorInstanceService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SensorInstance with key " + command.getSensorInstanceId() );
@@ -155,7 +159,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
     	SensorInstance entity = null;
 
     	try {  
-    		entity = SensorInstanceService.getSensorInstanceInstance().getSensorInstance( new SensorInstanceFetchOneSummary( uuid ) );   
+    		entity = service.getSensorInstance( new SensorInstanceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SensorInstance using Id " + uuid );
@@ -175,7 +179,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
         
     	try {
             // load the SensorInstance
-            sensorInstanceList = SensorInstanceService.getSensorInstanceInstance().getAllSensorInstance();
+            sensorInstanceList = service.getAllSensorInstance();
             
             if ( sensorInstanceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SensorInstances" );
@@ -196,7 +200,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToSensorInstanceCommand command ) {
 		try {
-			SensorInstanceService.getSensorInstanceInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromSensorInstanceCommand command ) {
 		try {
-			SensorInstanceService.getSensorInstanceInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -225,7 +229,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/addToTelemetryStreams")
 	public void addToTelemetryStreams( @RequestBody(required=true) AssignTelemetryStreamsToSensorInstanceCommand command ) {
 		try {
-			SensorInstanceService.getSensorInstanceInstance().addToTelemetryStreams( command );   
+			service.addToTelemetryStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set TelemetryStreams", exc );
@@ -240,7 +244,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 	public void removeFromTelemetryStreams( 	@RequestBody(required=true) RemoveTelemetryStreamsFromSensorInstanceCommand command )
 	{		
 		try {
-			SensorInstanceService.getSensorInstanceInstance().removeFromTelemetryStreams( command );
+			service.removeFromTelemetryStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set TelemetryStreams", exc );
@@ -254,6 +258,7 @@ public class SensorInstanceRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected SensorInstance sensorInstance = null;
-    private static final Logger LOGGER = Logger.getLogger(SensorInstanceRestController.class.getName());
+	protected SensorInstanceService service = null;
+	private static final Logger LOGGER = Logger.getLogger(SensorInstanceRestController.class.getName());
     
 }

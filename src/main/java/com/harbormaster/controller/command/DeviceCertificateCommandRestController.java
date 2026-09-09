@@ -100,7 +100,6 @@ public class DeviceCertificateCommandRestController extends BaseSpringRestContro
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateDeviceCertificateCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createDeviceCertificate( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class DeviceCertificateCommandRestController extends BaseSpringRestContro
 		DeleteDeviceCertificateCommand command = new DeleteDeviceCertificateCommand( deviceCertificateId );
 
     	try {
-        	DeviceCertificateService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceCertificate with key " + command.getDeviceCertificateId() );
         }
         catch( Throwable exc ) {

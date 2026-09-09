@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/GatewayQuery")
 public class GatewayQueryRestController extends BaseSpringRestController {
 	
+	public GatewayQueryRestController( GatewayService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Gateway using a UUID
      * @param		UUID gatewayId
@@ -95,7 +99,7 @@ public class GatewayQueryRestController extends BaseSpringRestController {
     	Gateway entity = null;
 
     	try {  
-    		entity = GatewayService.getGatewayInstance().getGateway( new GatewayFetchOneSummary( gatewayId ) );
+    		entity = service.getGateway( new GatewayFetchOneSummary( gatewayId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Gateway using Id " + gatewayId );
@@ -115,7 +119,7 @@ public class GatewayQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Gateway
-            gatewayList = GatewayService.getGatewayInstance().getAllGateway();
+            gatewayList = service.getAllGateway();
             
             if ( gatewayList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Gateways" );
@@ -135,6 +139,7 @@ public class GatewayQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Gateway gateway = null;
+    protected GatewayService service = null;
     private static final Logger LOGGER = Logger.getLogger(GatewayQueryRestController.class.getName());
     
 }

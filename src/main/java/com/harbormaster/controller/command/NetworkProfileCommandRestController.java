@@ -100,7 +100,6 @@ public class NetworkProfileCommandRestController extends BaseSpringRestControlle
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateNetworkProfileCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createNetworkProfile( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class NetworkProfileCommandRestController extends BaseSpringRestControlle
 		DeleteNetworkProfileCommand command = new DeleteNetworkProfileCommand( networkProfileId );
 
     	try {
-        	NetworkProfileService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted NetworkProfile with key " + command.getNetworkProfileId() );
         }
         catch( Throwable exc ) {

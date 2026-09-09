@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateFloorEvent</li>
  *      <li>DeleteFloorEvent</li>
    *       <li>AssignBuildingToFloorEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignBuildingFromFloorEvent</li>
    *       <li>AssignRoomsToFloorEvent</li>
  *       <li>RemoveRoomsFromFloorEvent</li>
   *        </ul>
@@ -217,7 +217,7 @@ public class FloorAggregate {
     private UUID floorId;
     
     private String name;
-    private Integer level;
+    private int level;
     private Building building = null;
     private Set<Room> rooms = new HashSet<>();
 

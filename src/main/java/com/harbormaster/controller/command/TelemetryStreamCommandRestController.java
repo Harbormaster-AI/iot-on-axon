@@ -100,7 +100,6 @@ public class TelemetryStreamCommandRestController extends BaseSpringRestControll
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateTelemetryStreamCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createTelemetryStream( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class TelemetryStreamCommandRestController extends BaseSpringRestControll
 		DeleteTelemetryStreamCommand command = new DeleteTelemetryStreamCommand( telemetryStreamId );
 
     	try {
-        	TelemetryStreamService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TelemetryStream with key " + command.getTelemetryStreamId() );
         }
         catch( Throwable exc ) {

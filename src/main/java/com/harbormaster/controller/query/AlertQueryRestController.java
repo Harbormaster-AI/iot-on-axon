@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/AlertQuery")
 public class AlertQueryRestController extends BaseSpringRestController {
 	
+	public AlertQueryRestController( AlertService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Alert using a UUID
      * @param		UUID alertId
@@ -95,7 +99,7 @@ public class AlertQueryRestController extends BaseSpringRestController {
     	Alert entity = null;
 
     	try {  
-    		entity = AlertService.getAlertInstance().getAlert( new AlertFetchOneSummary( alertId ) );
+    		entity = service.getAlert( new AlertFetchOneSummary( alertId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Alert using Id " + alertId );
@@ -115,7 +119,7 @@ public class AlertQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Alert
-            alertList = AlertService.getAlertInstance().getAllAlert();
+            alertList = service.getAllAlert();
             
             if ( alertList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Alerts" );
@@ -135,6 +139,7 @@ public class AlertQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Alert alert = null;
+    protected AlertService service = null;
     private static final Logger LOGGER = Logger.getLogger(AlertQueryRestController.class.getName());
     
 }

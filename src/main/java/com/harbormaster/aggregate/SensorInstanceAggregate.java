@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateSensorInstanceEvent</li>
  *      <li>DeleteSensorInstanceEvent</li>
    *       <li>AssignDeviceToSensorInstanceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromSensorInstanceEvent</li>
    *       <li>AssignTelemetryStreamsToSensorInstanceEvent</li>
  *       <li>RemoveTelemetryStreamsFromSensorInstanceEvent</li>
   *        </ul>
@@ -222,7 +222,7 @@ public class SensorInstanceAggregate {
     
     private String name;
     private String unit;
-    private Integer samplingIntervalMs;
+    private int samplingIntervalMs;
     private SensorType sensorType;
     private IoTDevice device = null;
     private Set<TelemetryStream> telemetryStreams = new HashSet<>();

@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/ConnectivityPlanQuery")
 public class ConnectivityPlanQueryRestController extends BaseSpringRestController {
 	
+	public ConnectivityPlanQueryRestController( ConnectivityPlanService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a ConnectivityPlan using a UUID
      * @param		UUID connectivityPlanId
@@ -95,7 +99,7 @@ public class ConnectivityPlanQueryRestController extends BaseSpringRestControlle
     	ConnectivityPlan entity = null;
 
     	try {  
-    		entity = ConnectivityPlanService.getConnectivityPlanInstance().getConnectivityPlan( new ConnectivityPlanFetchOneSummary( connectivityPlanId ) );
+    		entity = service.getConnectivityPlan( new ConnectivityPlanFetchOneSummary( connectivityPlanId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ConnectivityPlan using Id " + connectivityPlanId );
@@ -115,7 +119,7 @@ public class ConnectivityPlanQueryRestController extends BaseSpringRestControlle
         
     	try {
             // load the ConnectivityPlan
-            connectivityPlanList = ConnectivityPlanService.getConnectivityPlanInstance().getAllConnectivityPlan();
+            connectivityPlanList = service.getAllConnectivityPlan();
             
             if ( connectivityPlanList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ConnectivityPlans" );
@@ -135,6 +139,7 @@ public class ConnectivityPlanQueryRestController extends BaseSpringRestControlle
 // Attributes
 //************************************************************************
     protected ConnectivityPlan connectivityPlan = null;
+    protected ConnectivityPlanService service = null;
     private static final Logger LOGGER = Logger.getLogger(ConnectivityPlanQueryRestController.class.getName());
     
 }

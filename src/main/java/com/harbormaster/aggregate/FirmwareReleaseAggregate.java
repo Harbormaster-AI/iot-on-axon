@@ -65,7 +65,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateFirmwareReleaseEvent</li>
  *      <li>DeleteFirmwareReleaseEvent</li>
    *       <li>AssignDeviceModelToFirmwareReleaseEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceModelFromFirmwareReleaseEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -179,7 +179,7 @@ public class FirmwareReleaseAggregate {
     private UUID firmwareReleaseId;
     
     private FirmwareVersion version;
-    private Date releaseDate;
+    private  Date releaseDate;
     private String releaseNotes;
     private Checksum checksum;
     private DeviceModel deviceModel = null;

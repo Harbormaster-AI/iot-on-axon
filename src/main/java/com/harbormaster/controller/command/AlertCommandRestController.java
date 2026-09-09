@@ -100,7 +100,6 @@ public class AlertCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateAlertCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createAlert( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class AlertCommandRestController extends BaseSpringRestController {
 		DeleteAlertCommand command = new DeleteAlertCommand( alertId );
 
     	try {
-        	AlertService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Alert with key " + command.getAlertId() );
         }
         catch( Throwable exc ) {

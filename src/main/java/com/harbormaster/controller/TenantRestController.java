@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Tenant")
 public class TenantRestController extends BaseSpringRestController {
 
+	public TenantRestController( TenantService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a Tenant.  if not key provided, calls create, otherwise calls save
      * @param		Tenant	tenant
@@ -94,7 +98,7 @@ public class TenantRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TenantService.getTenantInstance().createTenant( command );
+			completableFuture = service.createTenant( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TenantRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTenantCommand
 			// -----------------------------------------------
-			completableFuture = TenantService.getTenantInstance().updateTenant(command);;
+			completableFuture = service.updateTenant(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TenantController:update() - successfully update Tenant - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TenantRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTenantCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TenantService delegate = TenantService.getTenantInstance();
+        	TenantService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Tenant with key " + command.getTenantId() );
@@ -155,7 +159,7 @@ public class TenantRestController extends BaseSpringRestController {
     	Tenant entity = null;
 
     	try {  
-    		entity = TenantService.getTenantInstance().getTenant( new TenantFetchOneSummary( uuid ) );   
+    		entity = service.getTenant( new TenantFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Tenant using Id " + uuid );
@@ -175,7 +179,7 @@ public class TenantRestController extends BaseSpringRestController {
         
     	try {
             // load the Tenant
-            tenantList = TenantService.getTenantInstance().getAllTenant();
+            tenantList = service.getAllTenant();
             
             if ( tenantList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Tenants" );
@@ -197,7 +201,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToSites")
 	public void addToSites( @RequestBody(required=true) AssignSitesToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToSites( command );   
+			service.addToSites( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Sites", exc );
@@ -212,7 +216,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromSites( 	@RequestBody(required=true) RemoveSitesFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromSites( command );
+			service.removeFromSites( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Sites", exc );
@@ -226,7 +230,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToUsers")
 	public void addToUsers( @RequestBody(required=true) AssignUsersToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToUsers( command );   
+			service.addToUsers( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Users", exc );
@@ -241,7 +245,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromUsers( 	@RequestBody(required=true) RemoveUsersFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromUsers( command );
+			service.removeFromUsers( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Users", exc );
@@ -255,7 +259,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToDevices")
 	public void addToDevices( @RequestBody(required=true) AssignDevicesToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToDevices( command );   
+			service.addToDevices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Devices", exc );
@@ -270,7 +274,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromDevices( 	@RequestBody(required=true) RemoveDevicesFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromDevices( command );
+			service.removeFromDevices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Devices", exc );
@@ -284,7 +288,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToDataRetentionPolicies")
 	public void addToDataRetentionPolicies( @RequestBody(required=true) AssignDataRetentionPoliciesToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToDataRetentionPolicies( command );   
+			service.addToDataRetentionPolicies( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set DataRetentionPolicies", exc );
@@ -299,7 +303,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromDataRetentionPolicies( 	@RequestBody(required=true) RemoveDataRetentionPoliciesFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromDataRetentionPolicies( command );
+			service.removeFromDataRetentionPolicies( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set DataRetentionPolicies", exc );
@@ -313,7 +317,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToConnectivityPlans")
 	public void addToConnectivityPlans( @RequestBody(required=true) AssignConnectivityPlansToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToConnectivityPlans( command );   
+			service.addToConnectivityPlans( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set ConnectivityPlans", exc );
@@ -328,7 +332,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromConnectivityPlans( 	@RequestBody(required=true) RemoveConnectivityPlansFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromConnectivityPlans( command );
+			service.removeFromConnectivityPlans( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set ConnectivityPlans", exc );
@@ -342,7 +346,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToSimCards")
 	public void addToSimCards( @RequestBody(required=true) AssignSimCardsToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToSimCards( command );   
+			service.addToSimCards( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set SimCards", exc );
@@ -357,7 +361,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromSimCards( 	@RequestBody(required=true) RemoveSimCardsFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromSimCards( command );
+			service.removeFromSimCards( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set SimCards", exc );
@@ -371,7 +375,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToMessagingEndpoints")
 	public void addToMessagingEndpoints( @RequestBody(required=true) AssignMessagingEndpointsToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToMessagingEndpoints( command );   
+			service.addToMessagingEndpoints( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set MessagingEndpoints", exc );
@@ -386,7 +390,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromMessagingEndpoints( 	@RequestBody(required=true) RemoveMessagingEndpointsFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromMessagingEndpoints( command );
+			service.removeFromMessagingEndpoints( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set MessagingEndpoints", exc );
@@ -400,7 +404,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToAccessPolicies")
 	public void addToAccessPolicies( @RequestBody(required=true) AssignAccessPoliciesToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToAccessPolicies( command );   
+			service.addToAccessPolicies( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set AccessPolicies", exc );
@@ -415,7 +419,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromAccessPolicies( 	@RequestBody(required=true) RemoveAccessPoliciesFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromAccessPolicies( command );
+			service.removeFromAccessPolicies( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set AccessPolicies", exc );
@@ -429,7 +433,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToDeviceGroups")
 	public void addToDeviceGroups( @RequestBody(required=true) AssignDeviceGroupsToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToDeviceGroups( command );   
+			service.addToDeviceGroups( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set DeviceGroups", exc );
@@ -444,7 +448,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromDeviceGroups( 	@RequestBody(required=true) RemoveDeviceGroupsFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromDeviceGroups( command );
+			service.removeFromDeviceGroups( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set DeviceGroups", exc );
@@ -458,7 +462,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToAlertRules")
 	public void addToAlertRules( @RequestBody(required=true) AssignAlertRulesToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToAlertRules( command );   
+			service.addToAlertRules( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set AlertRules", exc );
@@ -473,7 +477,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromAlertRules( 	@RequestBody(required=true) RemoveAlertRulesFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromAlertRules( command );
+			service.removeFromAlertRules( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set AlertRules", exc );
@@ -487,7 +491,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToMaintenanceTickets")
 	public void addToMaintenanceTickets( @RequestBody(required=true) AssignMaintenanceTicketsToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToMaintenanceTickets( command );   
+			service.addToMaintenanceTickets( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set MaintenanceTickets", exc );
@@ -502,7 +506,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromMaintenanceTickets( 	@RequestBody(required=true) RemoveMaintenanceTicketsFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromMaintenanceTickets( command );
+			service.removeFromMaintenanceTickets( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set MaintenanceTickets", exc );
@@ -516,7 +520,7 @@ public class TenantRestController extends BaseSpringRestController {
 	@PutMapping("/addToUsageRecords")
 	public void addToUsageRecords( @RequestBody(required=true) AssignUsageRecordsToTenantCommand command ) {
 		try {
-			TenantService.getTenantInstance().addToUsageRecords( command );   
+			service.addToUsageRecords( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set UsageRecords", exc );
@@ -531,7 +535,7 @@ public class TenantRestController extends BaseSpringRestController {
 	public void removeFromUsageRecords( 	@RequestBody(required=true) RemoveUsageRecordsFromTenantCommand command )
 	{		
 		try {
-			TenantService.getTenantInstance().removeFromUsageRecords( command );
+			service.removeFromUsageRecords( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set UsageRecords", exc );
@@ -545,6 +549,7 @@ public class TenantRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Tenant tenant = null;
-    private static final Logger LOGGER = Logger.getLogger(TenantRestController.class.getName());
+	protected TenantService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TenantRestController.class.getName());
     
 }

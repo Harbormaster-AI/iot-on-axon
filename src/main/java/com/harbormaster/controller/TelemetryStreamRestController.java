@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TelemetryStream")
 public class TelemetryStreamRestController extends BaseSpringRestController {
 
+	public TelemetryStreamRestController( TelemetryStreamService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a TelemetryStream.  if not key provided, calls create, otherwise calls save
      * @param		TelemetryStream	telemetryStream
@@ -94,7 +98,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TelemetryStreamService.getTelemetryStreamInstance().createTelemetryStream( command );
+			completableFuture = service.createTelemetryStream( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTelemetryStreamCommand
 			// -----------------------------------------------
-			completableFuture = TelemetryStreamService.getTelemetryStreamInstance().updateTelemetryStream(command);;
+			completableFuture = service.updateTelemetryStream(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TelemetryStreamController:update() - successfully update TelemetryStream - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTelemetryStreamCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TelemetryStreamService delegate = TelemetryStreamService.getTelemetryStreamInstance();
+        	TelemetryStreamService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TelemetryStream with key " + command.getTelemetryStreamId() );
@@ -155,7 +159,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
     	TelemetryStream entity = null;
 
     	try {  
-    		entity = TelemetryStreamService.getTelemetryStreamInstance().getTelemetryStream( new TelemetryStreamFetchOneSummary( uuid ) );   
+    		entity = service.getTelemetryStream( new TelemetryStreamFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TelemetryStream using Id " + uuid );
@@ -175,7 +179,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
         
     	try {
             // load the TelemetryStream
-            telemetryStreamList = TelemetryStreamService.getTelemetryStreamInstance().getAllTelemetryStream();
+            telemetryStreamList = service.getAllTelemetryStream();
             
             if ( telemetryStreamList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TelemetryStreams" );
@@ -196,7 +200,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/assignSensor")
 	public void assignSensor( @RequestBody AssignSensorToTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().assignSensor( command );   
+			service.assignSensor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Sensor", exc );
@@ -238,7 +242,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSensor")
 	public void unAssignSensor( @RequestBody(required=true)  UnAssignSensorFromTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().unAssignSensor( command );   
+			service.unAssignSensor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Sensor", exc );
@@ -252,7 +256,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/assignSchema")
 	public void assignSchema( @RequestBody AssignSchemaToTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().assignSchema( command );   
+			service.assignSchema( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Schema", exc );
@@ -266,7 +270,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSchema")
 	public void unAssignSchema( @RequestBody(required=true)  UnAssignSchemaFromTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().unAssignSchema( command );   
+			service.unAssignSchema( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Schema", exc );
@@ -280,7 +284,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/assignMessagingEndpoint")
 	public void assignMessagingEndpoint( @RequestBody AssignMessagingEndpointToTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().assignMessagingEndpoint( command );   
+			service.assignMessagingEndpoint( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign MessagingEndpoint", exc );
@@ -294,7 +298,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignMessagingEndpoint")
 	public void unAssignMessagingEndpoint( @RequestBody(required=true)  UnAssignMessagingEndpointFromTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().unAssignMessagingEndpoint( command );   
+			service.unAssignMessagingEndpoint( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign MessagingEndpoint", exc );
@@ -308,7 +312,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/assignRetentionPolicy")
 	public void assignRetentionPolicy( @RequestBody AssignRetentionPolicyToTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().assignRetentionPolicy( command );   
+			service.assignRetentionPolicy( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign RetentionPolicy", exc );
@@ -322,7 +326,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRetentionPolicy")
 	public void unAssignRetentionPolicy( @RequestBody(required=true)  UnAssignRetentionPolicyFromTelemetryStreamCommand command ) {
 		try {
-			TelemetryStreamService.getTelemetryStreamInstance().unAssignRetentionPolicy( command );   
+			service.unAssignRetentionPolicy( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign RetentionPolicy", exc );
@@ -337,6 +341,7 @@ public class TelemetryStreamRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TelemetryStream telemetryStream = null;
-    private static final Logger LOGGER = Logger.getLogger(TelemetryStreamRestController.class.getName());
+	protected TelemetryStreamService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TelemetryStreamRestController.class.getName());
     
 }

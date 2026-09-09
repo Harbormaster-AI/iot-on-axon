@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateMessagingEndpointEvent</li>
  *      <li>DeleteMessagingEndpointEvent</li>
    *       <li>AssignTenantToMessagingEndpointEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromMessagingEndpointEvent</li>
    *       <li>AssignStreamsToMessagingEndpointEvent</li>
  *       <li>RemoveStreamsFromMessagingEndpointEvent</li>
   *        </ul>
@@ -221,8 +221,8 @@ public class MessagingEndpointAggregate {
     private UUID messagingEndpointId;
     
     private String host;
-    private Integer port;
-    private Boolean secure;
+    private int port;
+    private boolean secure;
     private MessagingProtocol protocol;
     private Tenant tenant = null;
     private Set<TelemetryStream> streams = new HashSet<>();

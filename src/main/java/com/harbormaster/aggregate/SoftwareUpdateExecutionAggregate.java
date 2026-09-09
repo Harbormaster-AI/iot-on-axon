@@ -67,9 +67,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateSoftwareUpdateExecutionEvent</li>
  *      <li>DeleteSoftwareUpdateExecutionEvent</li>
    *       <li>AssignCampaignToSoftwareUpdateExecutionEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignCampaignFromSoftwareUpdateExecutionEvent</li>
   *       <li>AssignDeviceToSoftwareUpdateExecutionEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromSoftwareUpdateExecutionEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -212,8 +212,8 @@ public class SoftwareUpdateExecutionAggregate {
     @AggregateIdentifier
     private UUID softwareUpdateExecutionId;
     
-    private DateTime startedAt;
-    private DateTime completedAt;
+    private  Date startedAt;
+    private  Date completedAt;
     private UpdateStatus status;
     private SoftwareUpdateCampaign campaign = null;
     private IoTDevice device = null;

@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateDeviceGroupEvent</li>
  *      <li>DeleteDeviceGroupEvent</li>
    *       <li>AssignTenantToDeviceGroupEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromDeviceGroupEvent</li>
    *       <li>AssignDevicesToDeviceGroupEvent</li>
  *       <li>RemoveDevicesFromDeviceGroupEvent</li>
   *        </ul>

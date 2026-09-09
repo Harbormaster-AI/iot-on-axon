@@ -69,11 +69,11 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateNetworkProfileEvent</li>
  *      <li>DeleteNetworkProfileEvent</li>
    *       <li>AssignDeviceToNetworkProfileEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromNetworkProfileEvent</li>
   *       <li>AssignGatewayToNetworkProfileEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignGatewayFromNetworkProfileEvent</li>
   *       <li>AssignSimCardToNetworkProfileEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSimCardFromNetworkProfileEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>

@@ -100,7 +100,6 @@ public class DeviceVendorCommandRestController extends BaseSpringRestController 
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateDeviceVendorCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createDeviceVendor( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class DeviceVendorCommandRestController extends BaseSpringRestController 
 		DeleteDeviceVendorCommand command = new DeleteDeviceVendorCommand( deviceVendorId );
 
     	try {
-        	DeviceVendorService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceVendor with key " + command.getDeviceVendorId() );
         }
         catch( Throwable exc ) {

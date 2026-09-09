@@ -100,7 +100,6 @@ public class BuildingCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateBuildingCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createBuilding( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class BuildingCommandRestController extends BaseSpringRestController {
 		DeleteBuildingCommand command = new DeleteBuildingCommand( buildingId );
 
     	try {
-        	BuildingService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Building with key " + command.getBuildingId() );
         }
         catch( Throwable exc ) {

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/CommandDefinition")
 public class CommandDefinitionRestController extends BaseSpringRestController {
 
+	public CommandDefinitionRestController( CommandDefinitionService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a CommandDefinition.  if not key provided, calls create, otherwise calls save
      * @param		CommandDefinition	commandDefinition
@@ -94,7 +98,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = CommandDefinitionService.getCommandDefinitionInstance().createCommandDefinition( command );
+			completableFuture = service.createCommandDefinition( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateCommandDefinitionCommand
 			// -----------------------------------------------
-			completableFuture = CommandDefinitionService.getCommandDefinitionInstance().updateCommandDefinition(command);;
+			completableFuture = service.updateCommandDefinition(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "CommandDefinitionController:update() - successfully update CommandDefinition - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteCommandDefinitionCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	CommandDefinitionService delegate = CommandDefinitionService.getCommandDefinitionInstance();
+        	CommandDefinitionService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CommandDefinition with key " + command.getCommandDefinitionId() );
@@ -155,7 +159,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
     	CommandDefinition entity = null;
 
     	try {  
-    		entity = CommandDefinitionService.getCommandDefinitionInstance().getCommandDefinition( new CommandDefinitionFetchOneSummary( uuid ) );   
+    		entity = service.getCommandDefinition( new CommandDefinitionFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CommandDefinition using Id " + uuid );
@@ -175,7 +179,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
         
     	try {
             // load the CommandDefinition
-            commandDefinitionList = CommandDefinitionService.getCommandDefinitionInstance().getAllCommandDefinition();
+            commandDefinitionList = service.getAllCommandDefinition();
             
             if ( commandDefinitionList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CommandDefinitions" );
@@ -196,7 +200,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	@PutMapping("/assignDeviceModel")
 	public void assignDeviceModel( @RequestBody AssignDeviceModelToCommandDefinitionCommand command ) {
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().assignDeviceModel( command );   
+			service.assignDeviceModel( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign DeviceModel", exc );
@@ -210,7 +214,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDeviceModel")
 	public void unAssignDeviceModel( @RequestBody(required=true)  UnAssignDeviceModelFromCommandDefinitionCommand command ) {
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().unAssignDeviceModel( command );   
+			service.unAssignDeviceModel( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign DeviceModel", exc );
@@ -225,7 +229,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	@PutMapping("/addToActuators")
 	public void addToActuators( @RequestBody(required=true) AssignActuatorsToCommandDefinitionCommand command ) {
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().addToActuators( command );   
+			service.addToActuators( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Actuators", exc );
@@ -240,7 +244,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	public void removeFromActuators( 	@RequestBody(required=true) RemoveActuatorsFromCommandDefinitionCommand command )
 	{		
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().removeFromActuators( command );
+			service.removeFromActuators( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Actuators", exc );
@@ -254,7 +258,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	@PutMapping("/addToCommandInvocations")
 	public void addToCommandInvocations( @RequestBody(required=true) AssignCommandInvocationsToCommandDefinitionCommand command ) {
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().addToCommandInvocations( command );   
+			service.addToCommandInvocations( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set CommandInvocations", exc );
@@ -269,7 +273,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 	public void removeFromCommandInvocations( 	@RequestBody(required=true) RemoveCommandInvocationsFromCommandDefinitionCommand command )
 	{		
 		try {
-			CommandDefinitionService.getCommandDefinitionInstance().removeFromCommandInvocations( command );
+			service.removeFromCommandInvocations( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set CommandInvocations", exc );
@@ -283,6 +287,7 @@ public class CommandDefinitionRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected CommandDefinition commandDefinition = null;
-    private static final Logger LOGGER = Logger.getLogger(CommandDefinitionRestController.class.getName());
+	protected CommandDefinitionService service = null;
+	private static final Logger LOGGER = Logger.getLogger(CommandDefinitionRestController.class.getName());
     
 }

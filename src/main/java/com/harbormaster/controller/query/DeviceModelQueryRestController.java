@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DeviceModelQuery")
 public class DeviceModelQueryRestController extends BaseSpringRestController {
 	
+	public DeviceModelQueryRestController( DeviceModelService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DeviceModel using a UUID
      * @param		UUID deviceModelId
@@ -95,7 +99,7 @@ public class DeviceModelQueryRestController extends BaseSpringRestController {
     	DeviceModel entity = null;
 
     	try {  
-    		entity = DeviceModelService.getDeviceModelInstance().getDeviceModel( new DeviceModelFetchOneSummary( deviceModelId ) );
+    		entity = service.getDeviceModel( new DeviceModelFetchOneSummary( deviceModelId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceModel using Id " + deviceModelId );
@@ -115,7 +119,7 @@ public class DeviceModelQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceModel
-            deviceModelList = DeviceModelService.getDeviceModelInstance().getAllDeviceModel();
+            deviceModelList = service.getAllDeviceModel();
             
             if ( deviceModelList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceModels" );
@@ -135,6 +139,7 @@ public class DeviceModelQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceModel deviceModel = null;
+    protected DeviceModelService service = null;
     private static final Logger LOGGER = Logger.getLogger(DeviceModelQueryRestController.class.getName());
     
 }

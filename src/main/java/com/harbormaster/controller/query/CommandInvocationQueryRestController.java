@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/CommandInvocationQuery")
 public class CommandInvocationQueryRestController extends BaseSpringRestController {
 	
+	public CommandInvocationQueryRestController( CommandInvocationService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a CommandInvocation using a UUID
      * @param		UUID commandInvocationId
@@ -95,7 +99,7 @@ public class CommandInvocationQueryRestController extends BaseSpringRestControll
     	CommandInvocation entity = null;
 
     	try {  
-    		entity = CommandInvocationService.getCommandInvocationInstance().getCommandInvocation( new CommandInvocationFetchOneSummary( commandInvocationId ) );
+    		entity = service.getCommandInvocation( new CommandInvocationFetchOneSummary( commandInvocationId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CommandInvocation using Id " + commandInvocationId );
@@ -115,7 +119,7 @@ public class CommandInvocationQueryRestController extends BaseSpringRestControll
         
     	try {
             // load the CommandInvocation
-            commandInvocationList = CommandInvocationService.getCommandInvocationInstance().getAllCommandInvocation();
+            commandInvocationList = service.getAllCommandInvocation();
             
             if ( commandInvocationList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CommandInvocations" );
@@ -135,6 +139,7 @@ public class CommandInvocationQueryRestController extends BaseSpringRestControll
 // Attributes
 //************************************************************************
     protected CommandInvocation commandInvocation = null;
+    protected CommandInvocationService service = null;
     private static final Logger LOGGER = Logger.getLogger(CommandInvocationQueryRestController.class.getName());
     
 }

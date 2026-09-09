@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Site")
 public class SiteRestController extends BaseSpringRestController {
 
+	public SiteRestController( SiteService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a Site.  if not key provided, calls create, otherwise calls save
      * @param		Site	site
@@ -94,7 +98,7 @@ public class SiteRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = SiteService.getSiteInstance().createSite( command );
+			completableFuture = service.createSite( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class SiteRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateSiteCommand
 			// -----------------------------------------------
-			completableFuture = SiteService.getSiteInstance().updateSite(command);;
+			completableFuture = service.updateSite(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "SiteController:update() - successfully update Site - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class SiteRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteSiteCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	SiteService delegate = SiteService.getSiteInstance();
+        	SiteService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Site with key " + command.getSiteId() );
@@ -155,7 +159,7 @@ public class SiteRestController extends BaseSpringRestController {
     	Site entity = null;
 
     	try {  
-    		entity = SiteService.getSiteInstance().getSite( new SiteFetchOneSummary( uuid ) );   
+    		entity = service.getSite( new SiteFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Site using Id " + uuid );
@@ -175,7 +179,7 @@ public class SiteRestController extends BaseSpringRestController {
         
     	try {
             // load the Site
-            siteList = SiteService.getSiteInstance().getAllSite();
+            siteList = service.getAllSite();
             
             if ( siteList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Sites" );
@@ -196,7 +200,7 @@ public class SiteRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToSiteCommand command ) {
 		try {
-			SiteService.getSiteInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class SiteRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromSiteCommand command ) {
 		try {
-			SiteService.getSiteInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class SiteRestController extends BaseSpringRestController {
 	@PutMapping("/addToBuildings")
 	public void addToBuildings( @RequestBody(required=true) AssignBuildingsToSiteCommand command ) {
 		try {
-			SiteService.getSiteInstance().addToBuildings( command );   
+			service.addToBuildings( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Buildings", exc );
@@ -240,7 +244,7 @@ public class SiteRestController extends BaseSpringRestController {
 	public void removeFromBuildings( 	@RequestBody(required=true) RemoveBuildingsFromSiteCommand command )
 	{		
 		try {
-			SiteService.getSiteInstance().removeFromBuildings( command );
+			service.removeFromBuildings( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Buildings", exc );
@@ -254,7 +258,7 @@ public class SiteRestController extends BaseSpringRestController {
 	@PutMapping("/addToDevices")
 	public void addToDevices( @RequestBody(required=true) AssignDevicesToSiteCommand command ) {
 		try {
-			SiteService.getSiteInstance().addToDevices( command );   
+			service.addToDevices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Devices", exc );
@@ -269,7 +273,7 @@ public class SiteRestController extends BaseSpringRestController {
 	public void removeFromDevices( 	@RequestBody(required=true) RemoveDevicesFromSiteCommand command )
 	{		
 		try {
-			SiteService.getSiteInstance().removeFromDevices( command );
+			service.removeFromDevices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Devices", exc );
@@ -283,7 +287,7 @@ public class SiteRestController extends BaseSpringRestController {
 	@PutMapping("/addToGateways")
 	public void addToGateways( @RequestBody(required=true) AssignGatewaysToSiteCommand command ) {
 		try {
-			SiteService.getSiteInstance().addToGateways( command );   
+			service.addToGateways( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Gateways", exc );
@@ -298,7 +302,7 @@ public class SiteRestController extends BaseSpringRestController {
 	public void removeFromGateways( 	@RequestBody(required=true) RemoveGatewaysFromSiteCommand command )
 	{		
 		try {
-			SiteService.getSiteInstance().removeFromGateways( command );
+			service.removeFromGateways( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Gateways", exc );
@@ -312,6 +316,7 @@ public class SiteRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Site site = null;
-    private static final Logger LOGGER = Logger.getLogger(SiteRestController.class.getName());
+	protected SiteService service = null;
+	private static final Logger LOGGER = Logger.getLogger(SiteRestController.class.getName());
     
 }

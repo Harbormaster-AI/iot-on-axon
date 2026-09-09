@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/HardwareModuleQuery")
 public class HardwareModuleQueryRestController extends BaseSpringRestController {
 	
+	public HardwareModuleQueryRestController( HardwareModuleService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a HardwareModule using a UUID
      * @param		UUID hardwareModuleId
@@ -95,7 +99,7 @@ public class HardwareModuleQueryRestController extends BaseSpringRestController 
     	HardwareModule entity = null;
 
     	try {  
-    		entity = HardwareModuleService.getHardwareModuleInstance().getHardwareModule( new HardwareModuleFetchOneSummary( hardwareModuleId ) );
+    		entity = service.getHardwareModule( new HardwareModuleFetchOneSummary( hardwareModuleId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load HardwareModule using Id " + hardwareModuleId );
@@ -115,7 +119,7 @@ public class HardwareModuleQueryRestController extends BaseSpringRestController 
         
     	try {
             // load the HardwareModule
-            hardwareModuleList = HardwareModuleService.getHardwareModuleInstance().getAllHardwareModule();
+            hardwareModuleList = service.getAllHardwareModule();
             
             if ( hardwareModuleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all HardwareModules" );
@@ -135,6 +139,7 @@ public class HardwareModuleQueryRestController extends BaseSpringRestController 
 // Attributes
 //************************************************************************
     protected HardwareModule hardwareModule = null;
+    protected HardwareModuleService service = null;
     private static final Logger LOGGER = Logger.getLogger(HardwareModuleQueryRestController.class.getName());
     
 }

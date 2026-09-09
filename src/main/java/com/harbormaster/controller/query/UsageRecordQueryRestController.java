@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/UsageRecordQuery")
 public class UsageRecordQueryRestController extends BaseSpringRestController {
 	
+	public UsageRecordQueryRestController( UsageRecordService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a UsageRecord using a UUID
      * @param		UUID usageRecordId
@@ -95,7 +99,7 @@ public class UsageRecordQueryRestController extends BaseSpringRestController {
     	UsageRecord entity = null;
 
     	try {  
-    		entity = UsageRecordService.getUsageRecordInstance().getUsageRecord( new UsageRecordFetchOneSummary( usageRecordId ) );
+    		entity = service.getUsageRecord( new UsageRecordFetchOneSummary( usageRecordId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load UsageRecord using Id " + usageRecordId );
@@ -115,7 +119,7 @@ public class UsageRecordQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the UsageRecord
-            usageRecordList = UsageRecordService.getUsageRecordInstance().getAllUsageRecord();
+            usageRecordList = service.getAllUsageRecord();
             
             if ( usageRecordList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all UsageRecords" );
@@ -135,6 +139,7 @@ public class UsageRecordQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected UsageRecord usageRecord = null;
+    protected UsageRecordService service = null;
     private static final Logger LOGGER = Logger.getLogger(UsageRecordQueryRestController.class.getName());
     
 }

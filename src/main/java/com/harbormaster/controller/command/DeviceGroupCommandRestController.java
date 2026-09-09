@@ -100,7 +100,6 @@ public class DeviceGroupCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateDeviceGroupCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createDeviceGroup( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class DeviceGroupCommandRestController extends BaseSpringRestController {
 		DeleteDeviceGroupCommand command = new DeleteDeviceGroupCommand( deviceGroupId );
 
     	try {
-        	DeviceGroupService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceGroup with key " + command.getDeviceGroupId() );
         }
         catch( Throwable exc ) {

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/AccessPolicy")
 public class AccessPolicyRestController extends BaseSpringRestController {
 
+	public AccessPolicyRestController( AccessPolicyService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a AccessPolicy.  if not key provided, calls create, otherwise calls save
      * @param		AccessPolicy	accessPolicy
@@ -94,7 +98,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = AccessPolicyService.getAccessPolicyInstance().createAccessPolicy( command );
+			completableFuture = service.createAccessPolicy( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateAccessPolicyCommand
 			// -----------------------------------------------
-			completableFuture = AccessPolicyService.getAccessPolicyInstance().updateAccessPolicy(command);;
+			completableFuture = service.updateAccessPolicy(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AccessPolicyController:update() - successfully update AccessPolicy - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteAccessPolicyCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	AccessPolicyService delegate = AccessPolicyService.getAccessPolicyInstance();
+        	AccessPolicyService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted AccessPolicy with key " + command.getAccessPolicyId() );
@@ -155,7 +159,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
     	AccessPolicy entity = null;
 
     	try {  
-    		entity = AccessPolicyService.getAccessPolicyInstance().getAccessPolicy( new AccessPolicyFetchOneSummary( uuid ) );   
+    		entity = service.getAccessPolicy( new AccessPolicyFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AccessPolicy using Id " + uuid );
@@ -175,7 +179,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
         
     	try {
             // load the AccessPolicy
-            accessPolicyList = AccessPolicyService.getAccessPolicyInstance().getAllAccessPolicy();
+            accessPolicyList = service.getAllAccessPolicy();
             
             if ( accessPolicyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AccessPolicys" );
@@ -196,7 +200,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToAccessPolicyCommand command ) {
 		try {
-			AccessPolicyService.getAccessPolicyInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromAccessPolicyCommand command ) {
 		try {
-			AccessPolicyService.getAccessPolicyInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/addToApiKeys")
 	public void addToApiKeys( @RequestBody(required=true) AssignApiKeysToAccessPolicyCommand command ) {
 		try {
-			AccessPolicyService.getAccessPolicyInstance().addToApiKeys( command );   
+			service.addToApiKeys( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set ApiKeys", exc );
@@ -240,7 +244,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	public void removeFromApiKeys( 	@RequestBody(required=true) RemoveApiKeysFromAccessPolicyCommand command )
 	{		
 		try {
-			AccessPolicyService.getAccessPolicyInstance().removeFromApiKeys( command );
+			service.removeFromApiKeys( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set ApiKeys", exc );
@@ -254,7 +258,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/addToUsers")
 	public void addToUsers( @RequestBody(required=true) AssignUsersToAccessPolicyCommand command ) {
 		try {
-			AccessPolicyService.getAccessPolicyInstance().addToUsers( command );   
+			service.addToUsers( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Users", exc );
@@ -269,7 +273,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 	public void removeFromUsers( 	@RequestBody(required=true) RemoveUsersFromAccessPolicyCommand command )
 	{		
 		try {
-			AccessPolicyService.getAccessPolicyInstance().removeFromUsers( command );
+			service.removeFromUsers( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Users", exc );
@@ -283,6 +287,7 @@ public class AccessPolicyRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected AccessPolicy accessPolicy = null;
-    private static final Logger LOGGER = Logger.getLogger(AccessPolicyRestController.class.getName());
+	protected AccessPolicyService service = null;
+	private static final Logger LOGGER = Logger.getLogger(AccessPolicyRestController.class.getName());
     
 }

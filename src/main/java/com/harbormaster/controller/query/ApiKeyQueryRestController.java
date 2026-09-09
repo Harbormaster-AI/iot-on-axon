@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/ApiKeyQuery")
 public class ApiKeyQueryRestController extends BaseSpringRestController {
 	
+	public ApiKeyQueryRestController( ApiKeyService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a ApiKey using a UUID
      * @param		UUID apiKeyId
@@ -95,7 +99,7 @@ public class ApiKeyQueryRestController extends BaseSpringRestController {
     	ApiKey entity = null;
 
     	try {  
-    		entity = ApiKeyService.getApiKeyInstance().getApiKey( new ApiKeyFetchOneSummary( apiKeyId ) );
+    		entity = service.getApiKey( new ApiKeyFetchOneSummary( apiKeyId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ApiKey using Id " + apiKeyId );
@@ -115,7 +119,7 @@ public class ApiKeyQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the ApiKey
-            apiKeyList = ApiKeyService.getApiKeyInstance().getAllApiKey();
+            apiKeyList = service.getAllApiKey();
             
             if ( apiKeyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ApiKeys" );
@@ -135,6 +139,7 @@ public class ApiKeyQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ApiKey apiKey = null;
+    protected ApiKeyService service = null;
     private static final Logger LOGGER = Logger.getLogger(ApiKeyQueryRestController.class.getName());
     
 }

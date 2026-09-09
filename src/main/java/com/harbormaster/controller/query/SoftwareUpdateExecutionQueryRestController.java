@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/SoftwareUpdateExecutionQuery")
 public class SoftwareUpdateExecutionQueryRestController extends BaseSpringRestController {
 	
+	public SoftwareUpdateExecutionQueryRestController( SoftwareUpdateExecutionService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a SoftwareUpdateExecution using a UUID
      * @param		UUID softwareUpdateExecutionId
@@ -95,7 +99,7 @@ public class SoftwareUpdateExecutionQueryRestController extends BaseSpringRestCo
     	SoftwareUpdateExecution entity = null;
 
     	try {  
-    		entity = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().getSoftwareUpdateExecution( new SoftwareUpdateExecutionFetchOneSummary( softwareUpdateExecutionId ) );
+    		entity = service.getSoftwareUpdateExecution( new SoftwareUpdateExecutionFetchOneSummary( softwareUpdateExecutionId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SoftwareUpdateExecution using Id " + softwareUpdateExecutionId );
@@ -115,7 +119,7 @@ public class SoftwareUpdateExecutionQueryRestController extends BaseSpringRestCo
         
     	try {
             // load the SoftwareUpdateExecution
-            softwareUpdateExecutionList = SoftwareUpdateExecutionService.getSoftwareUpdateExecutionInstance().getAllSoftwareUpdateExecution();
+            softwareUpdateExecutionList = service.getAllSoftwareUpdateExecution();
             
             if ( softwareUpdateExecutionList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SoftwareUpdateExecutions" );
@@ -135,6 +139,7 @@ public class SoftwareUpdateExecutionQueryRestController extends BaseSpringRestCo
 // Attributes
 //************************************************************************
     protected SoftwareUpdateExecution softwareUpdateExecution = null;
+    protected SoftwareUpdateExecutionService service = null;
     private static final Logger LOGGER = Logger.getLogger(SoftwareUpdateExecutionQueryRestController.class.getName());
     
 }

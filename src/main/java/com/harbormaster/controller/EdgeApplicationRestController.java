@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/EdgeApplication")
 public class EdgeApplicationRestController extends BaseSpringRestController {
 
+	public EdgeApplicationRestController( EdgeApplicationService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a EdgeApplication.  if not key provided, calls create, otherwise calls save
      * @param		EdgeApplication	edgeApplication
@@ -94,7 +98,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = EdgeApplicationService.getEdgeApplicationInstance().createEdgeApplication( command );
+			completableFuture = service.createEdgeApplication( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateEdgeApplicationCommand
 			// -----------------------------------------------
-			completableFuture = EdgeApplicationService.getEdgeApplicationInstance().updateEdgeApplication(command);;
+			completableFuture = service.updateEdgeApplication(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "EdgeApplicationController:update() - successfully update EdgeApplication - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteEdgeApplicationCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	EdgeApplicationService delegate = EdgeApplicationService.getEdgeApplicationInstance();
+        	EdgeApplicationService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted EdgeApplication with key " + command.getEdgeApplicationId() );
@@ -155,7 +159,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
     	EdgeApplication entity = null;
 
     	try {  
-    		entity = EdgeApplicationService.getEdgeApplicationInstance().getEdgeApplication( new EdgeApplicationFetchOneSummary( uuid ) );   
+    		entity = service.getEdgeApplication( new EdgeApplicationFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load EdgeApplication using Id " + uuid );
@@ -175,7 +179,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
         
     	try {
             // load the EdgeApplication
-            edgeApplicationList = EdgeApplicationService.getEdgeApplicationInstance().getAllEdgeApplication();
+            edgeApplicationList = service.getAllEdgeApplication();
             
             if ( edgeApplicationList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all EdgeApplications" );
@@ -196,7 +200,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
 	@PutMapping("/assignGateway")
 	public void assignGateway( @RequestBody AssignGatewayToEdgeApplicationCommand command ) {
 		try {
-			EdgeApplicationService.getEdgeApplicationInstance().assignGateway( command );   
+			service.assignGateway( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Gateway", exc );
@@ -210,7 +214,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignGateway")
 	public void unAssignGateway( @RequestBody(required=true)  UnAssignGatewayFromEdgeApplicationCommand command ) {
 		try {
-			EdgeApplicationService.getEdgeApplicationInstance().unAssignGateway( command );   
+			service.unAssignGateway( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Gateway", exc );
@@ -225,6 +229,7 @@ public class EdgeApplicationRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected EdgeApplication edgeApplication = null;
-    private static final Logger LOGGER = Logger.getLogger(EdgeApplicationRestController.class.getName());
+	protected EdgeApplicationService service = null;
+	private static final Logger LOGGER = Logger.getLogger(EdgeApplicationRestController.class.getName());
     
 }

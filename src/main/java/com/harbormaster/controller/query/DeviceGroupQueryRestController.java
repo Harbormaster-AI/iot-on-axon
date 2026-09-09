@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DeviceGroupQuery")
 public class DeviceGroupQueryRestController extends BaseSpringRestController {
 	
+	public DeviceGroupQueryRestController( DeviceGroupService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DeviceGroup using a UUID
      * @param		UUID deviceGroupId
@@ -95,7 +99,7 @@ public class DeviceGroupQueryRestController extends BaseSpringRestController {
     	DeviceGroup entity = null;
 
     	try {  
-    		entity = DeviceGroupService.getDeviceGroupInstance().getDeviceGroup( new DeviceGroupFetchOneSummary( deviceGroupId ) );
+    		entity = service.getDeviceGroup( new DeviceGroupFetchOneSummary( deviceGroupId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceGroup using Id " + deviceGroupId );
@@ -115,7 +119,7 @@ public class DeviceGroupQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceGroup
-            deviceGroupList = DeviceGroupService.getDeviceGroupInstance().getAllDeviceGroup();
+            deviceGroupList = service.getAllDeviceGroup();
             
             if ( deviceGroupList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceGroups" );
@@ -135,6 +139,7 @@ public class DeviceGroupQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceGroup deviceGroup = null;
+    protected DeviceGroupService service = null;
     private static final Logger LOGGER = Logger.getLogger(DeviceGroupQueryRestController.class.getName());
     
 }

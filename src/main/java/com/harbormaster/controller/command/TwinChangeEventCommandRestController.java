@@ -100,7 +100,6 @@ public class TwinChangeEventCommandRestController extends BaseSpringRestControll
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateTwinChangeEventCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createTwinChangeEvent( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class TwinChangeEventCommandRestController extends BaseSpringRestControll
 		DeleteTwinChangeEventCommand command = new DeleteTwinChangeEventCommand( twinChangeEventId );
 
     	try {
-        	TwinChangeEventService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TwinChangeEvent with key " + command.getTwinChangeEventId() );
         }
         catch( Throwable exc ) {

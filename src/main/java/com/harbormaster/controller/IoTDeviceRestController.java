@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/IoTDevice")
 public class IoTDeviceRestController extends BaseSpringRestController {
 
+	public IoTDeviceRestController( IoTDeviceService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a IoTDevice.  if not key provided, calls create, otherwise calls save
      * @param		IoTDevice	ioTDevice
@@ -94,7 +98,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = IoTDeviceService.getIoTDeviceInstance().createIoTDevice( command );
+			completableFuture = service.createIoTDevice( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateIoTDeviceCommand
 			// -----------------------------------------------
-			completableFuture = IoTDeviceService.getIoTDeviceInstance().updateIoTDevice(command);;
+			completableFuture = service.updateIoTDevice(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "IoTDeviceController:update() - successfully update IoTDevice - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteIoTDeviceCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	IoTDeviceService delegate = IoTDeviceService.getIoTDeviceInstance();
+        	IoTDeviceService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted IoTDevice with key " + command.getIoTDeviceId() );
@@ -155,7 +159,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
     	IoTDevice entity = null;
 
     	try {  
-    		entity = IoTDeviceService.getIoTDeviceInstance().getIoTDevice( new IoTDeviceFetchOneSummary( uuid ) );   
+    		entity = service.getIoTDevice( new IoTDeviceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load IoTDevice using Id " + uuid );
@@ -175,7 +179,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
         
     	try {
             // load the IoTDevice
-            ioTDeviceList = IoTDeviceService.getIoTDeviceInstance().getAllIoTDevice();
+            ioTDeviceList = service.getAllIoTDevice();
             
             if ( ioTDeviceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all IoTDevices" );
@@ -196,7 +200,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignDeviceModel")
 	public void assignDeviceModel( @RequestBody AssignDeviceModelToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignDeviceModel( command );   
+			service.assignDeviceModel( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign DeviceModel", exc );
@@ -210,7 +214,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDeviceModel")
 	public void unAssignDeviceModel( @RequestBody(required=true)  UnAssignDeviceModelFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignDeviceModel( command );   
+			service.unAssignDeviceModel( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign DeviceModel", exc );
@@ -224,7 +228,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -238,7 +242,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -252,7 +256,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignSite")
 	public void assignSite( @RequestBody AssignSiteToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignSite( command );   
+			service.assignSite( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Site", exc );
@@ -266,7 +270,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSite")
 	public void unAssignSite( @RequestBody(required=true)  UnAssignSiteFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignSite( command );   
+			service.unAssignSite( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Site", exc );
@@ -280,7 +284,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignRoom")
 	public void assignRoom( @RequestBody AssignRoomToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignRoom( command );   
+			service.assignRoom( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Room", exc );
@@ -294,7 +298,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRoom")
 	public void unAssignRoom( @RequestBody(required=true)  UnAssignRoomFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignRoom( command );   
+			service.unAssignRoom( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Room", exc );
@@ -308,7 +312,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignGateway")
 	public void assignGateway( @RequestBody AssignGatewayToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignGateway( command );   
+			service.assignGateway( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Gateway", exc );
@@ -322,7 +326,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignGateway")
 	public void unAssignGateway( @RequestBody(required=true)  UnAssignGatewayFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignGateway( command );   
+			service.unAssignGateway( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Gateway", exc );
@@ -336,7 +340,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignDigitalTwin")
 	public void assignDigitalTwin( @RequestBody AssignDigitalTwinToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignDigitalTwin( command );   
+			service.assignDigitalTwin( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign DigitalTwin", exc );
@@ -350,7 +354,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDigitalTwin")
 	public void unAssignDigitalTwin( @RequestBody(required=true)  UnAssignDigitalTwinFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignDigitalTwin( command );   
+			service.unAssignDigitalTwin( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign DigitalTwin", exc );
@@ -364,7 +368,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/assignProvisioningRecord")
 	public void assignProvisioningRecord( @RequestBody AssignProvisioningRecordToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().assignProvisioningRecord( command );   
+			service.assignProvisioningRecord( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ProvisioningRecord", exc );
@@ -378,7 +382,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignProvisioningRecord")
 	public void unAssignProvisioningRecord( @RequestBody(required=true)  UnAssignProvisioningRecordFromIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().unAssignProvisioningRecord( command );   
+			service.unAssignProvisioningRecord( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ProvisioningRecord", exc );
@@ -393,7 +397,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToSensors")
 	public void addToSensors( @RequestBody(required=true) AssignSensorsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToSensors( command );   
+			service.addToSensors( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Sensors", exc );
@@ -408,7 +412,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromSensors( 	@RequestBody(required=true) RemoveSensorsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromSensors( command );
+			service.removeFromSensors( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Sensors", exc );
@@ -422,7 +426,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToActuators")
 	public void addToActuators( @RequestBody(required=true) AssignActuatorsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToActuators( command );   
+			service.addToActuators( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Actuators", exc );
@@ -437,7 +441,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromActuators( 	@RequestBody(required=true) RemoveActuatorsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromActuators( command );
+			service.removeFromActuators( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Actuators", exc );
@@ -451,7 +455,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToCertificates")
 	public void addToCertificates( @RequestBody(required=true) AssignCertificatesToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToCertificates( command );   
+			service.addToCertificates( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Certificates", exc );
@@ -466,7 +470,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromCertificates( 	@RequestBody(required=true) RemoveCertificatesFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromCertificates( command );
+			service.removeFromCertificates( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Certificates", exc );
@@ -480,7 +484,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToTelemetryStreams")
 	public void addToTelemetryStreams( @RequestBody(required=true) AssignTelemetryStreamsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToTelemetryStreams( command );   
+			service.addToTelemetryStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set TelemetryStreams", exc );
@@ -495,7 +499,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromTelemetryStreams( 	@RequestBody(required=true) RemoveTelemetryStreamsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromTelemetryStreams( command );
+			service.removeFromTelemetryStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set TelemetryStreams", exc );
@@ -509,7 +513,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToCommandInvocations")
 	public void addToCommandInvocations( @RequestBody(required=true) AssignCommandInvocationsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToCommandInvocations( command );   
+			service.addToCommandInvocations( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set CommandInvocations", exc );
@@ -524,7 +528,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromCommandInvocations( 	@RequestBody(required=true) RemoveCommandInvocationsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromCommandInvocations( command );
+			service.removeFromCommandInvocations( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set CommandInvocations", exc );
@@ -538,7 +542,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToAlerts")
 	public void addToAlerts( @RequestBody(required=true) AssignAlertsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToAlerts( command );   
+			service.addToAlerts( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Alerts", exc );
@@ -553,7 +557,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromAlerts( 	@RequestBody(required=true) RemoveAlertsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromAlerts( command );
+			service.removeFromAlerts( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Alerts", exc );
@@ -567,7 +571,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToDeviceGroups")
 	public void addToDeviceGroups( @RequestBody(required=true) AssignDeviceGroupsToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToDeviceGroups( command );   
+			service.addToDeviceGroups( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set DeviceGroups", exc );
@@ -582,7 +586,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromDeviceGroups( 	@RequestBody(required=true) RemoveDeviceGroupsFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromDeviceGroups( command );
+			service.removeFromDeviceGroups( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set DeviceGroups", exc );
@@ -596,7 +600,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	@PutMapping("/addToNetworkProfiles")
 	public void addToNetworkProfiles( @RequestBody(required=true) AssignNetworkProfilesToIoTDeviceCommand command ) {
 		try {
-			IoTDeviceService.getIoTDeviceInstance().addToNetworkProfiles( command );   
+			service.addToNetworkProfiles( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set NetworkProfiles", exc );
@@ -611,7 +615,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 	public void removeFromNetworkProfiles( 	@RequestBody(required=true) RemoveNetworkProfilesFromIoTDeviceCommand command )
 	{		
 		try {
-			IoTDeviceService.getIoTDeviceInstance().removeFromNetworkProfiles( command );
+			service.removeFromNetworkProfiles( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set NetworkProfiles", exc );
@@ -625,6 +629,7 @@ public class IoTDeviceRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected IoTDevice ioTDevice = null;
-    private static final Logger LOGGER = Logger.getLogger(IoTDeviceRestController.class.getName());
+	protected IoTDeviceService service = null;
+	private static final Logger LOGGER = Logger.getLogger(IoTDeviceRestController.class.getName());
     
 }

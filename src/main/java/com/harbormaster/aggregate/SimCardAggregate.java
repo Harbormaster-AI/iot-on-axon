@@ -74,9 +74,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateSimCardEvent</li>
  *      <li>DeleteSimCardEvent</li>
    *       <li>AssignTenantToSimCardEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromSimCardEvent</li>
   *       <li>AssignConnectivityPlanToSimCardEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignConnectivityPlanFromSimCardEvent</li>
    *       <li>AssignNetworkProfilesToSimCardEvent</li>
  *       <li>RemoveNetworkProfilesFromSimCardEvent</li>
   *        </ul>

@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/TelemetryStreamQuery")
 public class TelemetryStreamQueryRestController extends BaseSpringRestController {
 	
+	public TelemetryStreamQueryRestController( TelemetryStreamService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a TelemetryStream using a UUID
      * @param		UUID telemetryStreamId
@@ -95,7 +99,7 @@ public class TelemetryStreamQueryRestController extends BaseSpringRestController
     	TelemetryStream entity = null;
 
     	try {  
-    		entity = TelemetryStreamService.getTelemetryStreamInstance().getTelemetryStream( new TelemetryStreamFetchOneSummary( telemetryStreamId ) );
+    		entity = service.getTelemetryStream( new TelemetryStreamFetchOneSummary( telemetryStreamId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TelemetryStream using Id " + telemetryStreamId );
@@ -115,7 +119,7 @@ public class TelemetryStreamQueryRestController extends BaseSpringRestController
         
     	try {
             // load the TelemetryStream
-            telemetryStreamList = TelemetryStreamService.getTelemetryStreamInstance().getAllTelemetryStream();
+            telemetryStreamList = service.getAllTelemetryStream();
             
             if ( telemetryStreamList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TelemetryStreams" );
@@ -135,6 +139,7 @@ public class TelemetryStreamQueryRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected TelemetryStream telemetryStream = null;
+    protected TelemetryStreamService service = null;
     private static final Logger LOGGER = Logger.getLogger(TelemetryStreamQueryRestController.class.getName());
     
 }

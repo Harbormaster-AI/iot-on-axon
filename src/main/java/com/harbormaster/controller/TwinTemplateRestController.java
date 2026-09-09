@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TwinTemplate")
 public class TwinTemplateRestController extends BaseSpringRestController {
 
+	public TwinTemplateRestController( TwinTemplateService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a TwinTemplate.  if not key provided, calls create, otherwise calls save
      * @param		TwinTemplate	twinTemplate
@@ -94,7 +98,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TwinTemplateService.getTwinTemplateInstance().createTwinTemplate( command );
+			completableFuture = service.createTwinTemplate( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTwinTemplateCommand
 			// -----------------------------------------------
-			completableFuture = TwinTemplateService.getTwinTemplateInstance().updateTwinTemplate(command);;
+			completableFuture = service.updateTwinTemplate(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TwinTemplateController:update() - successfully update TwinTemplate - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTwinTemplateCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TwinTemplateService delegate = TwinTemplateService.getTwinTemplateInstance();
+        	TwinTemplateService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TwinTemplate with key " + command.getTwinTemplateId() );
@@ -155,7 +159,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
     	TwinTemplate entity = null;
 
     	try {  
-    		entity = TwinTemplateService.getTwinTemplateInstance().getTwinTemplate( new TwinTemplateFetchOneSummary( uuid ) );   
+    		entity = service.getTwinTemplate( new TwinTemplateFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TwinTemplate using Id " + uuid );
@@ -175,7 +179,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
         
     	try {
             // load the TwinTemplate
-            twinTemplateList = TwinTemplateService.getTwinTemplateInstance().getAllTwinTemplate();
+            twinTemplateList = service.getAllTwinTemplate();
             
             if ( twinTemplateList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TwinTemplates" );
@@ -197,7 +201,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
 	@PutMapping("/addToDeviceModels")
 	public void addToDeviceModels( @RequestBody(required=true) AssignDeviceModelsToTwinTemplateCommand command ) {
 		try {
-			TwinTemplateService.getTwinTemplateInstance().addToDeviceModels( command );   
+			service.addToDeviceModels( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set DeviceModels", exc );
@@ -212,7 +216,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
 	public void removeFromDeviceModels( 	@RequestBody(required=true) RemoveDeviceModelsFromTwinTemplateCommand command )
 	{		
 		try {
-			TwinTemplateService.getTwinTemplateInstance().removeFromDeviceModels( command );
+			service.removeFromDeviceModels( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set DeviceModels", exc );
@@ -226,6 +230,7 @@ public class TwinTemplateRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TwinTemplate twinTemplate = null;
-    private static final Logger LOGGER = Logger.getLogger(TwinTemplateRestController.class.getName());
+	protected TwinTemplateService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TwinTemplateRestController.class.getName());
     
 }

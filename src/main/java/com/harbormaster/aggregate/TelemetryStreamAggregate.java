@@ -73,15 +73,15 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateTelemetryStreamEvent</li>
  *      <li>DeleteTelemetryStreamEvent</li>
    *       <li>AssignDeviceToTelemetryStreamEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromTelemetryStreamEvent</li>
   *       <li>AssignSensorToTelemetryStreamEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSensorFromTelemetryStreamEvent</li>
   *       <li>AssignSchemaToTelemetryStreamEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSchemaFromTelemetryStreamEvent</li>
   *       <li>AssignMessagingEndpointToTelemetryStreamEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignMessagingEndpointFromTelemetryStreamEvent</li>
   *       <li>AssignRetentionPolicyToTelemetryStreamEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignRetentionPolicyFromTelemetryStreamEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -321,7 +321,7 @@ public class TelemetryStreamAggregate {
     private UUID telemetryStreamId;
     
     private String streamName;
-    private Integer retentionDays;
+    private int retentionDays;
     private MessageQoS qos;
     private IoTDevice device = null;
     private SensorInstance sensor = null;

@@ -88,9 +88,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateDeviceModelEvent</li>
  *      <li>DeleteDeviceModelEvent</li>
    *       <li>AssignVendorToDeviceModelEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignVendorFromDeviceModelEvent</li>
   *       <li>AssignTwinTemplateToDeviceModelEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTwinTemplateFromDeviceModelEvent</li>
    *       <li>AssignHardwareModulesToDeviceModelEvent</li>
  *       <li>RemoveHardwareModulesFromDeviceModelEvent</li>
   *       <li>AssignFirmwareReleasesToDeviceModelEvent</li>

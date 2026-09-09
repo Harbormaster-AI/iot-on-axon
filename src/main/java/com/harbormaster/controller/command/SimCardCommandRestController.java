@@ -100,7 +100,6 @@ public class SimCardCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateSimCardCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createSimCard( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class SimCardCommandRestController extends BaseSpringRestController {
 		DeleteSimCardCommand command = new DeleteSimCardCommand( simCardId );
 
     	try {
-        	SimCardService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SimCard with key " + command.getSimCardId() );
         }
         catch( Throwable exc ) {

@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/SimCardQuery")
 public class SimCardQueryRestController extends BaseSpringRestController {
 	
+	public SimCardQueryRestController( SimCardService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a SimCard using a UUID
      * @param		UUID simCardId
@@ -95,7 +99,7 @@ public class SimCardQueryRestController extends BaseSpringRestController {
     	SimCard entity = null;
 
     	try {  
-    		entity = SimCardService.getSimCardInstance().getSimCard( new SimCardFetchOneSummary( simCardId ) );
+    		entity = service.getSimCard( new SimCardFetchOneSummary( simCardId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SimCard using Id " + simCardId );
@@ -115,7 +119,7 @@ public class SimCardQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the SimCard
-            simCardList = SimCardService.getSimCardInstance().getAllSimCard();
+            simCardList = service.getAllSimCard();
             
             if ( simCardList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SimCards" );
@@ -135,6 +139,7 @@ public class SimCardQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected SimCard simCard = null;
+    protected SimCardService service = null;
     private static final Logger LOGGER = Logger.getLogger(SimCardQueryRestController.class.getName());
     
 }

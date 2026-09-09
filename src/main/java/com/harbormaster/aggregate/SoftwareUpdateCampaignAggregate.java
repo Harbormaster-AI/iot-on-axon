@@ -74,9 +74,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateSoftwareUpdateCampaignEvent</li>
  *      <li>DeleteSoftwareUpdateCampaignEvent</li>
    *       <li>AssignFirmwareReleaseToSoftwareUpdateCampaignEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignFirmwareReleaseFromSoftwareUpdateCampaignEvent</li>
   *       <li>AssignDeviceGroupToSoftwareUpdateCampaignEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceGroupFromSoftwareUpdateCampaignEvent</li>
    *       <li>AssignExecutionsToSoftwareUpdateCampaignEvent</li>
  *       <li>RemoveExecutionsFromSoftwareUpdateCampaignEvent</li>
   *        </ul>
@@ -257,8 +257,8 @@ public class SoftwareUpdateCampaignAggregate {
     private UUID softwareUpdateCampaignId;
     
     private String campaignCode;
-    private DateTime scheduledStart;
-    private DateTime scheduledEnd;
+    private  Date scheduledStart;
+    private  Date scheduledEnd;
     private UpdateCampaignStatus status;
     private FirmwareRelease firmwareRelease = null;
     private DeviceGroup deviceGroup = null;

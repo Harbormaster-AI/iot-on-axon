@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Room")
 public class RoomRestController extends BaseSpringRestController {
 
+	public RoomRestController( RoomService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a Room.  if not key provided, calls create, otherwise calls save
      * @param		Room	room
@@ -94,7 +98,7 @@ public class RoomRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = RoomService.getRoomInstance().createRoom( command );
+			completableFuture = service.createRoom( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class RoomRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateRoomCommand
 			// -----------------------------------------------
-			completableFuture = RoomService.getRoomInstance().updateRoom(command);;
+			completableFuture = service.updateRoom(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "RoomController:update() - successfully update Room - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class RoomRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteRoomCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	RoomService delegate = RoomService.getRoomInstance();
+        	RoomService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Room with key " + command.getRoomId() );
@@ -155,7 +159,7 @@ public class RoomRestController extends BaseSpringRestController {
     	Room entity = null;
 
     	try {  
-    		entity = RoomService.getRoomInstance().getRoom( new RoomFetchOneSummary( uuid ) );   
+    		entity = service.getRoom( new RoomFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Room using Id " + uuid );
@@ -175,7 +179,7 @@ public class RoomRestController extends BaseSpringRestController {
         
     	try {
             // load the Room
-            roomList = RoomService.getRoomInstance().getAllRoom();
+            roomList = service.getAllRoom();
             
             if ( roomList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Rooms" );
@@ -196,7 +200,7 @@ public class RoomRestController extends BaseSpringRestController {
 	@PutMapping("/assignFloor")
 	public void assignFloor( @RequestBody AssignFloorToRoomCommand command ) {
 		try {
-			RoomService.getRoomInstance().assignFloor( command );   
+			service.assignFloor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Floor", exc );
@@ -210,7 +214,7 @@ public class RoomRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignFloor")
 	public void unAssignFloor( @RequestBody(required=true)  UnAssignFloorFromRoomCommand command ) {
 		try {
-			RoomService.getRoomInstance().unAssignFloor( command );   
+			service.unAssignFloor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Floor", exc );
@@ -225,7 +229,7 @@ public class RoomRestController extends BaseSpringRestController {
 	@PutMapping("/addToDevices")
 	public void addToDevices( @RequestBody(required=true) AssignDevicesToRoomCommand command ) {
 		try {
-			RoomService.getRoomInstance().addToDevices( command );   
+			service.addToDevices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Devices", exc );
@@ -240,7 +244,7 @@ public class RoomRestController extends BaseSpringRestController {
 	public void removeFromDevices( 	@RequestBody(required=true) RemoveDevicesFromRoomCommand command )
 	{		
 		try {
-			RoomService.getRoomInstance().removeFromDevices( command );
+			service.removeFromDevices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Devices", exc );
@@ -254,7 +258,7 @@ public class RoomRestController extends BaseSpringRestController {
 	@PutMapping("/addToGateways")
 	public void addToGateways( @RequestBody(required=true) AssignGatewaysToRoomCommand command ) {
 		try {
-			RoomService.getRoomInstance().addToGateways( command );   
+			service.addToGateways( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Gateways", exc );
@@ -269,7 +273,7 @@ public class RoomRestController extends BaseSpringRestController {
 	public void removeFromGateways( 	@RequestBody(required=true) RemoveGatewaysFromRoomCommand command )
 	{		
 		try {
-			RoomService.getRoomInstance().removeFromGateways( command );
+			service.removeFromGateways( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Gateways", exc );
@@ -283,6 +287,7 @@ public class RoomRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Room room = null;
-    private static final Logger LOGGER = Logger.getLogger(RoomRestController.class.getName());
+	protected RoomService service = null;
+	private static final Logger LOGGER = Logger.getLogger(RoomRestController.class.getName());
     
 }

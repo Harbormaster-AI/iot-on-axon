@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/UsageRecord")
 public class UsageRecordRestController extends BaseSpringRestController {
 
+	public UsageRecordRestController( UsageRecordService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a UsageRecord.  if not key provided, calls create, otherwise calls save
      * @param		UsageRecord	usageRecord
@@ -94,7 +98,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = UsageRecordService.getUsageRecordInstance().createUsageRecord( command );
+			completableFuture = service.createUsageRecord( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateUsageRecordCommand
 			// -----------------------------------------------
-			completableFuture = UsageRecordService.getUsageRecordInstance().updateUsageRecord(command);;
+			completableFuture = service.updateUsageRecord(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "UsageRecordController:update() - successfully update UsageRecord - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteUsageRecordCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	UsageRecordService delegate = UsageRecordService.getUsageRecordInstance();
+        	UsageRecordService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted UsageRecord with key " + command.getUsageRecordId() );
@@ -155,7 +159,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
     	UsageRecord entity = null;
 
     	try {  
-    		entity = UsageRecordService.getUsageRecordInstance().getUsageRecord( new UsageRecordFetchOneSummary( uuid ) );   
+    		entity = service.getUsageRecord( new UsageRecordFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load UsageRecord using Id " + uuid );
@@ -175,7 +179,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
         
     	try {
             // load the UsageRecord
-            usageRecordList = UsageRecordService.getUsageRecordInstance().getAllUsageRecord();
+            usageRecordList = service.getAllUsageRecord();
             
             if ( usageRecordList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all UsageRecords" );
@@ -196,7 +200,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -224,7 +228,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -238,7 +242,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -252,7 +256,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignConnectivityPlan")
 	public void assignConnectivityPlan( @RequestBody AssignConnectivityPlanToUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().assignConnectivityPlan( command );   
+			service.assignConnectivityPlan( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ConnectivityPlan", exc );
@@ -266,7 +270,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignConnectivityPlan")
 	public void unAssignConnectivityPlan( @RequestBody(required=true)  UnAssignConnectivityPlanFromUsageRecordCommand command ) {
 		try {
-			UsageRecordService.getUsageRecordInstance().unAssignConnectivityPlan( command );   
+			service.unAssignConnectivityPlan( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ConnectivityPlan", exc );
@@ -281,6 +285,7 @@ public class UsageRecordRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected UsageRecord usageRecord = null;
-    private static final Logger LOGGER = Logger.getLogger(UsageRecordRestController.class.getName());
+	protected UsageRecordService service = null;
+	private static final Logger LOGGER = Logger.getLogger(UsageRecordRestController.class.getName());
     
 }

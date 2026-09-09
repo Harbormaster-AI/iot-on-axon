@@ -69,11 +69,11 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateUsageRecordEvent</li>
  *      <li>DeleteUsageRecordEvent</li>
    *       <li>AssignTenantToUsageRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromUsageRecordEvent</li>
   *       <li>AssignDeviceToUsageRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromUsageRecordEvent</li>
   *       <li>AssignConnectivityPlanToUsageRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignConnectivityPlanFromUsageRecordEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -250,10 +250,10 @@ public class UsageRecordAggregate {
     @AggregateIdentifier
     private UUID usageRecordId;
     
-    private Date periodStart;
-    private Date periodEnd;
-    private Integer messagesSent;
-    private Integer dataVolumeMB;
+    private  Date periodStart;
+    private  Date periodEnd;
+    private int messagesSent;
+    private int dataVolumeMB;
     private Tenant tenant = null;
     private IoTDevice device = null;
     private ConnectivityPlan connectivityPlan = null;

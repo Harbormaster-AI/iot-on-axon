@@ -100,7 +100,6 @@ public class SensorInstanceCommandRestController extends BaseSpringRestControlle
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateSensorInstanceCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createSensorInstance( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class SensorInstanceCommandRestController extends BaseSpringRestControlle
 		DeleteSensorInstanceCommand command = new DeleteSensorInstanceCommand( sensorInstanceId );
 
     	try {
-        	SensorInstanceService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SensorInstance with key " + command.getSensorInstanceId() );
         }
         catch( Throwable exc ) {

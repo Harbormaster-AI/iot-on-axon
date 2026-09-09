@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ProvisioningRecord")
 public class ProvisioningRecordRestController extends BaseSpringRestController {
 
+	public ProvisioningRecordRestController( ProvisioningRecordService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a ProvisioningRecord.  if not key provided, calls create, otherwise calls save
      * @param		ProvisioningRecord	provisioningRecord
@@ -94,7 +98,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = ProvisioningRecordService.getProvisioningRecordInstance().createProvisioningRecord( command );
+			completableFuture = service.createProvisioningRecord( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateProvisioningRecordCommand
 			// -----------------------------------------------
-			completableFuture = ProvisioningRecordService.getProvisioningRecordInstance().updateProvisioningRecord(command);;
+			completableFuture = service.updateProvisioningRecord(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ProvisioningRecordController:update() - successfully update ProvisioningRecord - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteProvisioningRecordCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	ProvisioningRecordService delegate = ProvisioningRecordService.getProvisioningRecordInstance();
+        	ProvisioningRecordService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ProvisioningRecord with key " + command.getProvisioningRecordId() );
@@ -155,7 +159,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
     	ProvisioningRecord entity = null;
 
     	try {  
-    		entity = ProvisioningRecordService.getProvisioningRecordInstance().getProvisioningRecord( new ProvisioningRecordFetchOneSummary( uuid ) );   
+    		entity = service.getProvisioningRecord( new ProvisioningRecordFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ProvisioningRecord using Id " + uuid );
@@ -175,7 +179,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
         
     	try {
             // load the ProvisioningRecord
-            provisioningRecordList = ProvisioningRecordService.getProvisioningRecordInstance().getAllProvisioningRecord();
+            provisioningRecordList = service.getAllProvisioningRecord();
             
             if ( provisioningRecordList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ProvisioningRecords" );
@@ -196,7 +200,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignCertificate")
 	public void assignCertificate( @RequestBody AssignCertificateToProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().assignCertificate( command );   
+			service.assignCertificate( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Certificate", exc );
@@ -238,7 +242,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignCertificate")
 	public void unAssignCertificate( @RequestBody(required=true)  UnAssignCertificateFromProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().unAssignCertificate( command );   
+			service.unAssignCertificate( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Certificate", exc );
@@ -252,7 +256,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -266,7 +270,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromProvisioningRecordCommand command ) {
 		try {
-			ProvisioningRecordService.getProvisioningRecordInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -281,6 +285,7 @@ public class ProvisioningRecordRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ProvisioningRecord provisioningRecord = null;
-    private static final Logger LOGGER = Logger.getLogger(ProvisioningRecordRestController.class.getName());
+	protected ProvisioningRecordService service = null;
+	private static final Logger LOGGER = Logger.getLogger(ProvisioningRecordRestController.class.getName());
     
 }

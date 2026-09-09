@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/SimCard")
 public class SimCardRestController extends BaseSpringRestController {
 
+	public SimCardRestController( SimCardService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a SimCard.  if not key provided, calls create, otherwise calls save
      * @param		SimCard	simCard
@@ -94,7 +98,7 @@ public class SimCardRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = SimCardService.getSimCardInstance().createSimCard( command );
+			completableFuture = service.createSimCard( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class SimCardRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateSimCardCommand
 			// -----------------------------------------------
-			completableFuture = SimCardService.getSimCardInstance().updateSimCard(command);;
+			completableFuture = service.updateSimCard(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "SimCardController:update() - successfully update SimCard - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class SimCardRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteSimCardCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	SimCardService delegate = SimCardService.getSimCardInstance();
+        	SimCardService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted SimCard with key " + command.getSimCardId() );
@@ -155,7 +159,7 @@ public class SimCardRestController extends BaseSpringRestController {
     	SimCard entity = null;
 
     	try {  
-    		entity = SimCardService.getSimCardInstance().getSimCard( new SimCardFetchOneSummary( uuid ) );   
+    		entity = service.getSimCard( new SimCardFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SimCard using Id " + uuid );
@@ -175,7 +179,7 @@ public class SimCardRestController extends BaseSpringRestController {
         
     	try {
             // load the SimCard
-            simCardList = SimCardService.getSimCardInstance().getAllSimCard();
+            simCardList = service.getAllSimCard();
             
             if ( simCardList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SimCards" );
@@ -196,7 +200,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToSimCardCommand command ) {
 		try {
-			SimCardService.getSimCardInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromSimCardCommand command ) {
 		try {
-			SimCardService.getSimCardInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -224,7 +228,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	@PutMapping("/assignConnectivityPlan")
 	public void assignConnectivityPlan( @RequestBody AssignConnectivityPlanToSimCardCommand command ) {
 		try {
-			SimCardService.getSimCardInstance().assignConnectivityPlan( command );   
+			service.assignConnectivityPlan( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ConnectivityPlan", exc );
@@ -238,7 +242,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignConnectivityPlan")
 	public void unAssignConnectivityPlan( @RequestBody(required=true)  UnAssignConnectivityPlanFromSimCardCommand command ) {
 		try {
-			SimCardService.getSimCardInstance().unAssignConnectivityPlan( command );   
+			service.unAssignConnectivityPlan( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ConnectivityPlan", exc );
@@ -253,7 +257,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	@PutMapping("/addToNetworkProfiles")
 	public void addToNetworkProfiles( @RequestBody(required=true) AssignNetworkProfilesToSimCardCommand command ) {
 		try {
-			SimCardService.getSimCardInstance().addToNetworkProfiles( command );   
+			service.addToNetworkProfiles( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set NetworkProfiles", exc );
@@ -268,7 +272,7 @@ public class SimCardRestController extends BaseSpringRestController {
 	public void removeFromNetworkProfiles( 	@RequestBody(required=true) RemoveNetworkProfilesFromSimCardCommand command )
 	{		
 		try {
-			SimCardService.getSimCardInstance().removeFromNetworkProfiles( command );
+			service.removeFromNetworkProfiles( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set NetworkProfiles", exc );
@@ -282,6 +286,7 @@ public class SimCardRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected SimCard simCard = null;
-    private static final Logger LOGGER = Logger.getLogger(SimCardRestController.class.getName());
+	protected SimCardService service = null;
+	private static final Logger LOGGER = Logger.getLogger(SimCardRestController.class.getName());
     
 }

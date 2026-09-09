@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ApiKey")
 public class ApiKeyRestController extends BaseSpringRestController {
 
+	public ApiKeyRestController( ApiKeyService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a ApiKey.  if not key provided, calls create, otherwise calls save
      * @param		ApiKey	apiKey
@@ -94,7 +98,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = ApiKeyService.getApiKeyInstance().createApiKey( command );
+			completableFuture = service.createApiKey( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateApiKeyCommand
 			// -----------------------------------------------
-			completableFuture = ApiKeyService.getApiKeyInstance().updateApiKey(command);;
+			completableFuture = service.updateApiKey(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ApiKeyController:update() - successfully update ApiKey - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteApiKeyCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	ApiKeyService delegate = ApiKeyService.getApiKeyInstance();
+        	ApiKeyService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ApiKey with key " + command.getApiKeyId() );
@@ -155,7 +159,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
     	ApiKey entity = null;
 
     	try {  
-    		entity = ApiKeyService.getApiKeyInstance().getApiKey( new ApiKeyFetchOneSummary( uuid ) );   
+    		entity = service.getApiKey( new ApiKeyFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ApiKey using Id " + uuid );
@@ -175,7 +179,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
         
     	try {
             // load the ApiKey
-            apiKeyList = ApiKeyService.getApiKeyInstance().getAllApiKey();
+            apiKeyList = service.getAllApiKey();
             
             if ( apiKeyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ApiKeys" );
@@ -196,7 +200,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccessPolicy")
 	public void assignAccessPolicy( @RequestBody AssignAccessPolicyToApiKeyCommand command ) {
 		try {
-			ApiKeyService.getApiKeyInstance().assignAccessPolicy( command );   
+			service.assignAccessPolicy( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign AccessPolicy", exc );
@@ -210,7 +214,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccessPolicy")
 	public void unAssignAccessPolicy( @RequestBody(required=true)  UnAssignAccessPolicyFromApiKeyCommand command ) {
 		try {
-			ApiKeyService.getApiKeyInstance().unAssignAccessPolicy( command );   
+			service.unAssignAccessPolicy( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign AccessPolicy", exc );
@@ -225,6 +229,7 @@ public class ApiKeyRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ApiKey apiKey = null;
-    private static final Logger LOGGER = Logger.getLogger(ApiKeyRestController.class.getName());
+	protected ApiKeyService service = null;
+	private static final Logger LOGGER = Logger.getLogger(ApiKeyRestController.class.getName());
     
 }

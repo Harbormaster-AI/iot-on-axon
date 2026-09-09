@@ -97,11 +97,11 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateGatewayEvent</li>
  *      <li>DeleteGatewayEvent</li>
    *       <li>AssignSiteToGatewayEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSiteFromGatewayEvent</li>
   *       <li>AssignRoomToGatewayEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignRoomFromGatewayEvent</li>
   *       <li>AssignDigitalTwinToGatewayEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDigitalTwinFromGatewayEvent</li>
    *       <li>AssignDevicesToGatewayEvent</li>
  *       <li>RemoveDevicesFromGatewayEvent</li>
   *       <li>AssignEdgeApplicationsToGatewayEvent</li>

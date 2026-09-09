@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateDataRetentionPolicyEvent</li>
  *      <li>DeleteDataRetentionPolicyEvent</li>
    *       <li>AssignTenantToDataRetentionPolicyEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromDataRetentionPolicyEvent</li>
    *       <li>AssignStreamsToDataRetentionPolicyEvent</li>
  *       <li>RemoveStreamsFromDataRetentionPolicyEvent</li>
   *        </ul>
@@ -217,7 +217,7 @@ public class DataRetentionPolicyAggregate {
     private UUID dataRetentionPolicyId;
     
     private String name;
-    private Integer retentionDays;
+    private int retentionDays;
     private Tenant tenant = null;
     private Set<TelemetryStream> streams = new HashSet<>();
 

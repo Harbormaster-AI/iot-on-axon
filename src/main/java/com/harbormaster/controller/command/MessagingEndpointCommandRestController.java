@@ -100,7 +100,6 @@ public class MessagingEndpointCommandRestController extends BaseSpringRestContro
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateMessagingEndpointCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createMessagingEndpoint( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class MessagingEndpointCommandRestController extends BaseSpringRestContro
 		DeleteMessagingEndpointCommand command = new DeleteMessagingEndpointCommand( messagingEndpointId );
 
     	try {
-        	MessagingEndpointService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted MessagingEndpoint with key " + command.getMessagingEndpointId() );
         }
         catch( Throwable exc ) {

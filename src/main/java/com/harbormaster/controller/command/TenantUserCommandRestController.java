@@ -100,7 +100,6 @@ public class TenantUserCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateTenantUserCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createTenantUser( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class TenantUserCommandRestController extends BaseSpringRestController {
 		DeleteTenantUserCommand command = new DeleteTenantUserCommand( tenantUserId );
 
     	try {
-        	TenantUserService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TenantUser with key " + command.getTenantUserId() );
         }
         catch( Throwable exc ) {

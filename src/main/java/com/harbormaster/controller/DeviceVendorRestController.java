@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DeviceVendor")
 public class DeviceVendorRestController extends BaseSpringRestController {
 
+	public DeviceVendorRestController( DeviceVendorService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DeviceVendor.  if not key provided, calls create, otherwise calls save
      * @param		DeviceVendor	deviceVendor
@@ -94,7 +98,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DeviceVendorService.getDeviceVendorInstance().createDeviceVendor( command );
+			completableFuture = service.createDeviceVendor( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDeviceVendorCommand
 			// -----------------------------------------------
-			completableFuture = DeviceVendorService.getDeviceVendorInstance().updateDeviceVendor(command);;
+			completableFuture = service.updateDeviceVendor(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DeviceVendorController:update() - successfully update DeviceVendor - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDeviceVendorCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DeviceVendorService delegate = DeviceVendorService.getDeviceVendorInstance();
+        	DeviceVendorService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceVendor with key " + command.getDeviceVendorId() );
@@ -155,7 +159,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
     	DeviceVendor entity = null;
 
     	try {  
-    		entity = DeviceVendorService.getDeviceVendorInstance().getDeviceVendor( new DeviceVendorFetchOneSummary( uuid ) );   
+    		entity = service.getDeviceVendor( new DeviceVendorFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceVendor using Id " + uuid );
@@ -175,7 +179,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceVendor
-            deviceVendorList = DeviceVendorService.getDeviceVendorInstance().getAllDeviceVendor();
+            deviceVendorList = service.getAllDeviceVendor();
             
             if ( deviceVendorList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceVendors" );
@@ -197,7 +201,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	@PutMapping("/addToDeviceModels")
 	public void addToDeviceModels( @RequestBody(required=true) AssignDeviceModelsToDeviceVendorCommand command ) {
 		try {
-			DeviceVendorService.getDeviceVendorInstance().addToDeviceModels( command );   
+			service.addToDeviceModels( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set DeviceModels", exc );
@@ -212,7 +216,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	public void removeFromDeviceModels( 	@RequestBody(required=true) RemoveDeviceModelsFromDeviceVendorCommand command )
 	{		
 		try {
-			DeviceVendorService.getDeviceVendorInstance().removeFromDeviceModels( command );
+			service.removeFromDeviceModels( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set DeviceModels", exc );
@@ -226,7 +230,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	@PutMapping("/addToFirmwareReleases")
 	public void addToFirmwareReleases( @RequestBody(required=true) AssignFirmwareReleasesToDeviceVendorCommand command ) {
 		try {
-			DeviceVendorService.getDeviceVendorInstance().addToFirmwareReleases( command );   
+			service.addToFirmwareReleases( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set FirmwareReleases", exc );
@@ -241,7 +245,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	public void removeFromFirmwareReleases( 	@RequestBody(required=true) RemoveFirmwareReleasesFromDeviceVendorCommand command )
 	{		
 		try {
-			DeviceVendorService.getDeviceVendorInstance().removeFromFirmwareReleases( command );
+			service.removeFromFirmwareReleases( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set FirmwareReleases", exc );
@@ -255,7 +259,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	@PutMapping("/addToHardwareModules")
 	public void addToHardwareModules( @RequestBody(required=true) AssignHardwareModulesToDeviceVendorCommand command ) {
 		try {
-			DeviceVendorService.getDeviceVendorInstance().addToHardwareModules( command );   
+			service.addToHardwareModules( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set HardwareModules", exc );
@@ -270,7 +274,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 	public void removeFromHardwareModules( 	@RequestBody(required=true) RemoveHardwareModulesFromDeviceVendorCommand command )
 	{		
 		try {
-			DeviceVendorService.getDeviceVendorInstance().removeFromHardwareModules( command );
+			service.removeFromHardwareModules( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set HardwareModules", exc );
@@ -284,6 +288,7 @@ public class DeviceVendorRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceVendor deviceVendor = null;
-    private static final Logger LOGGER = Logger.getLogger(DeviceVendorRestController.class.getName());
+	protected DeviceVendorService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DeviceVendorRestController.class.getName());
     
 }

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Gateway")
 public class GatewayRestController extends BaseSpringRestController {
 
+	public GatewayRestController( GatewayService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a Gateway.  if not key provided, calls create, otherwise calls save
      * @param		Gateway	gateway
@@ -94,7 +98,7 @@ public class GatewayRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = GatewayService.getGatewayInstance().createGateway( command );
+			completableFuture = service.createGateway( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class GatewayRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateGatewayCommand
 			// -----------------------------------------------
-			completableFuture = GatewayService.getGatewayInstance().updateGateway(command);;
+			completableFuture = service.updateGateway(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "GatewayController:update() - successfully update Gateway - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class GatewayRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteGatewayCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	GatewayService delegate = GatewayService.getGatewayInstance();
+        	GatewayService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Gateway with key " + command.getGatewayId() );
@@ -155,7 +159,7 @@ public class GatewayRestController extends BaseSpringRestController {
     	Gateway entity = null;
 
     	try {  
-    		entity = GatewayService.getGatewayInstance().getGateway( new GatewayFetchOneSummary( uuid ) );   
+    		entity = service.getGateway( new GatewayFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Gateway using Id " + uuid );
@@ -175,7 +179,7 @@ public class GatewayRestController extends BaseSpringRestController {
         
     	try {
             // load the Gateway
-            gatewayList = GatewayService.getGatewayInstance().getAllGateway();
+            gatewayList = service.getAllGateway();
             
             if ( gatewayList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Gateways" );
@@ -196,7 +200,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/assignSite")
 	public void assignSite( @RequestBody AssignSiteToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().assignSite( command );   
+			service.assignSite( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Site", exc );
@@ -210,7 +214,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSite")
 	public void unAssignSite( @RequestBody(required=true)  UnAssignSiteFromGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().unAssignSite( command );   
+			service.unAssignSite( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Site", exc );
@@ -224,7 +228,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/assignRoom")
 	public void assignRoom( @RequestBody AssignRoomToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().assignRoom( command );   
+			service.assignRoom( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Room", exc );
@@ -238,7 +242,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRoom")
 	public void unAssignRoom( @RequestBody(required=true)  UnAssignRoomFromGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().unAssignRoom( command );   
+			service.unAssignRoom( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Room", exc );
@@ -252,7 +256,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/assignDigitalTwin")
 	public void assignDigitalTwin( @RequestBody AssignDigitalTwinToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().assignDigitalTwin( command );   
+			service.assignDigitalTwin( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign DigitalTwin", exc );
@@ -266,7 +270,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDigitalTwin")
 	public void unAssignDigitalTwin( @RequestBody(required=true)  UnAssignDigitalTwinFromGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().unAssignDigitalTwin( command );   
+			service.unAssignDigitalTwin( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign DigitalTwin", exc );
@@ -281,7 +285,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/addToDevices")
 	public void addToDevices( @RequestBody(required=true) AssignDevicesToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().addToDevices( command );   
+			service.addToDevices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Devices", exc );
@@ -296,7 +300,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	public void removeFromDevices( 	@RequestBody(required=true) RemoveDevicesFromGatewayCommand command )
 	{		
 		try {
-			GatewayService.getGatewayInstance().removeFromDevices( command );
+			service.removeFromDevices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Devices", exc );
@@ -310,7 +314,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/addToEdgeApplications")
 	public void addToEdgeApplications( @RequestBody(required=true) AssignEdgeApplicationsToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().addToEdgeApplications( command );   
+			service.addToEdgeApplications( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set EdgeApplications", exc );
@@ -325,7 +329,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	public void removeFromEdgeApplications( 	@RequestBody(required=true) RemoveEdgeApplicationsFromGatewayCommand command )
 	{		
 		try {
-			GatewayService.getGatewayInstance().removeFromEdgeApplications( command );
+			service.removeFromEdgeApplications( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set EdgeApplications", exc );
@@ -339,7 +343,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/addToCertificates")
 	public void addToCertificates( @RequestBody(required=true) AssignCertificatesToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().addToCertificates( command );   
+			service.addToCertificates( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Certificates", exc );
@@ -354,7 +358,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	public void removeFromCertificates( 	@RequestBody(required=true) RemoveCertificatesFromGatewayCommand command )
 	{		
 		try {
-			GatewayService.getGatewayInstance().removeFromCertificates( command );
+			service.removeFromCertificates( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Certificates", exc );
@@ -368,7 +372,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	@PutMapping("/addToNetworkProfiles")
 	public void addToNetworkProfiles( @RequestBody(required=true) AssignNetworkProfilesToGatewayCommand command ) {
 		try {
-			GatewayService.getGatewayInstance().addToNetworkProfiles( command );   
+			service.addToNetworkProfiles( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set NetworkProfiles", exc );
@@ -383,7 +387,7 @@ public class GatewayRestController extends BaseSpringRestController {
 	public void removeFromNetworkProfiles( 	@RequestBody(required=true) RemoveNetworkProfilesFromGatewayCommand command )
 	{		
 		try {
-			GatewayService.getGatewayInstance().removeFromNetworkProfiles( command );
+			service.removeFromNetworkProfiles( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set NetworkProfiles", exc );
@@ -397,6 +401,7 @@ public class GatewayRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Gateway gateway = null;
-    private static final Logger LOGGER = Logger.getLogger(GatewayRestController.class.getName());
+	protected GatewayService service = null;
+	private static final Logger LOGGER = Logger.getLogger(GatewayRestController.class.getName());
     
 }

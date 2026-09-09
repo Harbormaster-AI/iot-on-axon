@@ -69,11 +69,11 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateProvisioningRecordEvent</li>
  *      <li>DeleteProvisioningRecordEvent</li>
    *       <li>AssignDeviceToProvisioningRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromProvisioningRecordEvent</li>
   *       <li>AssignCertificateToProvisioningRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignCertificateFromProvisioningRecordEvent</li>
   *       <li>AssignTenantToProvisioningRecordEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromProvisioningRecordEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -250,7 +250,7 @@ public class ProvisioningRecordAggregate {
     @AggregateIdentifier
     private UUID provisioningRecordId;
     
-    private DateTime enrolledAt;
+    private  Date enrolledAt;
     private String provisioningService;
     private ProvisioningMethod method;
     private ProvisioningStatus status;

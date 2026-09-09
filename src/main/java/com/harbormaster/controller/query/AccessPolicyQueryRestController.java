@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/AccessPolicyQuery")
 public class AccessPolicyQueryRestController extends BaseSpringRestController {
 	
+	public AccessPolicyQueryRestController( AccessPolicyService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a AccessPolicy using a UUID
      * @param		UUID accessPolicyId
@@ -95,7 +99,7 @@ public class AccessPolicyQueryRestController extends BaseSpringRestController {
     	AccessPolicy entity = null;
 
     	try {  
-    		entity = AccessPolicyService.getAccessPolicyInstance().getAccessPolicy( new AccessPolicyFetchOneSummary( accessPolicyId ) );
+    		entity = service.getAccessPolicy( new AccessPolicyFetchOneSummary( accessPolicyId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AccessPolicy using Id " + accessPolicyId );
@@ -115,7 +119,7 @@ public class AccessPolicyQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the AccessPolicy
-            accessPolicyList = AccessPolicyService.getAccessPolicyInstance().getAllAccessPolicy();
+            accessPolicyList = service.getAllAccessPolicy();
             
             if ( accessPolicyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AccessPolicys" );
@@ -135,6 +139,7 @@ public class AccessPolicyQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected AccessPolicy accessPolicy = null;
+    protected AccessPolicyService service = null;
     private static final Logger LOGGER = Logger.getLogger(AccessPolicyQueryRestController.class.getName());
     
 }

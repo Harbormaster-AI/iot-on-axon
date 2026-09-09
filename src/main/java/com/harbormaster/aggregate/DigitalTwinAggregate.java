@@ -76,11 +76,11 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateDigitalTwinEvent</li>
  *      <li>DeleteDigitalTwinEvent</li>
    *       <li>AssignDeviceToDigitalTwinEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromDigitalTwinEvent</li>
   *       <li>AssignGatewayToDigitalTwinEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignGatewayFromDigitalTwinEvent</li>
   *       <li>AssignTemplateToDigitalTwinEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTemplateFromDigitalTwinEvent</li>
    *       <li>AssignChangeEventsToDigitalTwinEvent</li>
  *       <li>RemoveChangeEventsFromDigitalTwinEvent</li>
   *        </ul>
@@ -293,9 +293,9 @@ public class DigitalTwinAggregate {
     private UUID digitalTwinId;
     
     private String twinId;
-    private Integer desiredStateVersion;
-    private Integer reportedStateVersion;
-    private DateTime lastSyncAt;
+    private int desiredStateVersion;
+    private int reportedStateVersion;
+    private  Date lastSyncAt;
     private IoTDevice device = null;
     private Gateway gateway = null;
     private TwinTemplate template = null;

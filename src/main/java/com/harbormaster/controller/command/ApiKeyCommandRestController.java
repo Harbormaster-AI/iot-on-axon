@@ -100,7 +100,6 @@ public class ApiKeyCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateApiKeyCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createApiKey( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class ApiKeyCommandRestController extends BaseSpringRestController {
 		DeleteApiKeyCommand command = new DeleteApiKeyCommand( apiKeyId );
 
     	try {
-        	ApiKeyService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ApiKey with key " + command.getApiKeyId() );
         }
         catch( Throwable exc ) {

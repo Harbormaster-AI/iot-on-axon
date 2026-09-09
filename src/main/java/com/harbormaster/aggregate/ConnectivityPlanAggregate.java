@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateConnectivityPlanEvent</li>
  *      <li>DeleteConnectivityPlanEvent</li>
    *       <li>AssignTenantToConnectivityPlanEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromConnectivityPlanEvent</li>
    *       <li>AssignSimCardsToConnectivityPlanEvent</li>
  *       <li>RemoveSimCardsFromConnectivityPlanEvent</li>
   *        </ul>
@@ -219,8 +219,8 @@ public class ConnectivityPlanAggregate {
     private UUID connectivityPlanId;
     
     private String name;
-    private Integer dataCapMB;
-    private Integer billingCycleDays;
+    private int dataCapMB;
+    private int billingCycleDays;
     private Set<SimCard> simCards = new HashSet<>();
     private Tenant tenant = null;
 

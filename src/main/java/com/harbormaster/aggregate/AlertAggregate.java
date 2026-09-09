@@ -67,9 +67,9 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateAlertEvent</li>
  *      <li>DeleteAlertEvent</li>
    *       <li>AssignDeviceToAlertEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceFromAlertEvent</li>
   *       <li>AssignAlertRuleToAlertEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignAlertRuleFromAlertEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -214,8 +214,8 @@ public class AlertAggregate {
     @AggregateIdentifier
     private UUID alertId;
     
-    private DateTime raisedAt;
-    private DateTime clearedAt;
+    private  Date raisedAt;
+    private  Date clearedAt;
     private String message;
     private AlertStatus status;
     private IoTDevice device = null;

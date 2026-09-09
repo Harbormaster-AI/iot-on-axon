@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/RoomQuery")
 public class RoomQueryRestController extends BaseSpringRestController {
 	
+	public RoomQueryRestController( RoomService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Room using a UUID
      * @param		UUID roomId
@@ -95,7 +99,7 @@ public class RoomQueryRestController extends BaseSpringRestController {
     	Room entity = null;
 
     	try {  
-    		entity = RoomService.getRoomInstance().getRoom( new RoomFetchOneSummary( roomId ) );
+    		entity = service.getRoom( new RoomFetchOneSummary( roomId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Room using Id " + roomId );
@@ -115,7 +119,7 @@ public class RoomQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Room
-            roomList = RoomService.getRoomInstance().getAllRoom();
+            roomList = service.getAllRoom();
             
             if ( roomList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Rooms" );
@@ -135,6 +139,7 @@ public class RoomQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Room room = null;
+    protected RoomService service = null;
     private static final Logger LOGGER = Logger.getLogger(RoomQueryRestController.class.getName());
     
 }

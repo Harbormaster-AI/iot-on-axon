@@ -65,7 +65,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateApiKeyEvent</li>
  *      <li>DeleteApiKeyEvent</li>
    *       <li>AssignAccessPolicyToApiKeyEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignAccessPolicyFromApiKeyEvent</li>
    *        </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
@@ -180,8 +180,8 @@ public class ApiKeyAggregate {
     
     private String keyId;
     private String hashedSecret;
-    private DateTime createdAt;
-    private DateTime lastUsedAt;
+    private  Date createdAt;
+    private  Date lastUsedAt;
     private AccessPolicy accessPolicy = null;
 
     private static final Logger LOGGER 	= Logger.getLogger(ApiKeyAggregate.class.getName());

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DataRetentionPolicy")
 public class DataRetentionPolicyRestController extends BaseSpringRestController {
 
+	public DataRetentionPolicyRestController( DataRetentionPolicyService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DataRetentionPolicy.  if not key provided, calls create, otherwise calls save
      * @param		DataRetentionPolicy	dataRetentionPolicy
@@ -94,7 +98,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DataRetentionPolicyService.getDataRetentionPolicyInstance().createDataRetentionPolicy( command );
+			completableFuture = service.createDataRetentionPolicy( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 			// -----------------------------------------------
 			// delegate the UpdateDataRetentionPolicyCommand
 			// -----------------------------------------------
-			completableFuture = DataRetentionPolicyService.getDataRetentionPolicyInstance().updateDataRetentionPolicy(command);;
+			completableFuture = service.updateDataRetentionPolicy(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DataRetentionPolicyController:update() - successfully update DataRetentionPolicy - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDataRetentionPolicyCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DataRetentionPolicyService delegate = DataRetentionPolicyService.getDataRetentionPolicyInstance();
+        	DataRetentionPolicyService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DataRetentionPolicy with key " + command.getDataRetentionPolicyId() );
@@ -155,7 +159,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
     	DataRetentionPolicy entity = null;
 
     	try {  
-    		entity = DataRetentionPolicyService.getDataRetentionPolicyInstance().getDataRetentionPolicy( new DataRetentionPolicyFetchOneSummary( uuid ) );   
+    		entity = service.getDataRetentionPolicy( new DataRetentionPolicyFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DataRetentionPolicy using Id " + uuid );
@@ -175,7 +179,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
         
     	try {
             // load the DataRetentionPolicy
-            dataRetentionPolicyList = DataRetentionPolicyService.getDataRetentionPolicyInstance().getAllDataRetentionPolicy();
+            dataRetentionPolicyList = service.getAllDataRetentionPolicy();
             
             if ( dataRetentionPolicyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DataRetentionPolicys" );
@@ -196,7 +200,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToDataRetentionPolicyCommand command ) {
 		try {
-			DataRetentionPolicyService.getDataRetentionPolicyInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromDataRetentionPolicyCommand command ) {
 		try {
-			DataRetentionPolicyService.getDataRetentionPolicyInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 	@PutMapping("/addToStreams")
 	public void addToStreams( @RequestBody(required=true) AssignStreamsToDataRetentionPolicyCommand command ) {
 		try {
-			DataRetentionPolicyService.getDataRetentionPolicyInstance().addToStreams( command );   
+			service.addToStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Streams", exc );
@@ -240,7 +244,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 	public void removeFromStreams( 	@RequestBody(required=true) RemoveStreamsFromDataRetentionPolicyCommand command )
 	{		
 		try {
-			DataRetentionPolicyService.getDataRetentionPolicyInstance().removeFromStreams( command );
+			service.removeFromStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Streams", exc );
@@ -254,6 +258,7 @@ public class DataRetentionPolicyRestController extends BaseSpringRestController 
 // Attributes
 //************************************************************************
     protected DataRetentionPolicy dataRetentionPolicy = null;
-    private static final Logger LOGGER = Logger.getLogger(DataRetentionPolicyRestController.class.getName());
+	protected DataRetentionPolicyService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DataRetentionPolicyRestController.class.getName());
     
 }

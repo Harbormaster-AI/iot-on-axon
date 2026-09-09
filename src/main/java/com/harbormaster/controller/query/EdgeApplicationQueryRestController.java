@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/EdgeApplicationQuery")
 public class EdgeApplicationQueryRestController extends BaseSpringRestController {
 	
+	public EdgeApplicationQueryRestController( EdgeApplicationService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a EdgeApplication using a UUID
      * @param		UUID edgeApplicationId
@@ -95,7 +99,7 @@ public class EdgeApplicationQueryRestController extends BaseSpringRestController
     	EdgeApplication entity = null;
 
     	try {  
-    		entity = EdgeApplicationService.getEdgeApplicationInstance().getEdgeApplication( new EdgeApplicationFetchOneSummary( edgeApplicationId ) );
+    		entity = service.getEdgeApplication( new EdgeApplicationFetchOneSummary( edgeApplicationId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load EdgeApplication using Id " + edgeApplicationId );
@@ -115,7 +119,7 @@ public class EdgeApplicationQueryRestController extends BaseSpringRestController
         
     	try {
             // load the EdgeApplication
-            edgeApplicationList = EdgeApplicationService.getEdgeApplicationInstance().getAllEdgeApplication();
+            edgeApplicationList = service.getAllEdgeApplication();
             
             if ( edgeApplicationList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all EdgeApplications" );
@@ -135,6 +139,7 @@ public class EdgeApplicationQueryRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected EdgeApplication edgeApplication = null;
+    protected EdgeApplicationService service = null;
     private static final Logger LOGGER = Logger.getLogger(EdgeApplicationQueryRestController.class.getName());
     
 }

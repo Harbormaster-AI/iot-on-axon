@@ -100,7 +100,6 @@ public class MaintenanceTicketCommandRestController extends BaseSpringRestContro
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateMaintenanceTicketCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createMaintenanceTicket( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class MaintenanceTicketCommandRestController extends BaseSpringRestContro
 		DeleteMaintenanceTicketCommand command = new DeleteMaintenanceTicketCommand( maintenanceTicketId );
 
     	try {
-        	MaintenanceTicketService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted MaintenanceTicket with key " + command.getMaintenanceTicketId() );
         }
         catch( Throwable exc ) {

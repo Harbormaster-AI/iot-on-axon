@@ -100,7 +100,6 @@ public class IoTDeviceCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateIoTDeviceCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createIoTDevice( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class IoTDeviceCommandRestController extends BaseSpringRestController {
 		DeleteIoTDeviceCommand command = new DeleteIoTDeviceCommand( ioTDeviceId );
 
     	try {
-        	IoTDeviceService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted IoTDevice with key " + command.getIoTDeviceId() );
         }
         catch( Throwable exc ) {

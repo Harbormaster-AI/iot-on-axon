@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/ProvisioningRecordQuery")
 public class ProvisioningRecordQueryRestController extends BaseSpringRestController {
 	
+	public ProvisioningRecordQueryRestController( ProvisioningRecordService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a ProvisioningRecord using a UUID
      * @param		UUID provisioningRecordId
@@ -95,7 +99,7 @@ public class ProvisioningRecordQueryRestController extends BaseSpringRestControl
     	ProvisioningRecord entity = null;
 
     	try {  
-    		entity = ProvisioningRecordService.getProvisioningRecordInstance().getProvisioningRecord( new ProvisioningRecordFetchOneSummary( provisioningRecordId ) );
+    		entity = service.getProvisioningRecord( new ProvisioningRecordFetchOneSummary( provisioningRecordId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ProvisioningRecord using Id " + provisioningRecordId );
@@ -115,7 +119,7 @@ public class ProvisioningRecordQueryRestController extends BaseSpringRestControl
         
     	try {
             // load the ProvisioningRecord
-            provisioningRecordList = ProvisioningRecordService.getProvisioningRecordInstance().getAllProvisioningRecord();
+            provisioningRecordList = service.getAllProvisioningRecord();
             
             if ( provisioningRecordList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ProvisioningRecords" );
@@ -135,6 +139,7 @@ public class ProvisioningRecordQueryRestController extends BaseSpringRestControl
 // Attributes
 //************************************************************************
     protected ProvisioningRecord provisioningRecord = null;
+    protected ProvisioningRecordService service = null;
     private static final Logger LOGGER = Logger.getLogger(ProvisioningRecordQueryRestController.class.getName());
     
 }

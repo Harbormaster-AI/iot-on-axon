@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/SoftwareUpdateCampaignQuery")
 public class SoftwareUpdateCampaignQueryRestController extends BaseSpringRestController {
 	
+	public SoftwareUpdateCampaignQueryRestController( SoftwareUpdateCampaignService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a SoftwareUpdateCampaign using a UUID
      * @param		UUID softwareUpdateCampaignId
@@ -95,7 +99,7 @@ public class SoftwareUpdateCampaignQueryRestController extends BaseSpringRestCon
     	SoftwareUpdateCampaign entity = null;
 
     	try {  
-    		entity = SoftwareUpdateCampaignService.getSoftwareUpdateCampaignInstance().getSoftwareUpdateCampaign( new SoftwareUpdateCampaignFetchOneSummary( softwareUpdateCampaignId ) );
+    		entity = service.getSoftwareUpdateCampaign( new SoftwareUpdateCampaignFetchOneSummary( softwareUpdateCampaignId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load SoftwareUpdateCampaign using Id " + softwareUpdateCampaignId );
@@ -115,7 +119,7 @@ public class SoftwareUpdateCampaignQueryRestController extends BaseSpringRestCon
         
     	try {
             // load the SoftwareUpdateCampaign
-            softwareUpdateCampaignList = SoftwareUpdateCampaignService.getSoftwareUpdateCampaignInstance().getAllSoftwareUpdateCampaign();
+            softwareUpdateCampaignList = service.getAllSoftwareUpdateCampaign();
             
             if ( softwareUpdateCampaignList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all SoftwareUpdateCampaigns" );
@@ -135,6 +139,7 @@ public class SoftwareUpdateCampaignQueryRestController extends BaseSpringRestCon
 // Attributes
 //************************************************************************
     protected SoftwareUpdateCampaign softwareUpdateCampaign = null;
+    protected SoftwareUpdateCampaignService service = null;
     private static final Logger LOGGER = Logger.getLogger(SoftwareUpdateCampaignQueryRestController.class.getName());
     
 }

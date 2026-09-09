@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/FirmwareRelease")
 public class FirmwareReleaseRestController extends BaseSpringRestController {
 
+	public FirmwareReleaseRestController( FirmwareReleaseService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a FirmwareRelease.  if not key provided, calls create, otherwise calls save
      * @param		FirmwareRelease	firmwareRelease
@@ -94,7 +98,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = FirmwareReleaseService.getFirmwareReleaseInstance().createFirmwareRelease( command );
+			completableFuture = service.createFirmwareRelease( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateFirmwareReleaseCommand
 			// -----------------------------------------------
-			completableFuture = FirmwareReleaseService.getFirmwareReleaseInstance().updateFirmwareRelease(command);;
+			completableFuture = service.updateFirmwareRelease(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "FirmwareReleaseController:update() - successfully update FirmwareRelease - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteFirmwareReleaseCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	FirmwareReleaseService delegate = FirmwareReleaseService.getFirmwareReleaseInstance();
+        	FirmwareReleaseService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted FirmwareRelease with key " + command.getFirmwareReleaseId() );
@@ -155,7 +159,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
     	FirmwareRelease entity = null;
 
     	try {  
-    		entity = FirmwareReleaseService.getFirmwareReleaseInstance().getFirmwareRelease( new FirmwareReleaseFetchOneSummary( uuid ) );   
+    		entity = service.getFirmwareRelease( new FirmwareReleaseFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load FirmwareRelease using Id " + uuid );
@@ -175,7 +179,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
         
     	try {
             // load the FirmwareRelease
-            firmwareReleaseList = FirmwareReleaseService.getFirmwareReleaseInstance().getAllFirmwareRelease();
+            firmwareReleaseList = service.getAllFirmwareRelease();
             
             if ( firmwareReleaseList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all FirmwareReleases" );
@@ -196,7 +200,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
 	@PutMapping("/assignDeviceModel")
 	public void assignDeviceModel( @RequestBody AssignDeviceModelToFirmwareReleaseCommand command ) {
 		try {
-			FirmwareReleaseService.getFirmwareReleaseInstance().assignDeviceModel( command );   
+			service.assignDeviceModel( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign DeviceModel", exc );
@@ -210,7 +214,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDeviceModel")
 	public void unAssignDeviceModel( @RequestBody(required=true)  UnAssignDeviceModelFromFirmwareReleaseCommand command ) {
 		try {
-			FirmwareReleaseService.getFirmwareReleaseInstance().unAssignDeviceModel( command );   
+			service.unAssignDeviceModel( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign DeviceModel", exc );
@@ -225,6 +229,7 @@ public class FirmwareReleaseRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected FirmwareRelease firmwareRelease = null;
-    private static final Logger LOGGER = Logger.getLogger(FirmwareReleaseRestController.class.getName());
+	protected FirmwareReleaseService service = null;
+	private static final Logger LOGGER = Logger.getLogger(FirmwareReleaseRestController.class.getName());
     
 }

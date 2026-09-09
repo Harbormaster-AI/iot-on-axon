@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/SiteQuery")
 public class SiteQueryRestController extends BaseSpringRestController {
 	
+	public SiteQueryRestController( SiteService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a Site using a UUID
      * @param		UUID siteId
@@ -95,7 +99,7 @@ public class SiteQueryRestController extends BaseSpringRestController {
     	Site entity = null;
 
     	try {  
-    		entity = SiteService.getSiteInstance().getSite( new SiteFetchOneSummary( siteId ) );
+    		entity = service.getSite( new SiteFetchOneSummary( siteId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Site using Id " + siteId );
@@ -115,7 +119,7 @@ public class SiteQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the Site
-            siteList = SiteService.getSiteInstance().getAllSite();
+            siteList = service.getAllSite();
             
             if ( siteList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Sites" );
@@ -135,6 +139,7 @@ public class SiteQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Site site = null;
+    protected SiteService service = null;
     private static final Logger LOGGER = Logger.getLogger(SiteQueryRestController.class.getName());
     
 }

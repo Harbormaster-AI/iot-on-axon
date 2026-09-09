@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/CommandInvocation")
 public class CommandInvocationRestController extends BaseSpringRestController {
 
+	public CommandInvocationRestController( CommandInvocationService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a CommandInvocation.  if not key provided, calls create, otherwise calls save
      * @param		CommandInvocation	commandInvocation
@@ -94,7 +98,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = CommandInvocationService.getCommandInvocationInstance().createCommandInvocation( command );
+			completableFuture = service.createCommandInvocation( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateCommandInvocationCommand
 			// -----------------------------------------------
-			completableFuture = CommandInvocationService.getCommandInvocationInstance().updateCommandInvocation(command);;
+			completableFuture = service.updateCommandInvocation(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "CommandInvocationController:update() - successfully update CommandInvocation - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteCommandInvocationCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	CommandInvocationService delegate = CommandInvocationService.getCommandInvocationInstance();
+        	CommandInvocationService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CommandInvocation with key " + command.getCommandInvocationId() );
@@ -155,7 +159,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
     	CommandInvocation entity = null;
 
     	try {  
-    		entity = CommandInvocationService.getCommandInvocationInstance().getCommandInvocation( new CommandInvocationFetchOneSummary( uuid ) );   
+    		entity = service.getCommandInvocation( new CommandInvocationFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CommandInvocation using Id " + uuid );
@@ -175,7 +179,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
         
     	try {
             // load the CommandInvocation
-            commandInvocationList = CommandInvocationService.getCommandInvocationInstance().getAllCommandInvocation();
+            commandInvocationList = service.getAllCommandInvocation();
             
             if ( commandInvocationList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CommandInvocations" );
@@ -196,7 +200,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/assignCommandDefinition")
 	public void assignCommandDefinition( @RequestBody AssignCommandDefinitionToCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().assignCommandDefinition( command );   
+			service.assignCommandDefinition( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign CommandDefinition", exc );
@@ -238,7 +242,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignCommandDefinition")
 	public void unAssignCommandDefinition( @RequestBody(required=true)  UnAssignCommandDefinitionFromCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().unAssignCommandDefinition( command );   
+			service.unAssignCommandDefinition( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign CommandDefinition", exc );
@@ -252,7 +256,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/assignActuator")
 	public void assignActuator( @RequestBody AssignActuatorToCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().assignActuator( command );   
+			service.assignActuator( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Actuator", exc );
@@ -266,7 +270,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignActuator")
 	public void unAssignActuator( @RequestBody(required=true)  UnAssignActuatorFromCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().unAssignActuator( command );   
+			service.unAssignActuator( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Actuator", exc );
@@ -280,7 +284,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/assignUser")
 	public void assignUser( @RequestBody AssignUserToCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().assignUser( command );   
+			service.assignUser( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign User", exc );
@@ -294,7 +298,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignUser")
 	public void unAssignUser( @RequestBody(required=true)  UnAssignUserFromCommandInvocationCommand command ) {
 		try {
-			CommandInvocationService.getCommandInvocationInstance().unAssignUser( command );   
+			service.unAssignUser( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign User", exc );
@@ -309,6 +313,7 @@ public class CommandInvocationRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected CommandInvocation commandInvocation = null;
-    private static final Logger LOGGER = Logger.getLogger(CommandInvocationRestController.class.getName());
+	protected CommandInvocationService service = null;
+	private static final Logger LOGGER = Logger.getLogger(CommandInvocationRestController.class.getName());
     
 }

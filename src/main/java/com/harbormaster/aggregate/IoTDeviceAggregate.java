@@ -133,19 +133,19 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateIoTDeviceEvent</li>
  *      <li>DeleteIoTDeviceEvent</li>
    *       <li>AssignDeviceModelToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDeviceModelFromIoTDeviceEvent</li>
   *       <li>AssignTenantToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromIoTDeviceEvent</li>
   *       <li>AssignSiteToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignSiteFromIoTDeviceEvent</li>
   *       <li>AssignRoomToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignRoomFromIoTDeviceEvent</li>
   *       <li>AssignGatewayToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignGatewayFromIoTDeviceEvent</li>
   *       <li>AssignDigitalTwinToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignDigitalTwinFromIoTDeviceEvent</li>
   *       <li>AssignProvisioningRecordToIoTDeviceEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignProvisioningRecordFromIoTDeviceEvent</li>
    *       <li>AssignSensorsToIoTDeviceEvent</li>
  *       <li>RemoveSensorsFromIoTDeviceEvent</li>
   *       <li>AssignActuatorsToIoTDeviceEvent</li>
@@ -736,7 +736,7 @@ public class IoTDeviceAggregate {
     
     private DeviceId deviceId;
     private String serialNumber;
-    private DateTime lastSeen;
+    private  Date lastSeen;
     private FirmwareVersion firmwareVersion;
     private DeviceStatus status;
     private PowerSource powerSource;

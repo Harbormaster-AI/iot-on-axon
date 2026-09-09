@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/HardwareModule")
 public class HardwareModuleRestController extends BaseSpringRestController {
 
+	public HardwareModuleRestController( HardwareModuleService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a HardwareModule.  if not key provided, calls create, otherwise calls save
      * @param		HardwareModule	hardwareModule
@@ -94,7 +98,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = HardwareModuleService.getHardwareModuleInstance().createHardwareModule( command );
+			completableFuture = service.createHardwareModule( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateHardwareModuleCommand
 			// -----------------------------------------------
-			completableFuture = HardwareModuleService.getHardwareModuleInstance().updateHardwareModule(command);;
+			completableFuture = service.updateHardwareModule(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "HardwareModuleController:update() - successfully update HardwareModule - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteHardwareModuleCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	HardwareModuleService delegate = HardwareModuleService.getHardwareModuleInstance();
+        	HardwareModuleService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted HardwareModule with key " + command.getHardwareModuleId() );
@@ -155,7 +159,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
     	HardwareModule entity = null;
 
     	try {  
-    		entity = HardwareModuleService.getHardwareModuleInstance().getHardwareModule( new HardwareModuleFetchOneSummary( uuid ) );   
+    		entity = service.getHardwareModule( new HardwareModuleFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load HardwareModule using Id " + uuid );
@@ -175,7 +179,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
         
     	try {
             // load the HardwareModule
-            hardwareModuleList = HardwareModuleService.getHardwareModuleInstance().getAllHardwareModule();
+            hardwareModuleList = service.getAllHardwareModule();
             
             if ( hardwareModuleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all HardwareModules" );
@@ -196,7 +200,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
 	@PutMapping("/assignVendor")
 	public void assignVendor( @RequestBody AssignVendorToHardwareModuleCommand command ) {
 		try {
-			HardwareModuleService.getHardwareModuleInstance().assignVendor( command );   
+			service.assignVendor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Vendor", exc );
@@ -210,7 +214,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignVendor")
 	public void unAssignVendor( @RequestBody(required=true)  UnAssignVendorFromHardwareModuleCommand command ) {
 		try {
-			HardwareModuleService.getHardwareModuleInstance().unAssignVendor( command );   
+			service.unAssignVendor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Vendor", exc );
@@ -225,6 +229,7 @@ public class HardwareModuleRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected HardwareModule hardwareModule = null;
-    private static final Logger LOGGER = Logger.getLogger(HardwareModuleRestController.class.getName());
+	protected HardwareModuleService service = null;
+	private static final Logger LOGGER = Logger.getLogger(HardwareModuleRestController.class.getName());
     
 }

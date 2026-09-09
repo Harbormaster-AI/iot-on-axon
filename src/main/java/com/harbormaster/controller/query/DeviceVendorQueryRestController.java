@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DeviceVendorQuery")
 public class DeviceVendorQueryRestController extends BaseSpringRestController {
 	
+	public DeviceVendorQueryRestController( DeviceVendorService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DeviceVendor using a UUID
      * @param		UUID deviceVendorId
@@ -95,7 +99,7 @@ public class DeviceVendorQueryRestController extends BaseSpringRestController {
     	DeviceVendor entity = null;
 
     	try {  
-    		entity = DeviceVendorService.getDeviceVendorInstance().getDeviceVendor( new DeviceVendorFetchOneSummary( deviceVendorId ) );
+    		entity = service.getDeviceVendor( new DeviceVendorFetchOneSummary( deviceVendorId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceVendor using Id " + deviceVendorId );
@@ -115,7 +119,7 @@ public class DeviceVendorQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceVendor
-            deviceVendorList = DeviceVendorService.getDeviceVendorInstance().getAllDeviceVendor();
+            deviceVendorList = service.getAllDeviceVendor();
             
             if ( deviceVendorList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceVendors" );
@@ -135,6 +139,7 @@ public class DeviceVendorQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceVendor deviceVendor = null;
+    protected DeviceVendorService service = null;
     private static final Logger LOGGER = Logger.getLogger(DeviceVendorQueryRestController.class.getName());
     
 }

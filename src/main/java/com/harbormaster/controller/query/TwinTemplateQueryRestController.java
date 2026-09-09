@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/TwinTemplateQuery")
 public class TwinTemplateQueryRestController extends BaseSpringRestController {
 	
+	public TwinTemplateQueryRestController( TwinTemplateService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a TwinTemplate using a UUID
      * @param		UUID twinTemplateId
@@ -95,7 +99,7 @@ public class TwinTemplateQueryRestController extends BaseSpringRestController {
     	TwinTemplate entity = null;
 
     	try {  
-    		entity = TwinTemplateService.getTwinTemplateInstance().getTwinTemplate( new TwinTemplateFetchOneSummary( twinTemplateId ) );
+    		entity = service.getTwinTemplate( new TwinTemplateFetchOneSummary( twinTemplateId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TwinTemplate using Id " + twinTemplateId );
@@ -115,7 +119,7 @@ public class TwinTemplateQueryRestController extends BaseSpringRestController {
         
     	try {
             // load the TwinTemplate
-            twinTemplateList = TwinTemplateService.getTwinTemplateInstance().getAllTwinTemplate();
+            twinTemplateList = service.getAllTwinTemplate();
             
             if ( twinTemplateList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TwinTemplates" );
@@ -135,6 +139,7 @@ public class TwinTemplateQueryRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TwinTemplate twinTemplate = null;
+    protected TwinTemplateService service = null;
     private static final Logger LOGGER = Logger.getLogger(TwinTemplateQueryRestController.class.getName());
     
 }

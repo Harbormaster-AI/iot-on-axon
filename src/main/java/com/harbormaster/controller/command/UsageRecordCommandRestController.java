@@ -100,7 +100,6 @@ public class UsageRecordCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateUsageRecordCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createUsageRecord( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class UsageRecordCommandRestController extends BaseSpringRestController {
 		DeleteUsageRecordCommand command = new DeleteUsageRecordCommand( usageRecordId );
 
     	try {
-        	UsageRecordService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted UsageRecord with key " + command.getUsageRecordId() );
         }
         catch( Throwable exc ) {

@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Building")
 public class BuildingRestController extends BaseSpringRestController {
 
+	public BuildingRestController( BuildingService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a Building.  if not key provided, calls create, otherwise calls save
      * @param		Building	building
@@ -94,7 +98,7 @@ public class BuildingRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = BuildingService.getBuildingInstance().createBuilding( command );
+			completableFuture = service.createBuilding( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class BuildingRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateBuildingCommand
 			// -----------------------------------------------
-			completableFuture = BuildingService.getBuildingInstance().updateBuilding(command);;
+			completableFuture = service.updateBuilding(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "BuildingController:update() - successfully update Building - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class BuildingRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteBuildingCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	BuildingService delegate = BuildingService.getBuildingInstance();
+        	BuildingService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Building with key " + command.getBuildingId() );
@@ -155,7 +159,7 @@ public class BuildingRestController extends BaseSpringRestController {
     	Building entity = null;
 
     	try {  
-    		entity = BuildingService.getBuildingInstance().getBuilding( new BuildingFetchOneSummary( uuid ) );   
+    		entity = service.getBuilding( new BuildingFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Building using Id " + uuid );
@@ -175,7 +179,7 @@ public class BuildingRestController extends BaseSpringRestController {
         
     	try {
             // load the Building
-            buildingList = BuildingService.getBuildingInstance().getAllBuilding();
+            buildingList = service.getAllBuilding();
             
             if ( buildingList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Buildings" );
@@ -196,7 +200,7 @@ public class BuildingRestController extends BaseSpringRestController {
 	@PutMapping("/assignSite")
 	public void assignSite( @RequestBody AssignSiteToBuildingCommand command ) {
 		try {
-			BuildingService.getBuildingInstance().assignSite( command );   
+			service.assignSite( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Site", exc );
@@ -210,7 +214,7 @@ public class BuildingRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSite")
 	public void unAssignSite( @RequestBody(required=true)  UnAssignSiteFromBuildingCommand command ) {
 		try {
-			BuildingService.getBuildingInstance().unAssignSite( command );   
+			service.unAssignSite( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Site", exc );
@@ -225,7 +229,7 @@ public class BuildingRestController extends BaseSpringRestController {
 	@PutMapping("/addToFloors")
 	public void addToFloors( @RequestBody(required=true) AssignFloorsToBuildingCommand command ) {
 		try {
-			BuildingService.getBuildingInstance().addToFloors( command );   
+			service.addToFloors( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Floors", exc );
@@ -240,7 +244,7 @@ public class BuildingRestController extends BaseSpringRestController {
 	public void removeFromFloors( 	@RequestBody(required=true) RemoveFloorsFromBuildingCommand command )
 	{		
 		try {
-			BuildingService.getBuildingInstance().removeFromFloors( command );
+			service.removeFromFloors( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Floors", exc );
@@ -254,6 +258,7 @@ public class BuildingRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Building building = null;
-    private static final Logger LOGGER = Logger.getLogger(BuildingRestController.class.getName());
+	protected BuildingService service = null;
+	private static final Logger LOGGER = Logger.getLogger(BuildingRestController.class.getName());
     
 }

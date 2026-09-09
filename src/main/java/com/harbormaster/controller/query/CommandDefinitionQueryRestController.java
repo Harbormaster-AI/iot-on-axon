@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/CommandDefinitionQuery")
 public class CommandDefinitionQueryRestController extends BaseSpringRestController {
 	
+	public CommandDefinitionQueryRestController( CommandDefinitionService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a CommandDefinition using a UUID
      * @param		UUID commandDefinitionId
@@ -95,7 +99,7 @@ public class CommandDefinitionQueryRestController extends BaseSpringRestControll
     	CommandDefinition entity = null;
 
     	try {  
-    		entity = CommandDefinitionService.getCommandDefinitionInstance().getCommandDefinition( new CommandDefinitionFetchOneSummary( commandDefinitionId ) );
+    		entity = service.getCommandDefinition( new CommandDefinitionFetchOneSummary( commandDefinitionId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CommandDefinition using Id " + commandDefinitionId );
@@ -115,7 +119,7 @@ public class CommandDefinitionQueryRestController extends BaseSpringRestControll
         
     	try {
             // load the CommandDefinition
-            commandDefinitionList = CommandDefinitionService.getCommandDefinitionInstance().getAllCommandDefinition();
+            commandDefinitionList = service.getAllCommandDefinition();
             
             if ( commandDefinitionList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CommandDefinitions" );
@@ -135,6 +139,7 @@ public class CommandDefinitionQueryRestController extends BaseSpringRestControll
 // Attributes
 //************************************************************************
     protected CommandDefinition commandDefinition = null;
+    protected CommandDefinitionService service = null;
     private static final Logger LOGGER = Logger.getLogger(CommandDefinitionQueryRestController.class.getName());
     
 }

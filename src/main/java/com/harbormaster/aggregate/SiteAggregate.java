@@ -86,7 +86,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateSiteEvent</li>
  *      <li>DeleteSiteEvent</li>
    *       <li>AssignTenantToSiteEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromSiteEvent</li>
    *       <li>AssignBuildingsToSiteEvent</li>
  *       <li>RemoveBuildingsFromSiteEvent</li>
   *       <li>AssignDevicesToSiteEvent</li>

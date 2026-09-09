@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/DataRetentionPolicyQuery")
 public class DataRetentionPolicyQueryRestController extends BaseSpringRestController {
 	
+	public DataRetentionPolicyQueryRestController( DataRetentionPolicyService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a DataRetentionPolicy using a UUID
      * @param		UUID dataRetentionPolicyId
@@ -95,7 +99,7 @@ public class DataRetentionPolicyQueryRestController extends BaseSpringRestContro
     	DataRetentionPolicy entity = null;
 
     	try {  
-    		entity = DataRetentionPolicyService.getDataRetentionPolicyInstance().getDataRetentionPolicy( new DataRetentionPolicyFetchOneSummary( dataRetentionPolicyId ) );
+    		entity = service.getDataRetentionPolicy( new DataRetentionPolicyFetchOneSummary( dataRetentionPolicyId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DataRetentionPolicy using Id " + dataRetentionPolicyId );
@@ -115,7 +119,7 @@ public class DataRetentionPolicyQueryRestController extends BaseSpringRestContro
         
     	try {
             // load the DataRetentionPolicy
-            dataRetentionPolicyList = DataRetentionPolicyService.getDataRetentionPolicyInstance().getAllDataRetentionPolicy();
+            dataRetentionPolicyList = service.getAllDataRetentionPolicy();
             
             if ( dataRetentionPolicyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DataRetentionPolicys" );
@@ -135,6 +139,7 @@ public class DataRetentionPolicyQueryRestController extends BaseSpringRestContro
 // Attributes
 //************************************************************************
     protected DataRetentionPolicy dataRetentionPolicy = null;
+    protected DataRetentionPolicyService service = null;
     private static final Logger LOGGER = Logger.getLogger(DataRetentionPolicyQueryRestController.class.getName());
     
 }

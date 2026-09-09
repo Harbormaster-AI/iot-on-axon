@@ -100,7 +100,6 @@ public class RoomCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateRoomCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createRoom( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class RoomCommandRestController extends BaseSpringRestController {
 		DeleteRoomCommand command = new DeleteRoomCommand( roomId );
 
     	try {
-        	RoomService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Room with key " + command.getRoomId() );
         }
         catch( Throwable exc ) {

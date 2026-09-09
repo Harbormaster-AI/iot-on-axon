@@ -85,6 +85,10 @@ import com.harbormaster.controller.*;
 @RequestMapping("/TwinChangeEventQuery")
 public class TwinChangeEventQueryRestController extends BaseSpringRestController {
 	
+	public TwinChangeEventQueryRestController( TwinChangeEventService service ) {
+        this.service = service;
+    }
+    
     /**
      * Handles loading a TwinChangeEvent using a UUID
      * @param		UUID twinChangeEventId
@@ -95,7 +99,7 @@ public class TwinChangeEventQueryRestController extends BaseSpringRestController
     	TwinChangeEvent entity = null;
 
     	try {  
-    		entity = TwinChangeEventService.getTwinChangeEventInstance().getTwinChangeEvent( new TwinChangeEventFetchOneSummary( twinChangeEventId ) );
+    		entity = service.getTwinChangeEvent( new TwinChangeEventFetchOneSummary( twinChangeEventId ) );
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TwinChangeEvent using Id " + twinChangeEventId );
@@ -115,7 +119,7 @@ public class TwinChangeEventQueryRestController extends BaseSpringRestController
         
     	try {
             // load the TwinChangeEvent
-            twinChangeEventList = TwinChangeEventService.getTwinChangeEventInstance().getAllTwinChangeEvent();
+            twinChangeEventList = service.getAllTwinChangeEvent();
             
             if ( twinChangeEventList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TwinChangeEvents" );
@@ -135,6 +139,7 @@ public class TwinChangeEventQueryRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected TwinChangeEvent twinChangeEvent = null;
+    protected TwinChangeEventService service = null;
     private static final Logger LOGGER = Logger.getLogger(TwinChangeEventQueryRestController.class.getName());
     
 }

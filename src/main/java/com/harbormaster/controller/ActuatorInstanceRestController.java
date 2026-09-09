@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ActuatorInstance")
 public class ActuatorInstanceRestController extends BaseSpringRestController {
 
+	public ActuatorInstanceRestController( ActuatorInstanceService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a ActuatorInstance.  if not key provided, calls create, otherwise calls save
      * @param		ActuatorInstance	actuatorInstance
@@ -94,7 +98,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = ActuatorInstanceService.getActuatorInstanceInstance().createActuatorInstance( command );
+			completableFuture = service.createActuatorInstance( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateActuatorInstanceCommand
 			// -----------------------------------------------
-			completableFuture = ActuatorInstanceService.getActuatorInstanceInstance().updateActuatorInstance(command);;
+			completableFuture = service.updateActuatorInstance(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ActuatorInstanceController:update() - successfully update ActuatorInstance - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteActuatorInstanceCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	ActuatorInstanceService delegate = ActuatorInstanceService.getActuatorInstanceInstance();
+        	ActuatorInstanceService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ActuatorInstance with key " + command.getActuatorInstanceId() );
@@ -155,7 +159,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
     	ActuatorInstance entity = null;
 
     	try {  
-    		entity = ActuatorInstanceService.getActuatorInstanceInstance().getActuatorInstance( new ActuatorInstanceFetchOneSummary( uuid ) );   
+    		entity = service.getActuatorInstance( new ActuatorInstanceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ActuatorInstance using Id " + uuid );
@@ -175,7 +179,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
         
     	try {
             // load the ActuatorInstance
-            actuatorInstanceList = ActuatorInstanceService.getActuatorInstanceInstance().getAllActuatorInstance();
+            actuatorInstanceList = service.getAllActuatorInstance();
             
             if ( actuatorInstanceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ActuatorInstances" );
@@ -196,7 +200,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToActuatorInstanceCommand command ) {
 		try {
-			ActuatorInstanceService.getActuatorInstanceInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromActuatorInstanceCommand command ) {
 		try {
-			ActuatorInstanceService.getActuatorInstanceInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -225,7 +229,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 	@PutMapping("/addToSupportedCommands")
 	public void addToSupportedCommands( @RequestBody(required=true) AssignSupportedCommandsToActuatorInstanceCommand command ) {
 		try {
-			ActuatorInstanceService.getActuatorInstanceInstance().addToSupportedCommands( command );   
+			service.addToSupportedCommands( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set SupportedCommands", exc );
@@ -240,7 +244,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 	public void removeFromSupportedCommands( 	@RequestBody(required=true) RemoveSupportedCommandsFromActuatorInstanceCommand command )
 	{		
 		try {
-			ActuatorInstanceService.getActuatorInstanceInstance().removeFromSupportedCommands( command );
+			service.removeFromSupportedCommands( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set SupportedCommands", exc );
@@ -254,6 +258,7 @@ public class ActuatorInstanceRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ActuatorInstance actuatorInstance = null;
-    private static final Logger LOGGER = Logger.getLogger(ActuatorInstanceRestController.class.getName());
+	protected ActuatorInstanceService service = null;
+	private static final Logger LOGGER = Logger.getLogger(ActuatorInstanceRestController.class.getName());
     
 }

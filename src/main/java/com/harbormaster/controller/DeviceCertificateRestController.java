@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DeviceCertificate")
 public class DeviceCertificateRestController extends BaseSpringRestController {
 
+	public DeviceCertificateRestController( DeviceCertificateService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DeviceCertificate.  if not key provided, calls create, otherwise calls save
      * @param		DeviceCertificate	deviceCertificate
@@ -94,7 +98,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DeviceCertificateService.getDeviceCertificateInstance().createDeviceCertificate( command );
+			completableFuture = service.createDeviceCertificate( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDeviceCertificateCommand
 			// -----------------------------------------------
-			completableFuture = DeviceCertificateService.getDeviceCertificateInstance().updateDeviceCertificate(command);;
+			completableFuture = service.updateDeviceCertificate(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DeviceCertificateController:update() - successfully update DeviceCertificate - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDeviceCertificateCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DeviceCertificateService delegate = DeviceCertificateService.getDeviceCertificateInstance();
+        	DeviceCertificateService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceCertificate with key " + command.getDeviceCertificateId() );
@@ -155,7 +159,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
     	DeviceCertificate entity = null;
 
     	try {  
-    		entity = DeviceCertificateService.getDeviceCertificateInstance().getDeviceCertificate( new DeviceCertificateFetchOneSummary( uuid ) );   
+    		entity = service.getDeviceCertificate( new DeviceCertificateFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceCertificate using Id " + uuid );
@@ -175,7 +179,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceCertificate
-            deviceCertificateList = DeviceCertificateService.getDeviceCertificateInstance().getAllDeviceCertificate();
+            deviceCertificateList = service.getAllDeviceCertificate();
             
             if ( deviceCertificateList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceCertificates" );
@@ -196,7 +200,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 	@PutMapping("/assignDevice")
 	public void assignDevice( @RequestBody AssignDeviceToDeviceCertificateCommand command ) {
 		try {
-			DeviceCertificateService.getDeviceCertificateInstance().assignDevice( command );   
+			service.assignDevice( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Device", exc );
@@ -210,7 +214,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignDevice")
 	public void unAssignDevice( @RequestBody(required=true)  UnAssignDeviceFromDeviceCertificateCommand command ) {
 		try {
-			DeviceCertificateService.getDeviceCertificateInstance().unAssignDevice( command );   
+			service.unAssignDevice( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Device", exc );
@@ -224,7 +228,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 	@PutMapping("/assignGateway")
 	public void assignGateway( @RequestBody AssignGatewayToDeviceCertificateCommand command ) {
 		try {
-			DeviceCertificateService.getDeviceCertificateInstance().assignGateway( command );   
+			service.assignGateway( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Gateway", exc );
@@ -238,7 +242,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignGateway")
 	public void unAssignGateway( @RequestBody(required=true)  UnAssignGatewayFromDeviceCertificateCommand command ) {
 		try {
-			DeviceCertificateService.getDeviceCertificateInstance().unAssignGateway( command );   
+			service.unAssignGateway( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Gateway", exc );
@@ -253,6 +257,7 @@ public class DeviceCertificateRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceCertificate deviceCertificate = null;
-    private static final Logger LOGGER = Logger.getLogger(DeviceCertificateRestController.class.getName());
+	protected DeviceCertificateService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DeviceCertificateRestController.class.getName());
     
 }

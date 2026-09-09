@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TelemetrySchema")
 public class TelemetrySchemaRestController extends BaseSpringRestController {
 
+	public TelemetrySchemaRestController( TelemetrySchemaService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a TelemetrySchema.  if not key provided, calls create, otherwise calls save
      * @param		TelemetrySchema	telemetrySchema
@@ -94,7 +98,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = TelemetrySchemaService.getTelemetrySchemaInstance().createTelemetrySchema( command );
+			completableFuture = service.createTelemetrySchema( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTelemetrySchemaCommand
 			// -----------------------------------------------
-			completableFuture = TelemetrySchemaService.getTelemetrySchemaInstance().updateTelemetrySchema(command);;
+			completableFuture = service.updateTelemetrySchema(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TelemetrySchemaController:update() - successfully update TelemetrySchema - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteTelemetrySchemaCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	TelemetrySchemaService delegate = TelemetrySchemaService.getTelemetrySchemaInstance();
+        	TelemetrySchemaService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TelemetrySchema with key " + command.getTelemetrySchemaId() );
@@ -155,7 +159,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
     	TelemetrySchema entity = null;
 
     	try {  
-    		entity = TelemetrySchemaService.getTelemetrySchemaInstance().getTelemetrySchema( new TelemetrySchemaFetchOneSummary( uuid ) );   
+    		entity = service.getTelemetrySchema( new TelemetrySchemaFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TelemetrySchema using Id " + uuid );
@@ -175,7 +179,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
         
     	try {
             // load the TelemetrySchema
-            telemetrySchemaList = TelemetrySchemaService.getTelemetrySchemaInstance().getAllTelemetrySchema();
+            telemetrySchemaList = service.getAllTelemetrySchema();
             
             if ( telemetrySchemaList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TelemetrySchemas" );
@@ -197,7 +201,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
 	@PutMapping("/addToStreams")
 	public void addToStreams( @RequestBody(required=true) AssignStreamsToTelemetrySchemaCommand command ) {
 		try {
-			TelemetrySchemaService.getTelemetrySchemaInstance().addToStreams( command );   
+			service.addToStreams( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Streams", exc );
@@ -212,7 +216,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
 	public void removeFromStreams( 	@RequestBody(required=true) RemoveStreamsFromTelemetrySchemaCommand command )
 	{		
 		try {
-			TelemetrySchemaService.getTelemetrySchemaInstance().removeFromStreams( command );
+			service.removeFromStreams( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Streams", exc );
@@ -226,6 +230,7 @@ public class TelemetrySchemaRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TelemetrySchema telemetrySchema = null;
-    private static final Logger LOGGER = Logger.getLogger(TelemetrySchemaRestController.class.getName());
+	protected TelemetrySchemaService service = null;
+	private static final Logger LOGGER = Logger.getLogger(TelemetrySchemaRestController.class.getName());
     
 }

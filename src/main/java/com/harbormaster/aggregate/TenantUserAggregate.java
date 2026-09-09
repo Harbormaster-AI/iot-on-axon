@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Profile;
  *      <li>UpdateTenantUserEvent</li>
  *      <li>DeleteTenantUserEvent</li>
    *       <li>AssignTenantToTenantUserEvent</li>
- *       $<li>{singleAssociation.getUnAssignFromEventAlias()}</li>
+ *       <li>UnAssignTenantFromTenantUserEvent</li>
    *       <li>AssignCommandInvocationsToTenantUserEvent</li>
  *       <li>RemoveCommandInvocationsFromTenantUserEvent</li>
   *        </ul>

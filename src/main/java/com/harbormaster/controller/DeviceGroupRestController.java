@@ -84,6 +84,10 @@ import com.harbormaster.exception.*;
 @RequestMapping("/DeviceGroup")
 public class DeviceGroupRestController extends BaseSpringRestController {
 
+	public DeviceGroupRestController( DeviceGroupService service ) {
+		this.service = service;
+	}
+	
     /**
      * Handles create a DeviceGroup.  if not key provided, calls create, otherwise calls save
      * @param		DeviceGroup	deviceGroup
@@ -94,7 +98,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 		CompletableFuture<UUID> completableFuture = null;
 		try {       
         	
-			completableFuture = DeviceGroupService.getDeviceGroupInstance().createDeviceGroup( command );
+			completableFuture = service.createDeviceGroup( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -115,7 +119,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDeviceGroupCommand
 			// -----------------------------------------------
-			completableFuture = DeviceGroupService.getDeviceGroupInstance().updateDeviceGroup(command);;
+			completableFuture = service.updateDeviceGroup(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DeviceGroupController:update() - successfully update DeviceGroup - " + exc.getMessage());        	
@@ -133,7 +137,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
     public CompletableFuture<Void> delete( @RequestBody(required=true) DeleteDeviceGroupCommand command ) {                
     	CompletableFuture<Void> completableFuture = null;
     	try {
-        	DeviceGroupService delegate = DeviceGroupService.getDeviceGroupInstance();
+        	DeviceGroupService delegate = service;
 
         	completableFuture = delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DeviceGroup with key " + command.getDeviceGroupId() );
@@ -155,7 +159,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
     	DeviceGroup entity = null;
 
     	try {  
-    		entity = DeviceGroupService.getDeviceGroupInstance().getDeviceGroup( new DeviceGroupFetchOneSummary( uuid ) );   
+    		entity = service.getDeviceGroup( new DeviceGroupFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load DeviceGroup using Id " + uuid );
@@ -175,7 +179,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
         
     	try {
             // load the DeviceGroup
-            deviceGroupList = DeviceGroupService.getDeviceGroupInstance().getAllDeviceGroup();
+            deviceGroupList = service.getAllDeviceGroup();
             
             if ( deviceGroupList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all DeviceGroups" );
@@ -196,7 +200,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 	@PutMapping("/assignTenant")
 	public void assignTenant( @RequestBody AssignTenantToDeviceGroupCommand command ) {
 		try {
-			DeviceGroupService.getDeviceGroupInstance().assignTenant( command );   
+			service.assignTenant( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Tenant", exc );
@@ -210,7 +214,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTenant")
 	public void unAssignTenant( @RequestBody(required=true)  UnAssignTenantFromDeviceGroupCommand command ) {
 		try {
-			DeviceGroupService.getDeviceGroupInstance().unAssignTenant( command );   
+			service.unAssignTenant( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Tenant", exc );
@@ -225,7 +229,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 	@PutMapping("/addToDevices")
 	public void addToDevices( @RequestBody(required=true) AssignDevicesToDeviceGroupCommand command ) {
 		try {
-			DeviceGroupService.getDeviceGroupInstance().addToDevices( command );   
+			service.addToDevices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Devices", exc );
@@ -240,7 +244,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 	public void removeFromDevices( 	@RequestBody(required=true) RemoveDevicesFromDeviceGroupCommand command )
 	{		
 		try {
-			DeviceGroupService.getDeviceGroupInstance().removeFromDevices( command );
+			service.removeFromDevices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Devices", exc );
@@ -254,6 +258,7 @@ public class DeviceGroupRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected DeviceGroup deviceGroup = null;
-    private static final Logger LOGGER = Logger.getLogger(DeviceGroupRestController.class.getName());
+	protected DeviceGroupService service = null;
+	private static final Logger LOGGER = Logger.getLogger(DeviceGroupRestController.class.getName());
     
 }

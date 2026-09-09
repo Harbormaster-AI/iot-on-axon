@@ -100,7 +100,6 @@ public class DigitalTwinCommandRestController extends BaseSpringRestController {
     public CompletableFuture<UUID> create( @RequestBody(required=true) CreateDigitalTwinCommand command ) {
 		CompletableFuture<UUID> completableFuture = null;
 		try {
-
 			completableFuture = service.createDigitalTwin( command );
         }
         catch( Throwable exc ) {
@@ -142,9 +141,7 @@ public class DigitalTwinCommandRestController extends BaseSpringRestController {
 		DeleteDigitalTwinCommand command = new DeleteDigitalTwinCommand( digitalTwinId );
 
     	try {
-        	DigitalTwinService delegate = service;
-
-        	completableFuture = delegate.delete( command );
+        	completableFuture = service.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted DigitalTwin with key " + command.getDigitalTwinId() );
         }
         catch( Throwable exc ) {
