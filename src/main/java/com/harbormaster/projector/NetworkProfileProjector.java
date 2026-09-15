@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    NetworkProfile entity = assignDevice( event.getNetworkProfileId(), event.getAssignment() );
+	    NetworkProfile entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    NetworkProfile entity = unAssignDevice( event.getNetworkProfileId() );
+	    NetworkProfile entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    NetworkProfile entity = assignGateway( event.getNetworkProfileId(), event.getAssignment() );
+	    NetworkProfile entity = assignGateway( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    NetworkProfile entity = unAssignGateway( event.getNetworkProfileId() );
+	    NetworkProfile entity = unAssignGateway( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -279,7 +279,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    NetworkProfile entity = assignSimCard( event.getNetworkProfileId(), event.getAssignment() );
+	    NetworkProfile entity = assignSimCard( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -303,7 +303,7 @@ public class NetworkProfileProjector extends NetworkProfileEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    NetworkProfile entity = unAssignSimCard( event.getNetworkProfileId() );
+	    NetworkProfile entity = unAssignSimCard( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

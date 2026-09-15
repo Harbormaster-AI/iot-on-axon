@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -186,7 +186,7 @@ public class DeviceVendorProjector extends DeviceVendorEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DeviceVendor entity = addToDeviceModels(event.getDeviceVendorId(), event.getAddTo() );
+	    DeviceVendor entity = addToDeviceModels(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -207,7 +207,7 @@ public class DeviceVendorProjector extends DeviceVendorEntityProjector {
 public void handle( RemoveDeviceModelsFromDeviceVendorEvent event) {
     LOGGER.info("handling RemoveDeviceModelsFromDeviceVendorEvent - " + event );
 
-    DeviceVendor entity = removeFromDeviceModels(event.getDeviceVendorId(), event.getRemoveFrom() );
+    DeviceVendor entity = removeFromDeviceModels(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -230,7 +230,7 @@ public void handle( RemoveDeviceModelsFromDeviceVendorEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DeviceVendor entity = addToFirmwareReleases(event.getDeviceVendorId(), event.getAddTo() );
+	    DeviceVendor entity = addToFirmwareReleases(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -251,7 +251,7 @@ public void handle( RemoveDeviceModelsFromDeviceVendorEvent event) {
 public void handle( RemoveFirmwareReleasesFromDeviceVendorEvent event) {
     LOGGER.info("handling RemoveFirmwareReleasesFromDeviceVendorEvent - " + event );
 
-    DeviceVendor entity = removeFromFirmwareReleases(event.getDeviceVendorId(), event.getRemoveFrom() );
+    DeviceVendor entity = removeFromFirmwareReleases(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -274,7 +274,7 @@ public void handle( RemoveFirmwareReleasesFromDeviceVendorEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DeviceVendor entity = addToHardwareModules(event.getDeviceVendorId(), event.getAddTo() );
+	    DeviceVendor entity = addToHardwareModules(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -295,7 +295,7 @@ public void handle( RemoveFirmwareReleasesFromDeviceVendorEvent event) {
 public void handle( RemoveHardwareModulesFromDeviceVendorEvent event) {
     LOGGER.info("handling RemoveHardwareModulesFromDeviceVendorEvent - " + event );
 
-    DeviceVendor entity = removeFromHardwareModules(event.getDeviceVendorId(), event.getRemoveFrom() );
+    DeviceVendor entity = removeFromHardwareModules(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SoftwareUpdateCampaign entity = assignFirmwareRelease( event.getSoftwareUpdateCampaignId(), event.getAssignment() );
+	    SoftwareUpdateCampaign entity = assignFirmwareRelease( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SoftwareUpdateCampaign entity = unAssignFirmwareRelease( event.getSoftwareUpdateCampaignId() );
+	    SoftwareUpdateCampaign entity = unAssignFirmwareRelease( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SoftwareUpdateCampaign entity = assignDeviceGroup( event.getSoftwareUpdateCampaignId(), event.getAssignment() );
+	    SoftwareUpdateCampaign entity = assignDeviceGroup( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SoftwareUpdateCampaign entity = unAssignDeviceGroup( event.getSoftwareUpdateCampaignId() );
+	    SoftwareUpdateCampaign entity = unAssignDeviceGroup( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -280,7 +280,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    SoftwareUpdateCampaign entity = addToExecutions(event.getSoftwareUpdateCampaignId(), event.getAddTo() );
+	    SoftwareUpdateCampaign entity = addToExecutions(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -301,7 +301,7 @@ public class SoftwareUpdateCampaignProjector extends SoftwareUpdateCampaignEntit
 public void handle( RemoveExecutionsFromSoftwareUpdateCampaignEvent event) {
     LOGGER.info("handling RemoveExecutionsFromSoftwareUpdateCampaignEvent - " + event );
 
-    SoftwareUpdateCampaign entity = removeFromExecutions(event.getSoftwareUpdateCampaignId(), event.getRemoveFrom() );
+    SoftwareUpdateCampaign entity = removeFromExecutions(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

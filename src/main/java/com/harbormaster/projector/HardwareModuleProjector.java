@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -181,7 +181,7 @@ public class HardwareModuleProjector extends HardwareModuleEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    HardwareModule entity = assignVendor( event.getHardwareModuleId(), event.getAssignment() );
+	    HardwareModule entity = assignVendor( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -205,7 +205,7 @@ public class HardwareModuleProjector extends HardwareModuleEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    HardwareModule entity = unAssignVendor( event.getHardwareModuleId() );
+	    HardwareModule entity = unAssignVendor( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

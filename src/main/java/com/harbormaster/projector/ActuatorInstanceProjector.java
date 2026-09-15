@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -182,7 +182,7 @@ public class ActuatorInstanceProjector extends ActuatorInstanceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ActuatorInstance entity = assignDevice( event.getActuatorInstanceId(), event.getAssignment() );
+	    ActuatorInstance entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -206,7 +206,7 @@ public class ActuatorInstanceProjector extends ActuatorInstanceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ActuatorInstance entity = unAssignDevice( event.getActuatorInstanceId() );
+	    ActuatorInstance entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -230,7 +230,7 @@ public class ActuatorInstanceProjector extends ActuatorInstanceEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    ActuatorInstance entity = addToSupportedCommands(event.getActuatorInstanceId(), event.getAddTo() );
+	    ActuatorInstance entity = addToSupportedCommands(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -251,7 +251,7 @@ public class ActuatorInstanceProjector extends ActuatorInstanceEntityProjector {
 public void handle( RemoveSupportedCommandsFromActuatorInstanceEvent event) {
     LOGGER.info("handling RemoveSupportedCommandsFromActuatorInstanceEvent - " + event );
 
-    ActuatorInstance entity = removeFromSupportedCommands(event.getActuatorInstanceId(), event.getRemoveFrom() );
+    ActuatorInstance entity = removeFromSupportedCommands(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ProvisioningRecord entity = assignDevice( event.getProvisioningRecordId(), event.getAssignment() );
+	    ProvisioningRecord entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ProvisioningRecord entity = unAssignDevice( event.getProvisioningRecordId() );
+	    ProvisioningRecord entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ProvisioningRecord entity = assignCertificate( event.getProvisioningRecordId(), event.getAssignment() );
+	    ProvisioningRecord entity = assignCertificate( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ProvisioningRecord entity = unAssignCertificate( event.getProvisioningRecordId() );
+	    ProvisioningRecord entity = unAssignCertificate( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -279,7 +279,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ProvisioningRecord entity = assignTenant( event.getProvisioningRecordId(), event.getAssignment() );
+	    ProvisioningRecord entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -303,7 +303,7 @@ public class ProvisioningRecordProjector extends ProvisioningRecordEntityProject
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ProvisioningRecord entity = unAssignTenant( event.getProvisioningRecordId() );
+	    ProvisioningRecord entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

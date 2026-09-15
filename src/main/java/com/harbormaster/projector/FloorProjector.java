@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -180,7 +180,7 @@ public class FloorProjector extends FloorEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Floor entity = assignBuilding( event.getFloorId(), event.getAssignment() );
+	    Floor entity = assignBuilding( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -204,7 +204,7 @@ public class FloorProjector extends FloorEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Floor entity = unAssignBuilding( event.getFloorId() );
+	    Floor entity = unAssignBuilding( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -228,7 +228,7 @@ public class FloorProjector extends FloorEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Floor entity = addToRooms(event.getFloorId(), event.getAddTo() );
+	    Floor entity = addToRooms(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -249,7 +249,7 @@ public class FloorProjector extends FloorEntityProjector {
 public void handle( RemoveRoomsFromFloorEvent event) {
     LOGGER.info("handling RemoveRoomsFromFloorEvent - " + event );
 
-    Floor entity = removeFromRooms(event.getFloorId(), event.getRemoveFrom() );
+    Floor entity = removeFromRooms(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

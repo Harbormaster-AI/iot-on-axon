@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -180,7 +180,7 @@ public class DeviceGroupProjector extends DeviceGroupEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    DeviceGroup entity = assignTenant( event.getDeviceGroupId(), event.getAssignment() );
+	    DeviceGroup entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -204,7 +204,7 @@ public class DeviceGroupProjector extends DeviceGroupEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    DeviceGroup entity = unAssignTenant( event.getDeviceGroupId() );
+	    DeviceGroup entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -228,7 +228,7 @@ public class DeviceGroupProjector extends DeviceGroupEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DeviceGroup entity = addToDevices(event.getDeviceGroupId(), event.getAddTo() );
+	    DeviceGroup entity = addToDevices(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -249,7 +249,7 @@ public class DeviceGroupProjector extends DeviceGroupEntityProjector {
 public void handle( RemoveDevicesFromDeviceGroupEvent event) {
     LOGGER.info("handling RemoveDevicesFromDeviceGroupEvent - " + event );
 
-    DeviceGroup entity = removeFromDevices(event.getDeviceGroupId(), event.getRemoveFrom() );
+    DeviceGroup entity = removeFromDevices(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

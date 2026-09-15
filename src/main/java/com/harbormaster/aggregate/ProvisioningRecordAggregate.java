@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -129,7 +129,7 @@ public class ProvisioningRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceFromProvisioningRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceFromProvisioningRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceFromProvisioningRecordCommand" );
 
     	if (  device == null )
     		throw new ProcessingException( "Device already has nothing assigned." );  
@@ -148,7 +148,7 @@ public class ProvisioningRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignCertificateFromProvisioningRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignCertificateFromProvisioningRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignCertificateFromProvisioningRecordCommand" );
 
     	if (  certificate == null )
     		throw new ProcessingException( "Certificate already has nothing assigned." );  
@@ -167,7 +167,7 @@ public class ProvisioningRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignTenantFromProvisioningRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignTenantFromProvisioningRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignTenantFromProvisioningRecordCommand" );
 
     	if (  tenant == null )
     		throw new ProcessingException( "Tenant already has nothing assigned." );  

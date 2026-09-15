@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -134,7 +134,7 @@ public class SoftwareUpdateCampaignAggregate {
 
     @CommandHandler
     public void handle(UnAssignFirmwareReleaseFromSoftwareUpdateCampaignCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignFirmwareReleaseFromSoftwareUpdateCampaignCommand" );
+    	LOGGER.info( "Handling command UnAssignFirmwareReleaseFromSoftwareUpdateCampaignCommand" );
 
     	if (  firmwareRelease == null )
     		throw new ProcessingException( "FirmwareRelease already has nothing assigned." );  
@@ -153,7 +153,7 @@ public class SoftwareUpdateCampaignAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceGroupFromSoftwareUpdateCampaignCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceGroupFromSoftwareUpdateCampaignCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceGroupFromSoftwareUpdateCampaignCommand" );
 
     	if (  deviceGroup == null )
     		throw new ProcessingException( "DeviceGroup already has nothing assigned." );  

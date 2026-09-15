@@ -68,27 +68,27 @@ data class DeleteDeviceVendorCommand(@TargetAggregateIdentifier  var deviceVendo
 //-----------------------------------------------------------
 // Command for adding a DeviceModel to a DeviceVendor
 //-----------------------------------------------------------
-data class AssignDeviceModelsToDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val addTo: DeviceModel )
+data class AssignDeviceModelsToDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceModel from a DeviceVendor
 //-----------------------------------------------------------
-data class RemoveDeviceModelsFromDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val removeFrom: DeviceModel )
+data class RemoveDeviceModelsFromDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a FirmwareRelease to a DeviceVendor
 //-----------------------------------------------------------
-data class AssignFirmwareReleasesToDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val addTo: FirmwareRelease )
+data class AssignFirmwareReleasesToDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a FirmwareRelease from a DeviceVendor
 //-----------------------------------------------------------
-data class RemoveFirmwareReleasesFromDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val removeFrom: FirmwareRelease )
+data class RemoveFirmwareReleasesFromDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a HardwareModule to a DeviceVendor
 //-----------------------------------------------------------
-data class AssignHardwareModulesToDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val addTo: HardwareModule )
+data class AssignHardwareModulesToDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a HardwareModule from a DeviceVendor
 //-----------------------------------------------------------
-data class RemoveHardwareModulesFromDeviceVendorCommand(@TargetAggregateIdentifier  val deviceVendorId: UUID, val removeFrom: HardwareModule )
+data class RemoveHardwareModulesFromDeviceVendorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a HardwareModule
@@ -124,12 +124,12 @@ data class DeleteHardwareModuleCommand(@TargetAggregateIdentifier  var hardwareM
 //-----------------------------------------------------------
 // Command for assigning a DeviceVendor to a HardwareModule
 //-----------------------------------------------------------
-data class AssignVendorToHardwareModuleCommand(@TargetAggregateIdentifier  val hardwareModuleId: UUID, val assignment: DeviceVendor )
+data class AssignVendorToHardwareModuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceVendor to a HardwareModule
 //-----------------------------------------------------------
-data class UnAssignVendorFromHardwareModuleCommand(@TargetAggregateIdentifier  val hardwareModuleId: UUID )
+data class UnAssignVendorFromHardwareModuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -169,47 +169,47 @@ data class DeleteDeviceModelCommand(@TargetAggregateIdentifier  var deviceModelI
 //-----------------------------------------------------------
 // Command for assigning a DeviceVendor to a DeviceModel
 //-----------------------------------------------------------
-data class AssignVendorToDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val assignment: DeviceVendor )
+data class AssignVendorToDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceVendor to a DeviceModel
 //-----------------------------------------------------------
-data class UnAssignVendorFromDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID )
+data class UnAssignVendorFromDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a TwinTemplate to a DeviceModel
 //-----------------------------------------------------------
-data class AssignTwinTemplateToDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val assignment: TwinTemplate )
+data class AssignTwinTemplateToDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a TwinTemplate to a DeviceModel
 //-----------------------------------------------------------
-data class UnAssignTwinTemplateFromDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID )
+data class UnAssignTwinTemplateFromDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a HardwareModule to a DeviceModel
 //-----------------------------------------------------------
-data class AssignHardwareModulesToDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val addTo: HardwareModule )
+data class AssignHardwareModulesToDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a HardwareModule from a DeviceModel
 //-----------------------------------------------------------
-data class RemoveHardwareModulesFromDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val removeFrom: HardwareModule )
+data class RemoveHardwareModulesFromDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a FirmwareRelease to a DeviceModel
 //-----------------------------------------------------------
-data class AssignFirmwareReleasesToDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val addTo: FirmwareRelease )
+data class AssignFirmwareReleasesToDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a FirmwareRelease from a DeviceModel
 //-----------------------------------------------------------
-data class RemoveFirmwareReleasesFromDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val removeFrom: FirmwareRelease )
+data class RemoveFirmwareReleasesFromDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a CommandDefinition to a DeviceModel
 //-----------------------------------------------------------
-data class AssignCommandDefinitionsToDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val addTo: CommandDefinition )
+data class AssignCommandDefinitionsToDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a CommandDefinition from a DeviceModel
 //-----------------------------------------------------------
-data class RemoveCommandDefinitionsFromDeviceModelCommand(@TargetAggregateIdentifier  val deviceModelId: UUID, val removeFrom: CommandDefinition )
+data class RemoveCommandDefinitionsFromDeviceModelCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a FirmwareRelease
@@ -255,12 +255,12 @@ data class DeleteFirmwareReleaseCommand(@TargetAggregateIdentifier  var firmware
 //-----------------------------------------------------------
 // Command for assigning a DeviceModel to a FirmwareRelease
 //-----------------------------------------------------------
-data class AssignDeviceModelToFirmwareReleaseCommand(@TargetAggregateIdentifier  val firmwareReleaseId: UUID, val assignment: DeviceModel )
+data class AssignDeviceModelToFirmwareReleaseCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceModel to a FirmwareRelease
 //-----------------------------------------------------------
-data class UnAssignDeviceModelFromFirmwareReleaseCommand(@TargetAggregateIdentifier  val firmwareReleaseId: UUID )
+data class UnAssignDeviceModelFromFirmwareReleaseCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -324,132 +324,132 @@ data class DeleteIoTDeviceCommand(@TargetAggregateIdentifier  var ioTDeviceId: U
 //-----------------------------------------------------------
 // Command for assigning a DeviceModel to a IoTDevice
 //-----------------------------------------------------------
-data class AssignDeviceModelToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: DeviceModel )
+data class AssignDeviceModelToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceModel to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignDeviceModelFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignDeviceModelFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a IoTDevice
 //-----------------------------------------------------------
-data class AssignTenantToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: Tenant )
+data class AssignTenantToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignTenantFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignTenantFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Site to a IoTDevice
 //-----------------------------------------------------------
-data class AssignSiteToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: Site )
+data class AssignSiteToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Site to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignSiteFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignSiteFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Room to a IoTDevice
 //-----------------------------------------------------------
-data class AssignRoomToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: Room )
+data class AssignRoomToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Room to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignRoomFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignRoomFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Gateway to a IoTDevice
 //-----------------------------------------------------------
-data class AssignGatewayToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: Gateway )
+data class AssignGatewayToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Gateway to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignGatewayFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignGatewayFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a DigitalTwin to a IoTDevice
 //-----------------------------------------------------------
-data class AssignDigitalTwinToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: DigitalTwin )
+data class AssignDigitalTwinToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DigitalTwin to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignDigitalTwinFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignDigitalTwinFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a ProvisioningRecord to a IoTDevice
 //-----------------------------------------------------------
-data class AssignProvisioningRecordToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val assignment: ProvisioningRecord )
+data class AssignProvisioningRecordToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a ProvisioningRecord to a IoTDevice
 //-----------------------------------------------------------
-data class UnAssignProvisioningRecordFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID )
+data class UnAssignProvisioningRecordFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a SensorInstance to a IoTDevice
 //-----------------------------------------------------------
-data class AssignSensorsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: SensorInstance )
+data class AssignSensorsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a SensorInstance from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveSensorsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: SensorInstance )
+data class RemoveSensorsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a ActuatorInstance to a IoTDevice
 //-----------------------------------------------------------
-data class AssignActuatorsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: ActuatorInstance )
+data class AssignActuatorsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a ActuatorInstance from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveActuatorsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: ActuatorInstance )
+data class RemoveActuatorsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a DeviceCertificate to a IoTDevice
 //-----------------------------------------------------------
-data class AssignCertificatesToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: DeviceCertificate )
+data class AssignCertificatesToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceCertificate from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveCertificatesFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: DeviceCertificate )
+data class RemoveCertificatesFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a IoTDevice
 //-----------------------------------------------------------
-data class AssignTelemetryStreamsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: TelemetryStream )
+data class AssignTelemetryStreamsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveTelemetryStreamsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: TelemetryStream )
+data class RemoveTelemetryStreamsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a CommandInvocation to a IoTDevice
 //-----------------------------------------------------------
-data class AssignCommandInvocationsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: CommandInvocation )
+data class AssignCommandInvocationsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a CommandInvocation from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveCommandInvocationsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: CommandInvocation )
+data class RemoveCommandInvocationsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a Alert to a IoTDevice
 //-----------------------------------------------------------
-data class AssignAlertsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: Alert )
+data class AssignAlertsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Alert from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveAlertsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: Alert )
+data class RemoveAlertsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a DeviceGroup to a IoTDevice
 //-----------------------------------------------------------
-data class AssignDeviceGroupsToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: DeviceGroup )
+data class AssignDeviceGroupsToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceGroup from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveDeviceGroupsFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: DeviceGroup )
+data class RemoveDeviceGroupsFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a NetworkProfile to a IoTDevice
 //-----------------------------------------------------------
-data class AssignNetworkProfilesToIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val addTo: NetworkProfile )
+data class AssignNetworkProfilesToIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a NetworkProfile from a IoTDevice
 //-----------------------------------------------------------
-data class RemoveNetworkProfilesFromIoTDeviceCommand(@TargetAggregateIdentifier  val ioTDeviceId: UUID, val removeFrom: NetworkProfile )
+data class RemoveNetworkProfilesFromIoTDeviceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a SensorInstance
@@ -482,22 +482,22 @@ data class DeleteSensorInstanceCommand(@TargetAggregateIdentifier  var sensorIns
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a SensorInstance
 //-----------------------------------------------------------
-data class AssignDeviceToSensorInstanceCommand(@TargetAggregateIdentifier  val sensorInstanceId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToSensorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a SensorInstance
 //-----------------------------------------------------------
-data class UnAssignDeviceFromSensorInstanceCommand(@TargetAggregateIdentifier  val sensorInstanceId: UUID )
+data class UnAssignDeviceFromSensorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a SensorInstance
 //-----------------------------------------------------------
-data class AssignTelemetryStreamsToSensorInstanceCommand(@TargetAggregateIdentifier  val sensorInstanceId: UUID, val addTo: TelemetryStream )
+data class AssignTelemetryStreamsToSensorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a SensorInstance
 //-----------------------------------------------------------
-data class RemoveTelemetryStreamsFromSensorInstanceCommand(@TargetAggregateIdentifier  val sensorInstanceId: UUID, val removeFrom: TelemetryStream )
+data class RemoveTelemetryStreamsFromSensorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a ActuatorInstance
@@ -534,22 +534,22 @@ data class DeleteActuatorInstanceCommand(@TargetAggregateIdentifier  var actuato
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a ActuatorInstance
 //-----------------------------------------------------------
-data class AssignDeviceToActuatorInstanceCommand(@TargetAggregateIdentifier  val actuatorInstanceId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToActuatorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a ActuatorInstance
 //-----------------------------------------------------------
-data class UnAssignDeviceFromActuatorInstanceCommand(@TargetAggregateIdentifier  val actuatorInstanceId: UUID )
+data class UnAssignDeviceFromActuatorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a CommandDefinition to a ActuatorInstance
 //-----------------------------------------------------------
-data class AssignSupportedCommandsToActuatorInstanceCommand(@TargetAggregateIdentifier  val actuatorInstanceId: UUID, val addTo: CommandDefinition )
+data class AssignSupportedCommandsToActuatorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a CommandDefinition from a ActuatorInstance
 //-----------------------------------------------------------
-data class RemoveSupportedCommandsFromActuatorInstanceCommand(@TargetAggregateIdentifier  val actuatorInstanceId: UUID, val removeFrom: CommandDefinition )
+data class RemoveSupportedCommandsFromActuatorInstanceCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a TelemetrySchema
@@ -587,11 +587,11 @@ data class DeleteTelemetrySchemaCommand(@TargetAggregateIdentifier  var telemetr
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a TelemetrySchema
 //-----------------------------------------------------------
-data class AssignStreamsToTelemetrySchemaCommand(@TargetAggregateIdentifier  val telemetrySchemaId: UUID, val addTo: TelemetryStream )
+data class AssignStreamsToTelemetrySchemaCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a TelemetrySchema
 //-----------------------------------------------------------
-data class RemoveStreamsFromTelemetrySchemaCommand(@TargetAggregateIdentifier  val telemetrySchemaId: UUID, val removeFrom: TelemetryStream )
+data class RemoveStreamsFromTelemetrySchemaCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a TelemetryStream
@@ -625,48 +625,48 @@ data class DeleteTelemetryStreamCommand(@TargetAggregateIdentifier  var telemetr
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a TelemetryStream
 //-----------------------------------------------------------
-data class AssignDeviceToTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a TelemetryStream
 //-----------------------------------------------------------
-data class UnAssignDeviceFromTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID )
+data class UnAssignDeviceFromTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a SensorInstance to a TelemetryStream
 //-----------------------------------------------------------
-data class AssignSensorToTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID, val assignment: SensorInstance )
+data class AssignSensorToTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a SensorInstance to a TelemetryStream
 //-----------------------------------------------------------
-data class UnAssignSensorFromTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID )
+data class UnAssignSensorFromTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a TelemetrySchema to a TelemetryStream
 //-----------------------------------------------------------
-data class AssignSchemaToTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID, val assignment: TelemetrySchema )
+data class AssignSchemaToTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a TelemetrySchema to a TelemetryStream
 //-----------------------------------------------------------
-data class UnAssignSchemaFromTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID )
+data class UnAssignSchemaFromTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a MessagingEndpoint to a TelemetryStream
 //-----------------------------------------------------------
-data class AssignMessagingEndpointToTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID, val assignment: MessagingEndpoint )
+data class AssignMessagingEndpointToTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a MessagingEndpoint to a TelemetryStream
 //-----------------------------------------------------------
-data class UnAssignMessagingEndpointFromTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID )
+data class UnAssignMessagingEndpointFromTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a DataRetentionPolicy to a TelemetryStream
 //-----------------------------------------------------------
-data class AssignRetentionPolicyToTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID, val assignment: DataRetentionPolicy )
+data class AssignRetentionPolicyToTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DataRetentionPolicy to a TelemetryStream
 //-----------------------------------------------------------
-data class UnAssignRetentionPolicyFromTelemetryStreamCommand(@TargetAggregateIdentifier  val telemetryStreamId: UUID )
+data class UnAssignRetentionPolicyFromTelemetryStreamCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -714,30 +714,30 @@ data class DeleteCommandDefinitionCommand(@TargetAggregateIdentifier  var comman
 //-----------------------------------------------------------
 // Command for assigning a DeviceModel to a CommandDefinition
 //-----------------------------------------------------------
-data class AssignDeviceModelToCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID, val assignment: DeviceModel )
+data class AssignDeviceModelToCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceModel to a CommandDefinition
 //-----------------------------------------------------------
-data class UnAssignDeviceModelFromCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID )
+data class UnAssignDeviceModelFromCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a ActuatorInstance to a CommandDefinition
 //-----------------------------------------------------------
-data class AssignActuatorsToCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID, val addTo: ActuatorInstance )
+data class AssignActuatorsToCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a ActuatorInstance from a CommandDefinition
 //-----------------------------------------------------------
-data class RemoveActuatorsFromCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID, val removeFrom: ActuatorInstance )
+data class RemoveActuatorsFromCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a CommandInvocation to a CommandDefinition
 //-----------------------------------------------------------
-data class AssignCommandInvocationsToCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID, val addTo: CommandInvocation )
+data class AssignCommandInvocationsToCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a CommandInvocation from a CommandDefinition
 //-----------------------------------------------------------
-data class RemoveCommandInvocationsFromCommandDefinitionCommand(@TargetAggregateIdentifier  val commandDefinitionId: UUID, val removeFrom: CommandInvocation )
+data class RemoveCommandInvocationsFromCommandDefinitionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a CommandInvocation
@@ -772,39 +772,39 @@ data class DeleteCommandInvocationCommand(@TargetAggregateIdentifier  var comman
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a CommandInvocation
 //-----------------------------------------------------------
-data class AssignDeviceToCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a CommandInvocation
 //-----------------------------------------------------------
-data class UnAssignDeviceFromCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID )
+data class UnAssignDeviceFromCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a CommandDefinition to a CommandInvocation
 //-----------------------------------------------------------
-data class AssignCommandDefinitionToCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID, val assignment: CommandDefinition )
+data class AssignCommandDefinitionToCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a CommandDefinition to a CommandInvocation
 //-----------------------------------------------------------
-data class UnAssignCommandDefinitionFromCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID )
+data class UnAssignCommandDefinitionFromCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a ActuatorInstance to a CommandInvocation
 //-----------------------------------------------------------
-data class AssignActuatorToCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID, val assignment: ActuatorInstance )
+data class AssignActuatorToCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a ActuatorInstance to a CommandInvocation
 //-----------------------------------------------------------
-data class UnAssignActuatorFromCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID )
+data class UnAssignActuatorFromCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a TenantUser to a CommandInvocation
 //-----------------------------------------------------------
-data class AssignUserToCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID, val assignment: TenantUser )
+data class AssignUserToCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a TenantUser to a CommandInvocation
 //-----------------------------------------------------------
-data class UnAssignUserFromCommandInvocationCommand(@TargetAggregateIdentifier  val commandInvocationId: UUID )
+data class UnAssignUserFromCommandInvocationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -838,30 +838,30 @@ data class DeleteAlertRuleCommand(@TargetAggregateIdentifier  var alertRuleId: U
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a AlertRule
 //-----------------------------------------------------------
-data class AssignTenantToAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID, val assignment: Tenant )
+data class AssignTenantToAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a AlertRule
 //-----------------------------------------------------------
-data class UnAssignTenantFromAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID )
+data class UnAssignTenantFromAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a AlertRule
 //-----------------------------------------------------------
-data class AssignStreamsToAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID, val addTo: TelemetryStream )
+data class AssignStreamsToAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a AlertRule
 //-----------------------------------------------------------
-data class RemoveStreamsFromAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID, val removeFrom: TelemetryStream )
+data class RemoveStreamsFromAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a Alert to a AlertRule
 //-----------------------------------------------------------
-data class AssignAlertsToAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID, val addTo: Alert )
+data class AssignAlertsToAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Alert from a AlertRule
 //-----------------------------------------------------------
-data class RemoveAlertsFromAlertRuleCommand(@TargetAggregateIdentifier  val alertRuleId: UUID, val removeFrom: Alert )
+data class RemoveAlertsFromAlertRuleCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Alert
@@ -894,21 +894,21 @@ data class DeleteAlertCommand(@TargetAggregateIdentifier  var alertId: UUID? = n
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a Alert
 //-----------------------------------------------------------
-data class AssignDeviceToAlertCommand(@TargetAggregateIdentifier  val alertId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToAlertCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a Alert
 //-----------------------------------------------------------
-data class UnAssignDeviceFromAlertCommand(@TargetAggregateIdentifier  val alertId: UUID )
+data class UnAssignDeviceFromAlertCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a AlertRule to a Alert
 //-----------------------------------------------------------
-data class AssignAlertRuleToAlertCommand(@TargetAggregateIdentifier  val alertId: UUID, val assignment: AlertRule )
+data class AssignAlertRuleToAlertCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a AlertRule to a Alert
 //-----------------------------------------------------------
-data class UnAssignAlertRuleFromAlertCommand(@TargetAggregateIdentifier  val alertId: UUID )
+data class UnAssignAlertRuleFromAlertCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -951,99 +951,99 @@ data class DeleteTenantCommand(@TargetAggregateIdentifier  var tenantId: UUID? =
 //-----------------------------------------------------------
 // Command for adding a Site to a Tenant
 //-----------------------------------------------------------
-data class AssignSitesToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: Site )
+data class AssignSitesToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Site from a Tenant
 //-----------------------------------------------------------
-data class RemoveSitesFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: Site )
+data class RemoveSitesFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a TenantUser to a Tenant
 //-----------------------------------------------------------
-data class AssignUsersToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: TenantUser )
+data class AssignUsersToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TenantUser from a Tenant
 //-----------------------------------------------------------
-data class RemoveUsersFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: TenantUser )
+data class RemoveUsersFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a IoTDevice to a Tenant
 //-----------------------------------------------------------
-data class AssignDevicesToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: IoTDevice )
+data class AssignDevicesToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a IoTDevice from a Tenant
 //-----------------------------------------------------------
-data class RemoveDevicesFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: IoTDevice )
+data class RemoveDevicesFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a DataRetentionPolicy to a Tenant
 //-----------------------------------------------------------
-data class AssignDataRetentionPoliciesToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: DataRetentionPolicy )
+data class AssignDataRetentionPoliciesToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DataRetentionPolicy from a Tenant
 //-----------------------------------------------------------
-data class RemoveDataRetentionPoliciesFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: DataRetentionPolicy )
+data class RemoveDataRetentionPoliciesFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a ConnectivityPlan to a Tenant
 //-----------------------------------------------------------
-data class AssignConnectivityPlansToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: ConnectivityPlan )
+data class AssignConnectivityPlansToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a ConnectivityPlan from a Tenant
 //-----------------------------------------------------------
-data class RemoveConnectivityPlansFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: ConnectivityPlan )
+data class RemoveConnectivityPlansFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a SimCard to a Tenant
 //-----------------------------------------------------------
-data class AssignSimCardsToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: SimCard )
+data class AssignSimCardsToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a SimCard from a Tenant
 //-----------------------------------------------------------
-data class RemoveSimCardsFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: SimCard )
+data class RemoveSimCardsFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a MessagingEndpoint to a Tenant
 //-----------------------------------------------------------
-data class AssignMessagingEndpointsToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: MessagingEndpoint )
+data class AssignMessagingEndpointsToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a MessagingEndpoint from a Tenant
 //-----------------------------------------------------------
-data class RemoveMessagingEndpointsFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: MessagingEndpoint )
+data class RemoveMessagingEndpointsFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a AccessPolicy to a Tenant
 //-----------------------------------------------------------
-data class AssignAccessPoliciesToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: AccessPolicy )
+data class AssignAccessPoliciesToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a AccessPolicy from a Tenant
 //-----------------------------------------------------------
-data class RemoveAccessPoliciesFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: AccessPolicy )
+data class RemoveAccessPoliciesFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a DeviceGroup to a Tenant
 //-----------------------------------------------------------
-data class AssignDeviceGroupsToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: DeviceGroup )
+data class AssignDeviceGroupsToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceGroup from a Tenant
 //-----------------------------------------------------------
-data class RemoveDeviceGroupsFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: DeviceGroup )
+data class RemoveDeviceGroupsFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a AlertRule to a Tenant
 //-----------------------------------------------------------
-data class AssignAlertRulesToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: AlertRule )
+data class AssignAlertRulesToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a AlertRule from a Tenant
 //-----------------------------------------------------------
-data class RemoveAlertRulesFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: AlertRule )
+data class RemoveAlertRulesFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a MaintenanceTicket to a Tenant
 //-----------------------------------------------------------
-data class AssignMaintenanceTicketsToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: MaintenanceTicket )
+data class AssignMaintenanceTicketsToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a MaintenanceTicket from a Tenant
 //-----------------------------------------------------------
-data class RemoveMaintenanceTicketsFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: MaintenanceTicket )
+data class RemoveMaintenanceTicketsFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a UsageRecord to a Tenant
 //-----------------------------------------------------------
-data class AssignUsageRecordsToTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val addTo: UsageRecord )
+data class AssignUsageRecordsToTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a UsageRecord from a Tenant
 //-----------------------------------------------------------
-data class RemoveUsageRecordsFromTenantCommand(@TargetAggregateIdentifier  val tenantId: UUID, val removeFrom: UsageRecord )
+data class RemoveUsageRecordsFromTenantCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a TenantUser
@@ -1076,22 +1076,22 @@ data class DeleteTenantUserCommand(@TargetAggregateIdentifier  var tenantUserId:
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a TenantUser
 //-----------------------------------------------------------
-data class AssignTenantToTenantUserCommand(@TargetAggregateIdentifier  val tenantUserId: UUID, val assignment: Tenant )
+data class AssignTenantToTenantUserCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a TenantUser
 //-----------------------------------------------------------
-data class UnAssignTenantFromTenantUserCommand(@TargetAggregateIdentifier  val tenantUserId: UUID )
+data class UnAssignTenantFromTenantUserCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a CommandInvocation to a TenantUser
 //-----------------------------------------------------------
-data class AssignCommandInvocationsToTenantUserCommand(@TargetAggregateIdentifier  val tenantUserId: UUID, val addTo: CommandInvocation )
+data class AssignCommandInvocationsToTenantUserCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a CommandInvocation from a TenantUser
 //-----------------------------------------------------------
-data class RemoveCommandInvocationsFromTenantUserCommand(@TargetAggregateIdentifier  val tenantUserId: UUID, val removeFrom: CommandInvocation )
+data class RemoveCommandInvocationsFromTenantUserCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Site
@@ -1142,38 +1142,38 @@ data class DeleteSiteCommand(@TargetAggregateIdentifier  var siteId: UUID? = nul
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a Site
 //-----------------------------------------------------------
-data class AssignTenantToSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val assignment: Tenant )
+data class AssignTenantToSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a Site
 //-----------------------------------------------------------
-data class UnAssignTenantFromSiteCommand(@TargetAggregateIdentifier  val siteId: UUID )
+data class UnAssignTenantFromSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a Building to a Site
 //-----------------------------------------------------------
-data class AssignBuildingsToSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val addTo: Building )
+data class AssignBuildingsToSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Building from a Site
 //-----------------------------------------------------------
-data class RemoveBuildingsFromSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val removeFrom: Building )
+data class RemoveBuildingsFromSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a IoTDevice to a Site
 //-----------------------------------------------------------
-data class AssignDevicesToSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val addTo: IoTDevice )
+data class AssignDevicesToSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a IoTDevice from a Site
 //-----------------------------------------------------------
-data class RemoveDevicesFromSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val removeFrom: IoTDevice )
+data class RemoveDevicesFromSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a Gateway to a Site
 //-----------------------------------------------------------
-data class AssignGatewaysToSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val addTo: Gateway )
+data class AssignGatewaysToSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Gateway from a Site
 //-----------------------------------------------------------
-data class RemoveGatewaysFromSiteCommand(@TargetAggregateIdentifier  val siteId: UUID, val removeFrom: Gateway )
+data class RemoveGatewaysFromSiteCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Building
@@ -1200,22 +1200,22 @@ data class DeleteBuildingCommand(@TargetAggregateIdentifier  var buildingId: UUI
 //-----------------------------------------------------------
 // Command for assigning a Site to a Building
 //-----------------------------------------------------------
-data class AssignSiteToBuildingCommand(@TargetAggregateIdentifier  val buildingId: UUID, val assignment: Site )
+data class AssignSiteToBuildingCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Site to a Building
 //-----------------------------------------------------------
-data class UnAssignSiteFromBuildingCommand(@TargetAggregateIdentifier  val buildingId: UUID )
+data class UnAssignSiteFromBuildingCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a Floor to a Building
 //-----------------------------------------------------------
-data class AssignFloorsToBuildingCommand(@TargetAggregateIdentifier  val buildingId: UUID, val addTo: Floor )
+data class AssignFloorsToBuildingCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Floor from a Building
 //-----------------------------------------------------------
-data class RemoveFloorsFromBuildingCommand(@TargetAggregateIdentifier  val buildingId: UUID, val removeFrom: Floor )
+data class RemoveFloorsFromBuildingCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Floor
@@ -1244,22 +1244,22 @@ data class DeleteFloorCommand(@TargetAggregateIdentifier  var floorId: UUID? = n
 //-----------------------------------------------------------
 // Command for assigning a Building to a Floor
 //-----------------------------------------------------------
-data class AssignBuildingToFloorCommand(@TargetAggregateIdentifier  val floorId: UUID, val assignment: Building )
+data class AssignBuildingToFloorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Building to a Floor
 //-----------------------------------------------------------
-data class UnAssignBuildingFromFloorCommand(@TargetAggregateIdentifier  val floorId: UUID )
+data class UnAssignBuildingFromFloorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a Room to a Floor
 //-----------------------------------------------------------
-data class AssignRoomsToFloorCommand(@TargetAggregateIdentifier  val floorId: UUID, val addTo: Room )
+data class AssignRoomsToFloorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Room from a Floor
 //-----------------------------------------------------------
-data class RemoveRoomsFromFloorCommand(@TargetAggregateIdentifier  val floorId: UUID, val removeFrom: Room )
+data class RemoveRoomsFromFloorCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Room
@@ -1287,30 +1287,30 @@ data class DeleteRoomCommand(@TargetAggregateIdentifier  var roomId: UUID? = nul
 //-----------------------------------------------------------
 // Command for assigning a Floor to a Room
 //-----------------------------------------------------------
-data class AssignFloorToRoomCommand(@TargetAggregateIdentifier  val roomId: UUID, val assignment: Floor )
+data class AssignFloorToRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Floor to a Room
 //-----------------------------------------------------------
-data class UnAssignFloorFromRoomCommand(@TargetAggregateIdentifier  val roomId: UUID )
+data class UnAssignFloorFromRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a IoTDevice to a Room
 //-----------------------------------------------------------
-data class AssignDevicesToRoomCommand(@TargetAggregateIdentifier  val roomId: UUID, val addTo: IoTDevice )
+data class AssignDevicesToRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a IoTDevice from a Room
 //-----------------------------------------------------------
-data class RemoveDevicesFromRoomCommand(@TargetAggregateIdentifier  val roomId: UUID, val removeFrom: IoTDevice )
+data class RemoveDevicesFromRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a Gateway to a Room
 //-----------------------------------------------------------
-data class AssignGatewaysToRoomCommand(@TargetAggregateIdentifier  val roomId: UUID, val addTo: Gateway )
+data class AssignGatewaysToRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a Gateway from a Room
 //-----------------------------------------------------------
-data class RemoveGatewaysFromRoomCommand(@TargetAggregateIdentifier  val roomId: UUID, val removeFrom: Gateway )
+data class RemoveGatewaysFromRoomCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a Gateway
@@ -1344,64 +1344,64 @@ data class DeleteGatewayCommand(@TargetAggregateIdentifier  var gatewayId: UUID?
 //-----------------------------------------------------------
 // Command for assigning a Site to a Gateway
 //-----------------------------------------------------------
-data class AssignSiteToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val assignment: Site )
+data class AssignSiteToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Site to a Gateway
 //-----------------------------------------------------------
-data class UnAssignSiteFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID )
+data class UnAssignSiteFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Room to a Gateway
 //-----------------------------------------------------------
-data class AssignRoomToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val assignment: Room )
+data class AssignRoomToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Room to a Gateway
 //-----------------------------------------------------------
-data class UnAssignRoomFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID )
+data class UnAssignRoomFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a DigitalTwin to a Gateway
 //-----------------------------------------------------------
-data class AssignDigitalTwinToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val assignment: DigitalTwin )
+data class AssignDigitalTwinToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DigitalTwin to a Gateway
 //-----------------------------------------------------------
-data class UnAssignDigitalTwinFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID )
+data class UnAssignDigitalTwinFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a IoTDevice to a Gateway
 //-----------------------------------------------------------
-data class AssignDevicesToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val addTo: IoTDevice )
+data class AssignDevicesToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a IoTDevice from a Gateway
 //-----------------------------------------------------------
-data class RemoveDevicesFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val removeFrom: IoTDevice )
+data class RemoveDevicesFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a EdgeApplication to a Gateway
 //-----------------------------------------------------------
-data class AssignEdgeApplicationsToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val addTo: EdgeApplication )
+data class AssignEdgeApplicationsToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a EdgeApplication from a Gateway
 //-----------------------------------------------------------
-data class RemoveEdgeApplicationsFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val removeFrom: EdgeApplication )
+data class RemoveEdgeApplicationsFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a DeviceCertificate to a Gateway
 //-----------------------------------------------------------
-data class AssignCertificatesToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val addTo: DeviceCertificate )
+data class AssignCertificatesToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceCertificate from a Gateway
 //-----------------------------------------------------------
-data class RemoveCertificatesFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val removeFrom: DeviceCertificate )
+data class RemoveCertificatesFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a NetworkProfile to a Gateway
 //-----------------------------------------------------------
-data class AssignNetworkProfilesToGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val addTo: NetworkProfile )
+data class AssignNetworkProfilesToGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a NetworkProfile from a Gateway
 //-----------------------------------------------------------
-data class RemoveNetworkProfilesFromGatewayCommand(@TargetAggregateIdentifier  val gatewayId: UUID, val removeFrom: NetworkProfile )
+data class RemoveNetworkProfilesFromGatewayCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a EdgeApplication
@@ -1433,12 +1433,12 @@ data class DeleteEdgeApplicationCommand(@TargetAggregateIdentifier  var edgeAppl
 //-----------------------------------------------------------
 // Command for assigning a Gateway to a EdgeApplication
 //-----------------------------------------------------------
-data class AssignGatewayToEdgeApplicationCommand(@TargetAggregateIdentifier  val edgeApplicationId: UUID, val assignment: Gateway )
+data class AssignGatewayToEdgeApplicationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Gateway to a EdgeApplication
 //-----------------------------------------------------------
-data class UnAssignGatewayFromEdgeApplicationCommand(@TargetAggregateIdentifier  val edgeApplicationId: UUID )
+data class UnAssignGatewayFromEdgeApplicationCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -1474,30 +1474,30 @@ data class DeleteNetworkProfileCommand(@TargetAggregateIdentifier  var networkPr
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a NetworkProfile
 //-----------------------------------------------------------
-data class AssignDeviceToNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a NetworkProfile
 //-----------------------------------------------------------
-data class UnAssignDeviceFromNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID )
+data class UnAssignDeviceFromNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Gateway to a NetworkProfile
 //-----------------------------------------------------------
-data class AssignGatewayToNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID, val assignment: Gateway )
+data class AssignGatewayToNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Gateway to a NetworkProfile
 //-----------------------------------------------------------
-data class UnAssignGatewayFromNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID )
+data class UnAssignGatewayFromNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a SimCard to a NetworkProfile
 //-----------------------------------------------------------
-data class AssignSimCardToNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID, val assignment: SimCard )
+data class AssignSimCardToNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a SimCard to a NetworkProfile
 //-----------------------------------------------------------
-data class UnAssignSimCardFromNetworkProfileCommand(@TargetAggregateIdentifier  val networkProfileId: UUID )
+data class UnAssignSimCardFromNetworkProfileCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -1533,31 +1533,31 @@ data class DeleteSimCardCommand(@TargetAggregateIdentifier  var simCardId: UUID?
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a SimCard
 //-----------------------------------------------------------
-data class AssignTenantToSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID, val assignment: Tenant )
+data class AssignTenantToSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a SimCard
 //-----------------------------------------------------------
-data class UnAssignTenantFromSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID )
+data class UnAssignTenantFromSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a ConnectivityPlan to a SimCard
 //-----------------------------------------------------------
-data class AssignConnectivityPlanToSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID, val assignment: ConnectivityPlan )
+data class AssignConnectivityPlanToSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a ConnectivityPlan to a SimCard
 //-----------------------------------------------------------
-data class UnAssignConnectivityPlanFromSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID )
+data class UnAssignConnectivityPlanFromSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a NetworkProfile to a SimCard
 //-----------------------------------------------------------
-data class AssignNetworkProfilesToSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID, val addTo: NetworkProfile )
+data class AssignNetworkProfilesToSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a NetworkProfile from a SimCard
 //-----------------------------------------------------------
-data class RemoveNetworkProfilesFromSimCardCommand(@TargetAggregateIdentifier  val simCardId: UUID, val removeFrom: NetworkProfile )
+data class RemoveNetworkProfilesFromSimCardCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a ConnectivityPlan
@@ -1588,22 +1588,22 @@ data class DeleteConnectivityPlanCommand(@TargetAggregateIdentifier  var connect
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a ConnectivityPlan
 //-----------------------------------------------------------
-data class AssignTenantToConnectivityPlanCommand(@TargetAggregateIdentifier  val connectivityPlanId: UUID, val assignment: Tenant )
+data class AssignTenantToConnectivityPlanCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a ConnectivityPlan
 //-----------------------------------------------------------
-data class UnAssignTenantFromConnectivityPlanCommand(@TargetAggregateIdentifier  val connectivityPlanId: UUID )
+data class UnAssignTenantFromConnectivityPlanCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a SimCard to a ConnectivityPlan
 //-----------------------------------------------------------
-data class AssignSimCardsToConnectivityPlanCommand(@TargetAggregateIdentifier  val connectivityPlanId: UUID, val addTo: SimCard )
+data class AssignSimCardsToConnectivityPlanCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a SimCard from a ConnectivityPlan
 //-----------------------------------------------------------
-data class RemoveSimCardsFromConnectivityPlanCommand(@TargetAggregateIdentifier  val connectivityPlanId: UUID, val removeFrom: SimCard )
+data class RemoveSimCardsFromConnectivityPlanCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a MessagingEndpoint
@@ -1636,22 +1636,22 @@ data class DeleteMessagingEndpointCommand(@TargetAggregateIdentifier  var messag
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a MessagingEndpoint
 //-----------------------------------------------------------
-data class AssignTenantToMessagingEndpointCommand(@TargetAggregateIdentifier  val messagingEndpointId: UUID, val assignment: Tenant )
+data class AssignTenantToMessagingEndpointCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a MessagingEndpoint
 //-----------------------------------------------------------
-data class UnAssignTenantFromMessagingEndpointCommand(@TargetAggregateIdentifier  val messagingEndpointId: UUID )
+data class UnAssignTenantFromMessagingEndpointCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a MessagingEndpoint
 //-----------------------------------------------------------
-data class AssignStreamsToMessagingEndpointCommand(@TargetAggregateIdentifier  val messagingEndpointId: UUID, val addTo: TelemetryStream )
+data class AssignStreamsToMessagingEndpointCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a MessagingEndpoint
 //-----------------------------------------------------------
-data class RemoveStreamsFromMessagingEndpointCommand(@TargetAggregateIdentifier  val messagingEndpointId: UUID, val removeFrom: TelemetryStream )
+data class RemoveStreamsFromMessagingEndpointCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a AccessPolicy
@@ -1683,30 +1683,30 @@ data class DeleteAccessPolicyCommand(@TargetAggregateIdentifier  var accessPolic
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a AccessPolicy
 //-----------------------------------------------------------
-data class AssignTenantToAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID, val assignment: Tenant )
+data class AssignTenantToAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a AccessPolicy
 //-----------------------------------------------------------
-data class UnAssignTenantFromAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID )
+data class UnAssignTenantFromAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a ApiKey to a AccessPolicy
 //-----------------------------------------------------------
-data class AssignApiKeysToAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID, val addTo: ApiKey )
+data class AssignApiKeysToAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a ApiKey from a AccessPolicy
 //-----------------------------------------------------------
-data class RemoveApiKeysFromAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID, val removeFrom: ApiKey )
+data class RemoveApiKeysFromAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for adding a TenantUser to a AccessPolicy
 //-----------------------------------------------------------
-data class AssignUsersToAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID, val addTo: TenantUser )
+data class AssignUsersToAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TenantUser from a AccessPolicy
 //-----------------------------------------------------------
-data class RemoveUsersFromAccessPolicyCommand(@TargetAggregateIdentifier  val accessPolicyId: UUID, val removeFrom: TenantUser )
+data class RemoveUsersFromAccessPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a ApiKey
@@ -1738,12 +1738,12 @@ data class DeleteApiKeyCommand(@TargetAggregateIdentifier  var apiKeyId: UUID? =
 //-----------------------------------------------------------
 // Command for assigning a AccessPolicy to a ApiKey
 //-----------------------------------------------------------
-data class AssignAccessPolicyToApiKeyCommand(@TargetAggregateIdentifier  val apiKeyId: UUID, val assignment: AccessPolicy )
+data class AssignAccessPolicyToApiKeyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a AccessPolicy to a ApiKey
 //-----------------------------------------------------------
-data class UnAssignAccessPolicyFromApiKeyCommand(@TargetAggregateIdentifier  val apiKeyId: UUID )
+data class UnAssignAccessPolicyFromApiKeyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -1780,21 +1780,21 @@ data class DeleteDeviceCertificateCommand(@TargetAggregateIdentifier  var device
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a DeviceCertificate
 //-----------------------------------------------------------
-data class AssignDeviceToDeviceCertificateCommand(@TargetAggregateIdentifier  val deviceCertificateId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToDeviceCertificateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a DeviceCertificate
 //-----------------------------------------------------------
-data class UnAssignDeviceFromDeviceCertificateCommand(@TargetAggregateIdentifier  val deviceCertificateId: UUID )
+data class UnAssignDeviceFromDeviceCertificateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Gateway to a DeviceCertificate
 //-----------------------------------------------------------
-data class AssignGatewayToDeviceCertificateCommand(@TargetAggregateIdentifier  val deviceCertificateId: UUID, val assignment: Gateway )
+data class AssignGatewayToDeviceCertificateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Gateway to a DeviceCertificate
 //-----------------------------------------------------------
-data class UnAssignGatewayFromDeviceCertificateCommand(@TargetAggregateIdentifier  val deviceCertificateId: UUID )
+data class UnAssignGatewayFromDeviceCertificateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -1830,30 +1830,30 @@ data class DeleteProvisioningRecordCommand(@TargetAggregateIdentifier  var provi
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a ProvisioningRecord
 //-----------------------------------------------------------
-data class AssignDeviceToProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a ProvisioningRecord
 //-----------------------------------------------------------
-data class UnAssignDeviceFromProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID )
+data class UnAssignDeviceFromProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a DeviceCertificate to a ProvisioningRecord
 //-----------------------------------------------------------
-data class AssignCertificateToProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID, val assignment: DeviceCertificate )
+data class AssignCertificateToProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceCertificate to a ProvisioningRecord
 //-----------------------------------------------------------
-data class UnAssignCertificateFromProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID )
+data class UnAssignCertificateFromProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a ProvisioningRecord
 //-----------------------------------------------------------
-data class AssignTenantToProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID, val assignment: Tenant )
+data class AssignTenantToProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a ProvisioningRecord
 //-----------------------------------------------------------
-data class UnAssignTenantFromProvisioningRecordCommand(@TargetAggregateIdentifier  val provisioningRecordId: UUID )
+data class UnAssignTenantFromProvisioningRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -1890,40 +1890,40 @@ data class DeleteDigitalTwinCommand(@TargetAggregateIdentifier  var digitalTwinI
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a DigitalTwin
 //-----------------------------------------------------------
-data class AssignDeviceToDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a DigitalTwin
 //-----------------------------------------------------------
-data class UnAssignDeviceFromDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID )
+data class UnAssignDeviceFromDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Gateway to a DigitalTwin
 //-----------------------------------------------------------
-data class AssignGatewayToDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID, val assignment: Gateway )
+data class AssignGatewayToDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Gateway to a DigitalTwin
 //-----------------------------------------------------------
-data class UnAssignGatewayFromDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID )
+data class UnAssignGatewayFromDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a TwinTemplate to a DigitalTwin
 //-----------------------------------------------------------
-data class AssignTemplateToDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID, val assignment: TwinTemplate )
+data class AssignTemplateToDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a TwinTemplate to a DigitalTwin
 //-----------------------------------------------------------
-data class UnAssignTemplateFromDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID )
+data class UnAssignTemplateFromDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a TwinChangeEvent to a DigitalTwin
 //-----------------------------------------------------------
-data class AssignChangeEventsToDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID, val addTo: TwinChangeEvent )
+data class AssignChangeEventsToDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TwinChangeEvent from a DigitalTwin
 //-----------------------------------------------------------
-data class RemoveChangeEventsFromDigitalTwinCommand(@TargetAggregateIdentifier  val digitalTwinId: UUID, val removeFrom: TwinChangeEvent )
+data class RemoveChangeEventsFromDigitalTwinCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a TwinTemplate
@@ -1961,11 +1961,11 @@ data class DeleteTwinTemplateCommand(@TargetAggregateIdentifier  var twinTemplat
 //-----------------------------------------------------------
 // Command for adding a DeviceModel to a TwinTemplate
 //-----------------------------------------------------------
-data class AssignDeviceModelsToTwinTemplateCommand(@TargetAggregateIdentifier  val twinTemplateId: UUID, val addTo: DeviceModel )
+data class AssignDeviceModelsToTwinTemplateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a DeviceModel from a TwinTemplate
 //-----------------------------------------------------------
-data class RemoveDeviceModelsFromTwinTemplateCommand(@TargetAggregateIdentifier  val twinTemplateId: UUID, val removeFrom: DeviceModel )
+data class RemoveDeviceModelsFromTwinTemplateCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a TwinChangeEvent
@@ -1995,12 +1995,12 @@ data class DeleteTwinChangeEventCommand(@TargetAggregateIdentifier  var twinChan
 //-----------------------------------------------------------
 // Command for assigning a DigitalTwin to a TwinChangeEvent
 //-----------------------------------------------------------
-data class AssignTwinToTwinChangeEventCommand(@TargetAggregateIdentifier  val twinChangeEventId: UUID, val assignment: DigitalTwin )
+data class AssignTwinToTwinChangeEventCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DigitalTwin to a TwinChangeEvent
 //-----------------------------------------------------------
-data class UnAssignTwinFromTwinChangeEventCommand(@TargetAggregateIdentifier  val twinChangeEventId: UUID )
+data class UnAssignTwinFromTwinChangeEventCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -2037,21 +2037,21 @@ data class DeleteMaintenanceTicketCommand(@TargetAggregateIdentifier  var mainte
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a MaintenanceTicket
 //-----------------------------------------------------------
-data class AssignDeviceToMaintenanceTicketCommand(@TargetAggregateIdentifier  val maintenanceTicketId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToMaintenanceTicketCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a MaintenanceTicket
 //-----------------------------------------------------------
-data class UnAssignDeviceFromMaintenanceTicketCommand(@TargetAggregateIdentifier  val maintenanceTicketId: UUID )
+data class UnAssignDeviceFromMaintenanceTicketCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a MaintenanceTicket
 //-----------------------------------------------------------
-data class AssignTenantToMaintenanceTicketCommand(@TargetAggregateIdentifier  val maintenanceTicketId: UUID, val assignment: Tenant )
+data class AssignTenantToMaintenanceTicketCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a MaintenanceTicket
 //-----------------------------------------------------------
-data class UnAssignTenantFromMaintenanceTicketCommand(@TargetAggregateIdentifier  val maintenanceTicketId: UUID )
+data class UnAssignTenantFromMaintenanceTicketCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -2082,22 +2082,22 @@ data class DeleteDataRetentionPolicyCommand(@TargetAggregateIdentifier  var data
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a DataRetentionPolicy
 //-----------------------------------------------------------
-data class AssignTenantToDataRetentionPolicyCommand(@TargetAggregateIdentifier  val dataRetentionPolicyId: UUID, val assignment: Tenant )
+data class AssignTenantToDataRetentionPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a DataRetentionPolicy
 //-----------------------------------------------------------
-data class UnAssignTenantFromDataRetentionPolicyCommand(@TargetAggregateIdentifier  val dataRetentionPolicyId: UUID )
+data class UnAssignTenantFromDataRetentionPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a TelemetryStream to a DataRetentionPolicy
 //-----------------------------------------------------------
-data class AssignStreamsToDataRetentionPolicyCommand(@TargetAggregateIdentifier  val dataRetentionPolicyId: UUID, val addTo: TelemetryStream )
+data class AssignStreamsToDataRetentionPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a TelemetryStream from a DataRetentionPolicy
 //-----------------------------------------------------------
-data class RemoveStreamsFromDataRetentionPolicyCommand(@TargetAggregateIdentifier  val dataRetentionPolicyId: UUID, val removeFrom: TelemetryStream )
+data class RemoveStreamsFromDataRetentionPolicyCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a SoftwareUpdateCampaign
@@ -2131,31 +2131,31 @@ data class DeleteSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  var s
 //-----------------------------------------------------------
 // Command for assigning a FirmwareRelease to a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class AssignFirmwareReleaseToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID, val assignment: FirmwareRelease )
+data class AssignFirmwareReleaseToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a FirmwareRelease to a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class UnAssignFirmwareReleaseFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID )
+data class UnAssignFirmwareReleaseFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a DeviceGroup to a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class AssignDeviceGroupToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID, val assignment: DeviceGroup )
+data class AssignDeviceGroupToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a DeviceGroup to a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class UnAssignDeviceGroupFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID )
+data class UnAssignDeviceGroupFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a SoftwareUpdateExecution to a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class AssignExecutionsToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID, val addTo: SoftwareUpdateExecution )
+data class AssignExecutionsToSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a SoftwareUpdateExecution from a SoftwareUpdateCampaign
 //-----------------------------------------------------------
-data class RemoveExecutionsFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val softwareUpdateCampaignId: UUID, val removeFrom: SoftwareUpdateExecution )
+data class RemoveExecutionsFromSoftwareUpdateCampaignCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a SoftwareUpdateExecution
@@ -2186,21 +2186,21 @@ data class DeleteSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  var 
 //-----------------------------------------------------------
 // Command for assigning a SoftwareUpdateCampaign to a SoftwareUpdateExecution
 //-----------------------------------------------------------
-data class AssignCampaignToSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val softwareUpdateExecutionId: UUID, val assignment: SoftwareUpdateCampaign )
+data class AssignCampaignToSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a SoftwareUpdateCampaign to a SoftwareUpdateExecution
 //-----------------------------------------------------------
-data class UnAssignCampaignFromSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val softwareUpdateExecutionId: UUID )
+data class UnAssignCampaignFromSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a SoftwareUpdateExecution
 //-----------------------------------------------------------
-data class AssignDeviceToSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val softwareUpdateExecutionId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a SoftwareUpdateExecution
 //-----------------------------------------------------------
-data class UnAssignDeviceFromSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val softwareUpdateExecutionId: UUID )
+data class UnAssignDeviceFromSoftwareUpdateExecutionCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 
@@ -2231,22 +2231,22 @@ data class DeleteDeviceGroupCommand(@TargetAggregateIdentifier  var deviceGroupI
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a DeviceGroup
 //-----------------------------------------------------------
-data class AssignTenantToDeviceGroupCommand(@TargetAggregateIdentifier  val deviceGroupId: UUID, val assignment: Tenant )
+data class AssignTenantToDeviceGroupCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a DeviceGroup
 //-----------------------------------------------------------
-data class UnAssignTenantFromDeviceGroupCommand(@TargetAggregateIdentifier  val deviceGroupId: UUID )
+data class UnAssignTenantFromDeviceGroupCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 //-----------------------------------------------------------
 // Command for adding a IoTDevice to a DeviceGroup
 //-----------------------------------------------------------
-data class AssignDevicesToDeviceGroupCommand(@TargetAggregateIdentifier  val deviceGroupId: UUID, val addTo: IoTDevice )
+data class AssignDevicesToDeviceGroupCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 //-----------------------------------------------------------
 // Command for removing a IoTDevice from a DeviceGroup
 //-----------------------------------------------------------
-data class RemoveDevicesFromDeviceGroupCommand(@TargetAggregateIdentifier  val deviceGroupId: UUID, val removeFrom: IoTDevice )
+data class RemoveDevicesFromDeviceGroupCommand(@TargetAggregateIdentifier  val parentId: UUID, val childIds: List<UUID> )
 
 //-----------------------------------------------------------
 // Command for producing an instance of a UsageRecord
@@ -2280,30 +2280,30 @@ data class DeleteUsageRecordCommand(@TargetAggregateIdentifier  var usageRecordI
 //-----------------------------------------------------------
 // Command for assigning a Tenant to a UsageRecord
 //-----------------------------------------------------------
-data class AssignTenantToUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID, val assignment: Tenant )
+data class AssignTenantToUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a Tenant to a UsageRecord
 //-----------------------------------------------------------
-data class UnAssignTenantFromUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID )
+data class UnAssignTenantFromUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a IoTDevice to a UsageRecord
 //-----------------------------------------------------------
-data class AssignDeviceToUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID, val assignment: IoTDevice )
+data class AssignDeviceToUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a IoTDevice to a UsageRecord
 //-----------------------------------------------------------
-data class UnAssignDeviceFromUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID )
+data class UnAssignDeviceFromUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 //-----------------------------------------------------------
 // Command for assigning a ConnectivityPlan to a UsageRecord
 //-----------------------------------------------------------
-data class AssignConnectivityPlanToUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID, val assignment: ConnectivityPlan )
+data class AssignConnectivityPlanToUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 //-----------------------------------------------------------
 // Command for unassigning a ConnectivityPlan to a UsageRecord
 //-----------------------------------------------------------
-data class UnAssignConnectivityPlanFromUsageRecordCommand(@TargetAggregateIdentifier  val usageRecordId: UUID )
+data class UnAssignConnectivityPlanFromUsageRecordCommand(@TargetAggregateIdentifier  val parentId: UUID, val childId: UUID )
 
 // multiple association commands
 

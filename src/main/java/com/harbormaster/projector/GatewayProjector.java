@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Gateway entity = assignSite( event.getGatewayId(), event.getAssignment() );
+	    Gateway entity = assignSite( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Gateway entity = unAssignSite( event.getGatewayId() );
+	    Gateway entity = unAssignSite( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Gateway entity = assignRoom( event.getGatewayId(), event.getAssignment() );
+	    Gateway entity = assignRoom( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Gateway entity = unAssignRoom( event.getGatewayId() );
+	    Gateway entity = unAssignRoom( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -279,7 +279,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Gateway entity = assignDigitalTwin( event.getGatewayId(), event.getAssignment() );
+	    Gateway entity = assignDigitalTwin( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -303,7 +303,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Gateway entity = unAssignDigitalTwin( event.getGatewayId() );
+	    Gateway entity = unAssignDigitalTwin( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -327,7 +327,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Gateway entity = addToDevices(event.getGatewayId(), event.getAddTo() );
+	    Gateway entity = addToDevices(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -348,7 +348,7 @@ public class GatewayProjector extends GatewayEntityProjector {
 public void handle( RemoveDevicesFromGatewayEvent event) {
     LOGGER.info("handling RemoveDevicesFromGatewayEvent - " + event );
 
-    Gateway entity = removeFromDevices(event.getGatewayId(), event.getRemoveFrom() );
+    Gateway entity = removeFromDevices(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -371,7 +371,7 @@ public void handle( RemoveDevicesFromGatewayEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Gateway entity = addToEdgeApplications(event.getGatewayId(), event.getAddTo() );
+	    Gateway entity = addToEdgeApplications(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -392,7 +392,7 @@ public void handle( RemoveDevicesFromGatewayEvent event) {
 public void handle( RemoveEdgeApplicationsFromGatewayEvent event) {
     LOGGER.info("handling RemoveEdgeApplicationsFromGatewayEvent - " + event );
 
-    Gateway entity = removeFromEdgeApplications(event.getGatewayId(), event.getRemoveFrom() );
+    Gateway entity = removeFromEdgeApplications(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -415,7 +415,7 @@ public void handle( RemoveEdgeApplicationsFromGatewayEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Gateway entity = addToCertificates(event.getGatewayId(), event.getAddTo() );
+	    Gateway entity = addToCertificates(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -436,7 +436,7 @@ public void handle( RemoveEdgeApplicationsFromGatewayEvent event) {
 public void handle( RemoveCertificatesFromGatewayEvent event) {
     LOGGER.info("handling RemoveCertificatesFromGatewayEvent - " + event );
 
-    Gateway entity = removeFromCertificates(event.getGatewayId(), event.getRemoveFrom() );
+    Gateway entity = removeFromCertificates(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -459,7 +459,7 @@ public void handle( RemoveCertificatesFromGatewayEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Gateway entity = addToNetworkProfiles(event.getGatewayId(), event.getAddTo() );
+	    Gateway entity = addToNetworkProfiles(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -480,7 +480,7 @@ public void handle( RemoveCertificatesFromGatewayEvent event) {
 public void handle( RemoveNetworkProfilesFromGatewayEvent event) {
     LOGGER.info("handling RemoveNetworkProfilesFromGatewayEvent - " + event );
 
-    Gateway entity = removeFromNetworkProfiles(event.getGatewayId(), event.getRemoveFrom() );
+    Gateway entity = removeFromNetworkProfiles(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

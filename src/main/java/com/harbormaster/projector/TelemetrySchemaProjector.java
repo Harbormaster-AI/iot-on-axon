@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -182,7 +182,7 @@ public class TelemetrySchemaProjector extends TelemetrySchemaEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    TelemetrySchema entity = addToStreams(event.getTelemetrySchemaId(), event.getAddTo() );
+	    TelemetrySchema entity = addToStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -203,7 +203,7 @@ public class TelemetrySchemaProjector extends TelemetrySchemaEntityProjector {
 public void handle( RemoveStreamsFromTelemetrySchemaEvent event) {
     LOGGER.info("handling RemoveStreamsFromTelemetrySchemaEvent - " + event );
 
-    TelemetrySchema entity = removeFromStreams(event.getTelemetrySchemaId(), event.getRemoveFrom() );
+    TelemetrySchema entity = removeFromStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -184,7 +184,7 @@ public class MessagingEndpointProjector extends MessagingEndpointEntityProjector
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    MessagingEndpoint entity = assignTenant( event.getMessagingEndpointId(), event.getAssignment() );
+	    MessagingEndpoint entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -208,7 +208,7 @@ public class MessagingEndpointProjector extends MessagingEndpointEntityProjector
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    MessagingEndpoint entity = unAssignTenant( event.getMessagingEndpointId() );
+	    MessagingEndpoint entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class MessagingEndpointProjector extends MessagingEndpointEntityProjector
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    MessagingEndpoint entity = addToStreams(event.getMessagingEndpointId(), event.getAddTo() );
+	    MessagingEndpoint entity = addToStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -253,7 +253,7 @@ public class MessagingEndpointProjector extends MessagingEndpointEntityProjector
 public void handle( RemoveStreamsFromMessagingEndpointEvent event) {
     LOGGER.info("handling RemoveStreamsFromMessagingEndpointEvent - " + event );
 
-    MessagingEndpoint entity = removeFromStreams(event.getMessagingEndpointId(), event.getRemoveFrom() );
+    MessagingEndpoint entity = removeFromStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -130,7 +130,7 @@ public class DeviceGroupAggregate {
 
     @CommandHandler
     public void handle(UnAssignTenantFromDeviceGroupCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignTenantFromDeviceGroupCommand" );
+    	LOGGER.info( "Handling command UnAssignTenantFromDeviceGroupCommand" );
 
     	if (  tenant == null )
     		throw new ProcessingException( "Tenant already has nothing assigned." );  

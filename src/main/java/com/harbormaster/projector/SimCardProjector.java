@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SimCard entity = assignTenant( event.getSimCardId(), event.getAssignment() );
+	    SimCard entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SimCard entity = unAssignTenant( event.getSimCardId() );
+	    SimCard entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SimCard entity = assignConnectivityPlan( event.getSimCardId(), event.getAssignment() );
+	    SimCard entity = assignConnectivityPlan( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SimCard entity = unAssignConnectivityPlan( event.getSimCardId() );
+	    SimCard entity = unAssignConnectivityPlan( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -280,7 +280,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    SimCard entity = addToNetworkProfiles(event.getSimCardId(), event.getAddTo() );
+	    SimCard entity = addToNetworkProfiles(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -301,7 +301,7 @@ public class SimCardProjector extends SimCardEntityProjector {
 public void handle( RemoveNetworkProfilesFromSimCardEvent event) {
     LOGGER.info("handling RemoveNetworkProfilesFromSimCardEvent - " + event );
 
-    SimCard entity = removeFromNetworkProfiles(event.getSimCardId(), event.getRemoveFrom() );
+    SimCard entity = removeFromNetworkProfiles(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

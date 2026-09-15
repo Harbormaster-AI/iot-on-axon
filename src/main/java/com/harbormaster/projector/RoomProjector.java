@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -179,7 +179,7 @@ public class RoomProjector extends RoomEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Room entity = assignFloor( event.getRoomId(), event.getAssignment() );
+	    Room entity = assignFloor( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -203,7 +203,7 @@ public class RoomProjector extends RoomEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Room entity = unAssignFloor( event.getRoomId() );
+	    Room entity = unAssignFloor( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -227,7 +227,7 @@ public class RoomProjector extends RoomEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Room entity = addToDevices(event.getRoomId(), event.getAddTo() );
+	    Room entity = addToDevices(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -248,7 +248,7 @@ public class RoomProjector extends RoomEntityProjector {
 public void handle( RemoveDevicesFromRoomEvent event) {
     LOGGER.info("handling RemoveDevicesFromRoomEvent - " + event );
 
-    Room entity = removeFromDevices(event.getRoomId(), event.getRemoveFrom() );
+    Room entity = removeFromDevices(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -271,7 +271,7 @@ public void handle( RemoveDevicesFromRoomEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Room entity = addToGateways(event.getRoomId(), event.getAddTo() );
+	    Room entity = addToGateways(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -292,7 +292,7 @@ public void handle( RemoveDevicesFromRoomEvent event) {
 public void handle( RemoveGatewaysFromRoomEvent event) {
     LOGGER.info("handling RemoveGatewaysFromRoomEvent - " + event );
 
-    Room entity = removeFromGateways(event.getRoomId(), event.getRemoveFrom() );
+    Room entity = removeFromGateways(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

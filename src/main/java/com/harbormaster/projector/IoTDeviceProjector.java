@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -201,7 +201,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignDeviceModel( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignDeviceModel( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -225,7 +225,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignDeviceModel( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignDeviceModel( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -248,7 +248,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignTenant( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -272,7 +272,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignTenant( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -295,7 +295,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignSite( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignSite( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -319,7 +319,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignSite( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignSite( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -342,7 +342,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignRoom( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignRoom( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -366,7 +366,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignRoom( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignRoom( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -389,7 +389,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignGateway( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignGateway( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -413,7 +413,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignGateway( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignGateway( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -436,7 +436,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignDigitalTwin( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignDigitalTwin( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -460,7 +460,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignDigitalTwin( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignDigitalTwin( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -483,7 +483,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    IoTDevice entity = assignProvisioningRecord( event.getIoTDeviceId(), event.getAssignment() );
+	    IoTDevice entity = assignProvisioningRecord( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -507,7 +507,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    IoTDevice entity = unAssignProvisioningRecord( event.getIoTDeviceId() );
+	    IoTDevice entity = unAssignProvisioningRecord( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -531,7 +531,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToSensors(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToSensors(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -552,7 +552,7 @@ public class IoTDeviceProjector extends IoTDeviceEntityProjector {
 public void handle( RemoveSensorsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveSensorsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromSensors(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromSensors(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -575,7 +575,7 @@ public void handle( RemoveSensorsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToActuators(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToActuators(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -596,7 +596,7 @@ public void handle( RemoveSensorsFromIoTDeviceEvent event) {
 public void handle( RemoveActuatorsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveActuatorsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromActuators(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromActuators(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -619,7 +619,7 @@ public void handle( RemoveActuatorsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToCertificates(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToCertificates(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -640,7 +640,7 @@ public void handle( RemoveActuatorsFromIoTDeviceEvent event) {
 public void handle( RemoveCertificatesFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveCertificatesFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromCertificates(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromCertificates(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -663,7 +663,7 @@ public void handle( RemoveCertificatesFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToTelemetryStreams(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToTelemetryStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -684,7 +684,7 @@ public void handle( RemoveCertificatesFromIoTDeviceEvent event) {
 public void handle( RemoveTelemetryStreamsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveTelemetryStreamsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromTelemetryStreams(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromTelemetryStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -707,7 +707,7 @@ public void handle( RemoveTelemetryStreamsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToCommandInvocations(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToCommandInvocations(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -728,7 +728,7 @@ public void handle( RemoveTelemetryStreamsFromIoTDeviceEvent event) {
 public void handle( RemoveCommandInvocationsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveCommandInvocationsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromCommandInvocations(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromCommandInvocations(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -751,7 +751,7 @@ public void handle( RemoveCommandInvocationsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToAlerts(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToAlerts(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -772,7 +772,7 @@ public void handle( RemoveCommandInvocationsFromIoTDeviceEvent event) {
 public void handle( RemoveAlertsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveAlertsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromAlerts(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromAlerts(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -795,7 +795,7 @@ public void handle( RemoveAlertsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToDeviceGroups(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToDeviceGroups(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -816,7 +816,7 @@ public void handle( RemoveAlertsFromIoTDeviceEvent event) {
 public void handle( RemoveDeviceGroupsFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveDeviceGroupsFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromDeviceGroups(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromDeviceGroups(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -839,7 +839,7 @@ public void handle( RemoveDeviceGroupsFromIoTDeviceEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    IoTDevice entity = addToNetworkProfiles(event.getIoTDeviceId(), event.getAddTo() );
+	    IoTDevice entity = addToNetworkProfiles(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -860,7 +860,7 @@ public void handle( RemoveDeviceGroupsFromIoTDeviceEvent event) {
 public void handle( RemoveNetworkProfilesFromIoTDeviceEvent event) {
     LOGGER.info("handling RemoveNetworkProfilesFromIoTDeviceEvent - " + event );
 
-    IoTDevice entity = removeFromNetworkProfiles(event.getIoTDeviceId(), event.getRemoveFrom() );
+    IoTDevice entity = removeFromNetworkProfiles(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -183,7 +183,7 @@ public class AlertRuleProjector extends AlertRuleEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    AlertRule entity = assignTenant( event.getAlertRuleId(), event.getAssignment() );
+	    AlertRule entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -207,7 +207,7 @@ public class AlertRuleProjector extends AlertRuleEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    AlertRule entity = unAssignTenant( event.getAlertRuleId() );
+	    AlertRule entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -231,7 +231,7 @@ public class AlertRuleProjector extends AlertRuleEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    AlertRule entity = addToStreams(event.getAlertRuleId(), event.getAddTo() );
+	    AlertRule entity = addToStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -252,7 +252,7 @@ public class AlertRuleProjector extends AlertRuleEntityProjector {
 public void handle( RemoveStreamsFromAlertRuleEvent event) {
     LOGGER.info("handling RemoveStreamsFromAlertRuleEvent - " + event );
 
-    AlertRule entity = removeFromStreams(event.getAlertRuleId(), event.getRemoveFrom() );
+    AlertRule entity = removeFromStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -275,7 +275,7 @@ public void handle( RemoveStreamsFromAlertRuleEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    AlertRule entity = addToAlerts(event.getAlertRuleId(), event.getAddTo() );
+	    AlertRule entity = addToAlerts(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -296,7 +296,7 @@ public void handle( RemoveStreamsFromAlertRuleEvent event) {
 public void handle( RemoveAlertsFromAlertRuleEvent event) {
     LOGGER.info("handling RemoveAlertsFromAlertRuleEvent - " + event );
 
-    AlertRule entity = removeFromAlerts(event.getAlertRuleId(), event.getRemoveFrom() );
+    AlertRule entity = removeFromAlerts(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

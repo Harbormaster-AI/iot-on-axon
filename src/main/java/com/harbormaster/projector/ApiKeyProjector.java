@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -183,7 +183,7 @@ public class ApiKeyProjector extends ApiKeyEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ApiKey entity = assignAccessPolicy( event.getApiKeyId(), event.getAssignment() );
+	    ApiKey entity = assignAccessPolicy( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -207,7 +207,7 @@ public class ApiKeyProjector extends ApiKeyEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ApiKey entity = unAssignAccessPolicy( event.getApiKeyId() );
+	    ApiKey entity = unAssignAccessPolicy( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

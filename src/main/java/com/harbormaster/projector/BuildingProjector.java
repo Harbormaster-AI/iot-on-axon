@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -178,7 +178,7 @@ public class BuildingProjector extends BuildingEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Building entity = assignSite( event.getBuildingId(), event.getAssignment() );
+	    Building entity = assignSite( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -202,7 +202,7 @@ public class BuildingProjector extends BuildingEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Building entity = unAssignSite( event.getBuildingId() );
+	    Building entity = unAssignSite( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -226,7 +226,7 @@ public class BuildingProjector extends BuildingEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Building entity = addToFloors(event.getBuildingId(), event.getAddTo() );
+	    Building entity = addToFloors(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -247,7 +247,7 @@ public class BuildingProjector extends BuildingEntityProjector {
 public void handle( RemoveFloorsFromBuildingEvent event) {
     LOGGER.info("handling RemoveFloorsFromBuildingEvent - " + event );
 
-    Building entity = removeFromFloors(event.getBuildingId(), event.getRemoveFrom() );
+    Building entity = removeFromFloors(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    TelemetryStream entity = assignDevice( event.getTelemetryStreamId(), event.getAssignment() );
+	    TelemetryStream entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    TelemetryStream entity = unAssignDevice( event.getTelemetryStreamId() );
+	    TelemetryStream entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    TelemetryStream entity = assignSensor( event.getTelemetryStreamId(), event.getAssignment() );
+	    TelemetryStream entity = assignSensor( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    TelemetryStream entity = unAssignSensor( event.getTelemetryStreamId() );
+	    TelemetryStream entity = unAssignSensor( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -279,7 +279,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    TelemetryStream entity = assignSchema( event.getTelemetryStreamId(), event.getAssignment() );
+	    TelemetryStream entity = assignSchema( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -303,7 +303,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    TelemetryStream entity = unAssignSchema( event.getTelemetryStreamId() );
+	    TelemetryStream entity = unAssignSchema( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -326,7 +326,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    TelemetryStream entity = assignMessagingEndpoint( event.getTelemetryStreamId(), event.getAssignment() );
+	    TelemetryStream entity = assignMessagingEndpoint( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -350,7 +350,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    TelemetryStream entity = unAssignMessagingEndpoint( event.getTelemetryStreamId() );
+	    TelemetryStream entity = unAssignMessagingEndpoint( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -373,7 +373,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    TelemetryStream entity = assignRetentionPolicy( event.getTelemetryStreamId(), event.getAssignment() );
+	    TelemetryStream entity = assignRetentionPolicy( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -397,7 +397,7 @@ public class TelemetryStreamProjector extends TelemetryStreamEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    TelemetryStream entity = unAssignRetentionPolicy( event.getTelemetryStreamId() );
+	    TelemetryStream entity = unAssignRetentionPolicy( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

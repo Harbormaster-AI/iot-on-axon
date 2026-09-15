@@ -40,6 +40,7 @@ import javax.persistence.Column
 // As non-transactional, encapsulates the concept of data
 // related to a DeviceId
 // -----------------------------------------------------------------------
+
 data class DeviceId(
     var value: String? = null
 )
@@ -50,6 +51,7 @@ data class DeviceId(
 // As non-transactional, encapsulates the concept of data
 // related to a FirmwareVersion
 // -----------------------------------------------------------------------
+
 data class FirmwareVersion(
     var value: String? = null
 )
@@ -60,6 +62,7 @@ data class FirmwareVersion(
 // As non-transactional, encapsulates the concept of data
 // related to a Address
 // -----------------------------------------------------------------------
+
 data class Address(
     var street: String? = null,
     var city: String? = null,
@@ -74,6 +77,7 @@ data class Address(
 // As non-transactional, encapsulates the concept of data
 // related to a Uri
 // -----------------------------------------------------------------------
+
 data class Uri(
     var value: String? = null
 )
@@ -84,6 +88,7 @@ data class Uri(
 // As non-transactional, encapsulates the concept of data
 // related to a TopicName
 // -----------------------------------------------------------------------
+
 data class TopicName(
     var value: String? = null
 )
@@ -94,6 +99,7 @@ data class TopicName(
 // As non-transactional, encapsulates the concept of data
 // related to a Checksum
 // -----------------------------------------------------------------------
+
 data class Checksum(
     var algorithm: String? = null,
     var value: String? = null

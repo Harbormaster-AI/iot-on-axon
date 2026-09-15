@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -182,7 +182,7 @@ public class TwinTemplateProjector extends TwinTemplateEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    TwinTemplate entity = addToDeviceModels(event.getTwinTemplateId(), event.getAddTo() );
+	    TwinTemplate entity = addToDeviceModels(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -203,7 +203,7 @@ public class TwinTemplateProjector extends TwinTemplateEntityProjector {
 public void handle( RemoveDeviceModelsFromTwinTemplateEvent event) {
     LOGGER.info("handling RemoveDeviceModelsFromTwinTemplateEvent - " + event );
 
-    TwinTemplate entity = removeFromDeviceModels(event.getTwinTemplateId(), event.getRemoveFrom() );
+    TwinTemplate entity = removeFromDeviceModels(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

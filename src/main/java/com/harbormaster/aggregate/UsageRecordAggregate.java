@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -129,7 +129,7 @@ public class UsageRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignTenantFromUsageRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignTenantFromUsageRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignTenantFromUsageRecordCommand" );
 
     	if (  tenant == null )
     		throw new ProcessingException( "Tenant already has nothing assigned." );  
@@ -148,7 +148,7 @@ public class UsageRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceFromUsageRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceFromUsageRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceFromUsageRecordCommand" );
 
     	if (  device == null )
     		throw new ProcessingException( "Device already has nothing assigned." );  
@@ -167,7 +167,7 @@ public class UsageRecordAggregate {
 
     @CommandHandler
     public void handle(UnAssignConnectivityPlanFromUsageRecordCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignConnectivityPlanFromUsageRecordCommand" );
+    	LOGGER.info( "Handling command UnAssignConnectivityPlanFromUsageRecordCommand" );
 
     	if (  connectivityPlan == null )
     		throw new ProcessingException( "ConnectivityPlan already has nothing assigned." );  

@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -165,7 +165,7 @@ public class GatewayAggregate {
 
     @CommandHandler
     public void handle(UnAssignSiteFromGatewayCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignSiteFromGatewayCommand" );
+    	LOGGER.info( "Handling command UnAssignSiteFromGatewayCommand" );
 
     	if (  site == null )
     		throw new ProcessingException( "Site already has nothing assigned." );  
@@ -184,7 +184,7 @@ public class GatewayAggregate {
 
     @CommandHandler
     public void handle(UnAssignRoomFromGatewayCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignRoomFromGatewayCommand" );
+    	LOGGER.info( "Handling command UnAssignRoomFromGatewayCommand" );
 
     	if (  room == null )
     		throw new ProcessingException( "Room already has nothing assigned." );  
@@ -203,7 +203,7 @@ public class GatewayAggregate {
 
     @CommandHandler
     public void handle(UnAssignDigitalTwinFromGatewayCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDigitalTwinFromGatewayCommand" );
+    	LOGGER.info( "Handling command UnAssignDigitalTwinFromGatewayCommand" );
 
     	if (  digitalTwin == null )
     		throw new ProcessingException( "DigitalTwin already has nothing assigned." );  

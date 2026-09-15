@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -217,7 +217,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceModelFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceModelFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceModelFromIoTDeviceCommand" );
 
     	if (  deviceModel == null )
     		throw new ProcessingException( "DeviceModel already has nothing assigned." );  
@@ -236,7 +236,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignTenantFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignTenantFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignTenantFromIoTDeviceCommand" );
 
     	if (  tenant == null )
     		throw new ProcessingException( "Tenant already has nothing assigned." );  
@@ -255,7 +255,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignSiteFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignSiteFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignSiteFromIoTDeviceCommand" );
 
     	if (  site == null )
     		throw new ProcessingException( "Site already has nothing assigned." );  
@@ -274,7 +274,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignRoomFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignRoomFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignRoomFromIoTDeviceCommand" );
 
     	if (  room == null )
     		throw new ProcessingException( "Room already has nothing assigned." );  
@@ -293,7 +293,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignGatewayFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignGatewayFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignGatewayFromIoTDeviceCommand" );
 
     	if (  gateway == null )
     		throw new ProcessingException( "Gateway already has nothing assigned." );  
@@ -312,7 +312,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignDigitalTwinFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDigitalTwinFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignDigitalTwinFromIoTDeviceCommand" );
 
     	if (  digitalTwin == null )
     		throw new ProcessingException( "DigitalTwin already has nothing assigned." );  
@@ -331,7 +331,7 @@ public class IoTDeviceAggregate {
 
     @CommandHandler
     public void handle(UnAssignProvisioningRecordFromIoTDeviceCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignProvisioningRecordFromIoTDeviceCommand" );
+    	LOGGER.info( "Handling command UnAssignProvisioningRecordFromIoTDeviceCommand" );
 
     	if (  provisioningRecord == null )
     		throw new ProcessingException( "ProvisioningRecord already has nothing assigned." );  

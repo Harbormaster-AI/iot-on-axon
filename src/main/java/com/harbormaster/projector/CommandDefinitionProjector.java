@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -185,7 +185,7 @@ public class CommandDefinitionProjector extends CommandDefinitionEntityProjector
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    CommandDefinition entity = assignDeviceModel( event.getCommandDefinitionId(), event.getAssignment() );
+	    CommandDefinition entity = assignDeviceModel( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -209,7 +209,7 @@ public class CommandDefinitionProjector extends CommandDefinitionEntityProjector
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    CommandDefinition entity = unAssignDeviceModel( event.getCommandDefinitionId() );
+	    CommandDefinition entity = unAssignDeviceModel( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -233,7 +233,7 @@ public class CommandDefinitionProjector extends CommandDefinitionEntityProjector
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    CommandDefinition entity = addToActuators(event.getCommandDefinitionId(), event.getAddTo() );
+	    CommandDefinition entity = addToActuators(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -254,7 +254,7 @@ public class CommandDefinitionProjector extends CommandDefinitionEntityProjector
 public void handle( RemoveActuatorsFromCommandDefinitionEvent event) {
     LOGGER.info("handling RemoveActuatorsFromCommandDefinitionEvent - " + event );
 
-    CommandDefinition entity = removeFromActuators(event.getCommandDefinitionId(), event.getRemoveFrom() );
+    CommandDefinition entity = removeFromActuators(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -277,7 +277,7 @@ public void handle( RemoveActuatorsFromCommandDefinitionEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    CommandDefinition entity = addToCommandInvocations(event.getCommandDefinitionId(), event.getAddTo() );
+	    CommandDefinition entity = addToCommandInvocations(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -298,7 +298,7 @@ public void handle( RemoveActuatorsFromCommandDefinitionEvent event) {
 public void handle( RemoveCommandInvocationsFromCommandDefinitionEvent event) {
     LOGGER.info("handling RemoveCommandInvocationsFromCommandDefinitionEvent - " + event );
 
-    CommandDefinition entity = removeFromCommandInvocations(event.getCommandDefinitionId(), event.getRemoveFrom() );
+    CommandDefinition entity = removeFromCommandInvocations(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -182,7 +182,7 @@ public class ConnectivityPlanProjector extends ConnectivityPlanEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    ConnectivityPlan entity = assignTenant( event.getConnectivityPlanId(), event.getAssignment() );
+	    ConnectivityPlan entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -206,7 +206,7 @@ public class ConnectivityPlanProjector extends ConnectivityPlanEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    ConnectivityPlan entity = unAssignTenant( event.getConnectivityPlanId() );
+	    ConnectivityPlan entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -230,7 +230,7 @@ public class ConnectivityPlanProjector extends ConnectivityPlanEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    ConnectivityPlan entity = addToSimCards(event.getConnectivityPlanId(), event.getAddTo() );
+	    ConnectivityPlan entity = addToSimCards(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -251,7 +251,7 @@ public class ConnectivityPlanProjector extends ConnectivityPlanEntityProjector {
 public void handle( RemoveSimCardsFromConnectivityPlanEvent event) {
     LOGGER.info("handling RemoveSimCardsFromConnectivityPlanEvent - " + event );
 
-    ConnectivityPlan entity = removeFromSimCards(event.getConnectivityPlanId(), event.getRemoveFrom() );
+    ConnectivityPlan entity = removeFromSimCards(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

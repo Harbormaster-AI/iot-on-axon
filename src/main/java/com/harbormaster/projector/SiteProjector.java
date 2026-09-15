@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -188,7 +188,7 @@ public class SiteProjector extends SiteEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    Site entity = assignTenant( event.getSiteId(), event.getAssignment() );
+	    Site entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -212,7 +212,7 @@ public class SiteProjector extends SiteEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    Site entity = unAssignTenant( event.getSiteId() );
+	    Site entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -236,7 +236,7 @@ public class SiteProjector extends SiteEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Site entity = addToBuildings(event.getSiteId(), event.getAddTo() );
+	    Site entity = addToBuildings(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -257,7 +257,7 @@ public class SiteProjector extends SiteEntityProjector {
 public void handle( RemoveBuildingsFromSiteEvent event) {
     LOGGER.info("handling RemoveBuildingsFromSiteEvent - " + event );
 
-    Site entity = removeFromBuildings(event.getSiteId(), event.getRemoveFrom() );
+    Site entity = removeFromBuildings(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -280,7 +280,7 @@ public void handle( RemoveBuildingsFromSiteEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Site entity = addToDevices(event.getSiteId(), event.getAddTo() );
+	    Site entity = addToDevices(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -301,7 +301,7 @@ public void handle( RemoveBuildingsFromSiteEvent event) {
 public void handle( RemoveDevicesFromSiteEvent event) {
     LOGGER.info("handling RemoveDevicesFromSiteEvent - " + event );
 
-    Site entity = removeFromDevices(event.getSiteId(), event.getRemoveFrom() );
+    Site entity = removeFromDevices(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -324,7 +324,7 @@ public void handle( RemoveDevicesFromSiteEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Site entity = addToGateways(event.getSiteId(), event.getAddTo() );
+	    Site entity = addToGateways(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -345,7 +345,7 @@ public void handle( RemoveDevicesFromSiteEvent event) {
 public void handle( RemoveGatewaysFromSiteEvent event) {
     LOGGER.info("handling RemoveGatewaysFromSiteEvent - " + event );
 
-    Site entity = removeFromGateways(event.getSiteId(), event.getRemoveFrom() );
+    Site entity = removeFromGateways(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

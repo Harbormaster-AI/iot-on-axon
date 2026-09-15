@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -182,7 +182,7 @@ public class SoftwareUpdateExecutionProjector extends SoftwareUpdateExecutionEnt
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SoftwareUpdateExecution entity = assignCampaign( event.getSoftwareUpdateExecutionId(), event.getAssignment() );
+	    SoftwareUpdateExecution entity = assignCampaign( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -206,7 +206,7 @@ public class SoftwareUpdateExecutionProjector extends SoftwareUpdateExecutionEnt
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SoftwareUpdateExecution entity = unAssignCampaign( event.getSoftwareUpdateExecutionId() );
+	    SoftwareUpdateExecution entity = unAssignCampaign( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -229,7 +229,7 @@ public class SoftwareUpdateExecutionProjector extends SoftwareUpdateExecutionEnt
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SoftwareUpdateExecution entity = assignDevice( event.getSoftwareUpdateExecutionId(), event.getAssignment() );
+	    SoftwareUpdateExecution entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -253,7 +253,7 @@ public class SoftwareUpdateExecutionProjector extends SoftwareUpdateExecutionEnt
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SoftwareUpdateExecution entity = unAssignDevice( event.getSoftwareUpdateExecutionId() );
+	    SoftwareUpdateExecution entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

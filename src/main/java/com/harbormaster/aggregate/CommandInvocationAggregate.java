@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -133,7 +133,7 @@ public class CommandInvocationAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceFromCommandInvocationCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceFromCommandInvocationCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceFromCommandInvocationCommand" );
 
     	if (  device == null )
     		throw new ProcessingException( "Device already has nothing assigned." );  
@@ -152,7 +152,7 @@ public class CommandInvocationAggregate {
 
     @CommandHandler
     public void handle(UnAssignCommandDefinitionFromCommandInvocationCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignCommandDefinitionFromCommandInvocationCommand" );
+    	LOGGER.info( "Handling command UnAssignCommandDefinitionFromCommandInvocationCommand" );
 
     	if (  commandDefinition == null )
     		throw new ProcessingException( "CommandDefinition already has nothing assigned." );  
@@ -171,7 +171,7 @@ public class CommandInvocationAggregate {
 
     @CommandHandler
     public void handle(UnAssignActuatorFromCommandInvocationCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignActuatorFromCommandInvocationCommand" );
+    	LOGGER.info( "Handling command UnAssignActuatorFromCommandInvocationCommand" );
 
     	if (  actuator == null )
     		throw new ProcessingException( "Actuator already has nothing assigned." );  
@@ -190,7 +190,7 @@ public class CommandInvocationAggregate {
 
     @CommandHandler
     public void handle(UnAssignUserFromCommandInvocationCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignUserFromCommandInvocationCommand" );
+    	LOGGER.info( "Handling command UnAssignUserFromCommandInvocationCommand" );
 
     	if (  user == null )
     		throw new ProcessingException( "User already has nothing assigned." );  

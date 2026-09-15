@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -183,7 +183,7 @@ public class AccessPolicyProjector extends AccessPolicyEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    AccessPolicy entity = assignTenant( event.getAccessPolicyId(), event.getAssignment() );
+	    AccessPolicy entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -207,7 +207,7 @@ public class AccessPolicyProjector extends AccessPolicyEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    AccessPolicy entity = unAssignTenant( event.getAccessPolicyId() );
+	    AccessPolicy entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -231,7 +231,7 @@ public class AccessPolicyProjector extends AccessPolicyEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    AccessPolicy entity = addToApiKeys(event.getAccessPolicyId(), event.getAddTo() );
+	    AccessPolicy entity = addToApiKeys(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -252,7 +252,7 @@ public class AccessPolicyProjector extends AccessPolicyEntityProjector {
 public void handle( RemoveApiKeysFromAccessPolicyEvent event) {
     LOGGER.info("handling RemoveApiKeysFromAccessPolicyEvent - " + event );
 
-    AccessPolicy entity = removeFromApiKeys(event.getAccessPolicyId(), event.getRemoveFrom() );
+    AccessPolicy entity = removeFromApiKeys(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -275,7 +275,7 @@ public void handle( RemoveApiKeysFromAccessPolicyEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    AccessPolicy entity = addToUsers(event.getAccessPolicyId(), event.getAddTo() );
+	    AccessPolicy entity = addToUsers(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -296,7 +296,7 @@ public void handle( RemoveApiKeysFromAccessPolicyEvent event) {
 public void handle( RemoveUsersFromAccessPolicyEvent event) {
     LOGGER.info("handling RemoveUsersFromAccessPolicyEvent - " + event );
 
-    AccessPolicy entity = removeFromUsers(event.getAccessPolicyId(), event.getRemoveFrom() );
+    AccessPolicy entity = removeFromUsers(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

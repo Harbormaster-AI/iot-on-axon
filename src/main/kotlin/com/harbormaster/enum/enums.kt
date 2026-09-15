@@ -26,12 +26,14 @@ package com.harbormaster.api;
 // --------------------------------------------
 // enum declarations
 // --------------------------------------------
+
 // --------------------------------------------
 // enum ConnectivityType
 // --------------------------------------------
 enum class ConnectivityType {
     WiFi, Ethernet, LTE, FiveG, NBIoT, LoRaWAN, Zigbee, BLE, Satellite
 }
+
 
 // --------------------------------------------
 // enum DeviceStatus
@@ -40,12 +42,14 @@ enum class DeviceStatus {
     Provisioning, Active, Suspended, Offline, Decommissioned
 }
 
+
 // --------------------------------------------
 // enum TelemetryEncoding
 // --------------------------------------------
 enum class TelemetryEncoding {
     JSON, CBOR, Protobuf, Avro, Binary
 }
+
 
 // --------------------------------------------
 // enum MessageQoS
@@ -54,12 +58,14 @@ enum class MessageQoS {
     AtMostOnce, AtLeastOnce, ExactlyOnce
 }
 
+
 // --------------------------------------------
 // enum CertificateType
 // --------------------------------------------
 enum class CertificateType {
     X509, X509_CA, X509_SelfSigned
 }
+
 
 // --------------------------------------------
 // enum ProvisioningMethod
@@ -68,12 +74,14 @@ enum class ProvisioningMethod {
     Manual, JITP, JITR, Bulk, ZeroTouch
 }
 
+
 // --------------------------------------------
 // enum ProvisioningStatus
 // --------------------------------------------
 enum class ProvisioningStatus {
     Pending, Enrolled, Failed, Revoked
 }
+
 
 // --------------------------------------------
 // enum SensorType
@@ -82,12 +90,14 @@ enum class SensorType {
     Temperature, Humidity, Pressure, Accelerometer, Gyroscope, GPS, Light, CO2, VOC, Current, Voltage
 }
 
+
 // --------------------------------------------
 // enum ActuatorType
 // --------------------------------------------
 enum class ActuatorType {
     Relay, Motor, Valve, LED, Buzzer, Display
 }
+
 
 // --------------------------------------------
 // enum AlertSeverity
@@ -96,12 +106,14 @@ enum class AlertSeverity {
     Info, Warning, Critical
 }
 
+
 // --------------------------------------------
 // enum AlertStatus
 // --------------------------------------------
 enum class AlertStatus {
     Open, Acknowledged, Resolved, Suppressed
 }
+
 
 // --------------------------------------------
 // enum UserRole
@@ -110,12 +122,14 @@ enum class UserRole {
     Admin, Operator, Viewer, Integrator
 }
 
+
 // --------------------------------------------
 // enum TenantType
 // --------------------------------------------
 enum class TenantType {
     Enterprise, SMB, ISV, SystemIntegrator, Government
 }
+
 
 // --------------------------------------------
 // enum MessagingProtocol
@@ -124,12 +138,14 @@ enum class MessagingProtocol {
     MQTT, AMQP, HTTP, CoAP, WebSocket
 }
 
+
 // --------------------------------------------
 // enum SimStatus
 // --------------------------------------------
 enum class SimStatus {
     Active, Suspended, Retired
 }
+
 
 // --------------------------------------------
 // enum CommandStatus
@@ -138,12 +154,14 @@ enum class CommandStatus {
     Queued, Sent, Succeeded, Failed, TimedOut, Cancelled
 }
 
+
 // --------------------------------------------
 // enum UpdateCampaignStatus
 // --------------------------------------------
 enum class UpdateCampaignStatus {
     Planned, InProgress, Paused, Completed, Cancelled
 }
+
 
 // --------------------------------------------
 // enum UpdateStatus
@@ -152,12 +170,14 @@ enum class UpdateStatus {
     Downloading, Installing, Rebooting, Success, Failure, Deferred
 }
 
+
 // --------------------------------------------
 // enum TwinChangeType
 // --------------------------------------------
 enum class TwinChangeType {
     DesiredUpdated, ReportedUpdated, TagUpdated
 }
+
 
 // --------------------------------------------
 // enum MaintenancePriority
@@ -166,12 +186,14 @@ enum class MaintenancePriority {
     Low, Medium, High, Urgent
 }
 
+
 // --------------------------------------------
 // enum MaintenanceStatus
 // --------------------------------------------
 enum class MaintenanceStatus {
     Open, InProgress, WaitingOnParts, Closed
 }
+
 
 // --------------------------------------------
 // enum DeploymentStatus
@@ -180,12 +202,14 @@ enum class DeploymentStatus {
     Pending, Deploying, Running, Failed, Stopped
 }
 
+
 // --------------------------------------------
 // enum PowerSource
 // --------------------------------------------
 enum class PowerSource {
     Battery, Mains, PoE, EnergyHarvesting, Solar
 }
+
 
 // --------------------------------------------
 // enum ModuleType

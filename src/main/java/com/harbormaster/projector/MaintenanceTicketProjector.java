@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -186,7 +186,7 @@ public class MaintenanceTicketProjector extends MaintenanceTicketEntityProjector
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    MaintenanceTicket entity = assignDevice( event.getMaintenanceTicketId(), event.getAssignment() );
+	    MaintenanceTicket entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -210,7 +210,7 @@ public class MaintenanceTicketProjector extends MaintenanceTicketEntityProjector
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    MaintenanceTicket entity = unAssignDevice( event.getMaintenanceTicketId() );
+	    MaintenanceTicket entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -233,7 +233,7 @@ public class MaintenanceTicketProjector extends MaintenanceTicketEntityProjector
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    MaintenanceTicket entity = assignTenant( event.getMaintenanceTicketId(), event.getAssignment() );
+	    MaintenanceTicket entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -257,7 +257,7 @@ public class MaintenanceTicketProjector extends MaintenanceTicketEntityProjector
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    MaintenanceTicket entity = unAssignTenant( event.getMaintenanceTicketId() );
+	    MaintenanceTicket entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one

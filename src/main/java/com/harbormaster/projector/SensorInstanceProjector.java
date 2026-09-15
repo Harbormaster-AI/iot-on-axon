@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -184,7 +184,7 @@ public class SensorInstanceProjector extends SensorInstanceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    SensorInstance entity = assignDevice( event.getSensorInstanceId(), event.getAssignment() );
+	    SensorInstance entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -208,7 +208,7 @@ public class SensorInstanceProjector extends SensorInstanceEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    SensorInstance entity = unAssignDevice( event.getSensorInstanceId() );
+	    SensorInstance entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -232,7 +232,7 @@ public class SensorInstanceProjector extends SensorInstanceEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    SensorInstance entity = addToTelemetryStreams(event.getSensorInstanceId(), event.getAddTo() );
+	    SensorInstance entity = addToTelemetryStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -253,7 +253,7 @@ public class SensorInstanceProjector extends SensorInstanceEntityProjector {
 public void handle( RemoveTelemetryStreamsFromSensorInstanceEvent event) {
     LOGGER.info("handling RemoveTelemetryStreamsFromSensorInstanceEvent - " + event );
 
-    SensorInstance entity = removeFromTelemetryStreams(event.getSensorInstanceId(), event.getRemoveFrom() );
+    SensorInstance entity = removeFromTelemetryStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

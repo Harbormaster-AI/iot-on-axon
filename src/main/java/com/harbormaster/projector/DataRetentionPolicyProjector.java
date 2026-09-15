@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -180,7 +180,7 @@ public class DataRetentionPolicyProjector extends DataRetentionPolicyEntityProje
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    DataRetentionPolicy entity = assignTenant( event.getDataRetentionPolicyId(), event.getAssignment() );
+	    DataRetentionPolicy entity = assignTenant( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -204,7 +204,7 @@ public class DataRetentionPolicyProjector extends DataRetentionPolicyEntityProje
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    DataRetentionPolicy entity = unAssignTenant( event.getDataRetentionPolicyId() );
+	    DataRetentionPolicy entity = unAssignTenant( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -228,7 +228,7 @@ public class DataRetentionPolicyProjector extends DataRetentionPolicyEntityProje
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DataRetentionPolicy entity = addToStreams(event.getDataRetentionPolicyId(), event.getAddTo() );
+	    DataRetentionPolicy entity = addToStreams(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -249,7 +249,7 @@ public class DataRetentionPolicyProjector extends DataRetentionPolicyEntityProje
 public void handle( RemoveStreamsFromDataRetentionPolicyEvent event) {
     LOGGER.info("handling RemoveStreamsFromDataRetentionPolicyEvent - " + event );
 
-    DataRetentionPolicy entity = removeFromStreams(event.getDataRetentionPolicyId(), event.getRemoveFrom() );
+    DataRetentionPolicy entity = removeFromStreams(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

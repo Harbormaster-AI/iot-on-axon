@@ -1,5 +1,5 @@
-package com.harbormaster.aggregate;
 
+package com.harbormaster.aggregate;
 import com.harbormaster.api.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -138,7 +138,7 @@ public class DigitalTwinAggregate {
 
     @CommandHandler
     public void handle(UnAssignDeviceFromDigitalTwinCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignDeviceFromDigitalTwinCommand" );
+    	LOGGER.info( "Handling command UnAssignDeviceFromDigitalTwinCommand" );
 
     	if (  device == null )
     		throw new ProcessingException( "Device already has nothing assigned." );  
@@ -157,7 +157,7 @@ public class DigitalTwinAggregate {
 
     @CommandHandler
     public void handle(UnAssignGatewayFromDigitalTwinCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignGatewayFromDigitalTwinCommand" );
+    	LOGGER.info( "Handling command UnAssignGatewayFromDigitalTwinCommand" );
 
     	if (  gateway == null )
     		throw new ProcessingException( "Gateway already has nothing assigned." );  
@@ -176,7 +176,7 @@ public class DigitalTwinAggregate {
 
     @CommandHandler
     public void handle(UnAssignTemplateFromDigitalTwinCommand command) throws Exception {
-    	LOGGER.info( "Handlign command UnAssignTemplateFromDigitalTwinCommand" );
+    	LOGGER.info( "Handling command UnAssignTemplateFromDigitalTwinCommand" );
 
     	if (  template == null )
     		throw new ProcessingException( "Template already has nothing assigned." );  

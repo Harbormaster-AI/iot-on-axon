@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -191,7 +191,7 @@ public class TenantProjector extends TenantEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToSites(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToSites(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -212,7 +212,7 @@ public class TenantProjector extends TenantEntityProjector {
 public void handle( RemoveSitesFromTenantEvent event) {
     LOGGER.info("handling RemoveSitesFromTenantEvent - " + event );
 
-    Tenant entity = removeFromSites(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromSites(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -235,7 +235,7 @@ public void handle( RemoveSitesFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToUsers(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToUsers(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -256,7 +256,7 @@ public void handle( RemoveSitesFromTenantEvent event) {
 public void handle( RemoveUsersFromTenantEvent event) {
     LOGGER.info("handling RemoveUsersFromTenantEvent - " + event );
 
-    Tenant entity = removeFromUsers(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromUsers(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -279,7 +279,7 @@ public void handle( RemoveUsersFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToDevices(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToDevices(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -300,7 +300,7 @@ public void handle( RemoveUsersFromTenantEvent event) {
 public void handle( RemoveDevicesFromTenantEvent event) {
     LOGGER.info("handling RemoveDevicesFromTenantEvent - " + event );
 
-    Tenant entity = removeFromDevices(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromDevices(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -323,7 +323,7 @@ public void handle( RemoveDevicesFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToDataRetentionPolicies(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToDataRetentionPolicies(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -344,7 +344,7 @@ public void handle( RemoveDevicesFromTenantEvent event) {
 public void handle( RemoveDataRetentionPoliciesFromTenantEvent event) {
     LOGGER.info("handling RemoveDataRetentionPoliciesFromTenantEvent - " + event );
 
-    Tenant entity = removeFromDataRetentionPolicies(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromDataRetentionPolicies(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -367,7 +367,7 @@ public void handle( RemoveDataRetentionPoliciesFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToConnectivityPlans(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToConnectivityPlans(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -388,7 +388,7 @@ public void handle( RemoveDataRetentionPoliciesFromTenantEvent event) {
 public void handle( RemoveConnectivityPlansFromTenantEvent event) {
     LOGGER.info("handling RemoveConnectivityPlansFromTenantEvent - " + event );
 
-    Tenant entity = removeFromConnectivityPlans(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromConnectivityPlans(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -411,7 +411,7 @@ public void handle( RemoveConnectivityPlansFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToSimCards(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToSimCards(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -432,7 +432,7 @@ public void handle( RemoveConnectivityPlansFromTenantEvent event) {
 public void handle( RemoveSimCardsFromTenantEvent event) {
     LOGGER.info("handling RemoveSimCardsFromTenantEvent - " + event );
 
-    Tenant entity = removeFromSimCards(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromSimCards(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -455,7 +455,7 @@ public void handle( RemoveSimCardsFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToMessagingEndpoints(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToMessagingEndpoints(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -476,7 +476,7 @@ public void handle( RemoveSimCardsFromTenantEvent event) {
 public void handle( RemoveMessagingEndpointsFromTenantEvent event) {
     LOGGER.info("handling RemoveMessagingEndpointsFromTenantEvent - " + event );
 
-    Tenant entity = removeFromMessagingEndpoints(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromMessagingEndpoints(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -499,7 +499,7 @@ public void handle( RemoveMessagingEndpointsFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToAccessPolicies(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToAccessPolicies(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -520,7 +520,7 @@ public void handle( RemoveMessagingEndpointsFromTenantEvent event) {
 public void handle( RemoveAccessPoliciesFromTenantEvent event) {
     LOGGER.info("handling RemoveAccessPoliciesFromTenantEvent - " + event );
 
-    Tenant entity = removeFromAccessPolicies(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromAccessPolicies(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -543,7 +543,7 @@ public void handle( RemoveAccessPoliciesFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToDeviceGroups(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToDeviceGroups(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -564,7 +564,7 @@ public void handle( RemoveAccessPoliciesFromTenantEvent event) {
 public void handle( RemoveDeviceGroupsFromTenantEvent event) {
     LOGGER.info("handling RemoveDeviceGroupsFromTenantEvent - " + event );
 
-    Tenant entity = removeFromDeviceGroups(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromDeviceGroups(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -587,7 +587,7 @@ public void handle( RemoveDeviceGroupsFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToAlertRules(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToAlertRules(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -608,7 +608,7 @@ public void handle( RemoveDeviceGroupsFromTenantEvent event) {
 public void handle( RemoveAlertRulesFromTenantEvent event) {
     LOGGER.info("handling RemoveAlertRulesFromTenantEvent - " + event );
 
-    Tenant entity = removeFromAlertRules(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromAlertRules(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -631,7 +631,7 @@ public void handle( RemoveAlertRulesFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToMaintenanceTickets(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToMaintenanceTickets(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -652,7 +652,7 @@ public void handle( RemoveAlertRulesFromTenantEvent event) {
 public void handle( RemoveMaintenanceTicketsFromTenantEvent event) {
     LOGGER.info("handling RemoveMaintenanceTicketsFromTenantEvent - " + event );
 
-    Tenant entity = removeFromMaintenanceTickets(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromMaintenanceTickets(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
@@ -675,7 +675,7 @@ public void handle( RemoveMaintenanceTicketsFromTenantEvent event) {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    Tenant entity = addToUsageRecords(event.getTenantId(), event.getAddTo() );
+	    Tenant entity = addToUsageRecords(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -696,7 +696,7 @@ public void handle( RemoveMaintenanceTicketsFromTenantEvent event) {
 public void handle( RemoveUsageRecordsFromTenantEvent event) {
     LOGGER.info("handling RemoveUsageRecordsFromTenantEvent - " + event );
 
-    Tenant entity = removeFromUsageRecords(event.getTenantId(), event.getRemoveFrom() );
+    Tenant entity = removeFromUsageRecords(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one

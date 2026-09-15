@@ -62,7 +62,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Axon4-Framework-Server</td></tr>
- *          <tr><td>published</td><td>09/08/2026</td></tr>
+ *          <tr><td>published</td><td>09/14/2026</td></tr>
  *          <tr><td>design pattern</td><td>CQRS</td></tr>
  *          <tr><td>architecture style</td><td>EventDrivenArchitecture</td></tr>
  *          </table>
@@ -186,7 +186,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    DigitalTwin entity = assignDevice( event.getDigitalTwinId(), event.getAssignment() );
+	    DigitalTwin entity = assignDevice( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -210,7 +210,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    DigitalTwin entity = unAssignDevice( event.getDigitalTwinId() );
+	    DigitalTwin entity = unAssignDevice( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -233,7 +233,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    DigitalTwin entity = assignGateway( event.getDigitalTwinId(), event.getAssignment() );
+	    DigitalTwin entity = assignGateway( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -257,7 +257,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    DigitalTwin entity = unAssignGateway( event.getDigitalTwinId() );
+	    DigitalTwin entity = unAssignGateway( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -280,7 +280,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to assignTo
 	    // ------------------------------------------
-	    DigitalTwin entity = assignTemplate( event.getDigitalTwinId(), event.getAssignment() );
+	    DigitalTwin entity = assignTemplate( event.getChildId(), event.getAssignment() );
 
 	    // ------------------------------------------
     	// emit to subscribers that find one
@@ -304,7 +304,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
 	    // delegate to unAssignFrom
 	    // ------------------------------------------
-	    DigitalTwin entity = unAssignTemplate( event.getDigitalTwinId() );
+	    DigitalTwin entity = unAssignTemplate( event.getChildId() );
 
 		// ------------------------------------------
 		// emit to subscribers that find one
@@ -328,7 +328,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 	    // ------------------------------------------
     	// delegate to addTo 
     	// ------------------------------------------ 
-	    DigitalTwin entity = addToChangeEvents(event.getDigitalTwinId(), event.getAddTo() );
+	    DigitalTwin entity = addToChangeEvents(event.getParentId(), event.getChildIds() );
         
     	// ------------------------------------------
     	// emit to subscribers that find one
@@ -349,7 +349,7 @@ public class DigitalTwinProjector extends DigitalTwinEntityProjector {
 public void handle( RemoveChangeEventsFromDigitalTwinEvent event) {
     LOGGER.info("handling RemoveChangeEventsFromDigitalTwinEvent - " + event );
 
-    DigitalTwin entity = removeFromChangeEvents(event.getDigitalTwinId(), event.getRemoveFrom() );
+    DigitalTwin entity = removeFromChangeEvents(event.getParentId(), event.getChildIds() );
     
 	// ------------------------------------------
 	// emit to subscribers that find one
