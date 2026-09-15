@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.version="0.0.1"
 LABEL com.harbormaster.blueprint="Axon4-Framework-Server"
 LABEL com.harbormaster.model="IoT Industry Domain Model"
 LABEL com.harbormaster.generated="2026-09-15"
-#LABEL com.harbormaster.certification="9d0319a6-0e68-4860-b32f-1ec221c9b970"
+#LABEL com.harbormaster.certification="f8253eef-71cd-40d9-b2ab-898c9f41315a"
 
 RUN addgroup -S spring && adduser -S -G spring spring
 USER spring:spring
